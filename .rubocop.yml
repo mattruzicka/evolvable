@@ -1,0 +1,20 @@
+AllCops:
+  TargetRubyVersion: 2.6.1
+
+Style/Documentation:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Naming/VariableNumber:
+  EnforcedStyle: 'snake_case'
+
+Metrics/LineLength:
+  Max: 90
