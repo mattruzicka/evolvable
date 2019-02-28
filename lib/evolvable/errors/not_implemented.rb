@@ -1,5 +1,5 @@
 module Evolvable
 	module Errors
-	  class NotImplementedError < StandardError; end
+	  class NotImplemented < StandardError; end
   end
 end

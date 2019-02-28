@@ -30,9 +30,9 @@ module Evolvable
     end
 
     def weighted_random_pick(weights_hash)
-      random = Random.rand(weights_hash.values.sum)
+      weights_sum = Random.rand(weights_hash.values.sum)
       seen_sum = 0
-      weights_hash.detect { |_name, val| random <= seen_sum += val }
+      weights_hash.detect { |_name, val| weights_sum <= seen_sum += val }
     end
 
     private

@@ -4,13 +4,16 @@ require 'forwardable'
 require 'evolvable/version'
 require 'evolvable/population'
 require 'evolvable/crossover'
+require 'evolvable/mutation'
 require 'evolvable/helper_methods'
 require 'evolvable/errors/not_implemented'
 
+# TODO: make genes an array (not hash) - mutation and crossover functions will benefit
+# Make each gene an object that has its own encode, select, etc function
+# Make gene lookup fast (binary search?)
+
 module Evolvable
   extend HelperMethods
-
-  EVOLVABLE_GENES_COUNT = nil
 
   def self.included(base)
     def base.evolvable_gene_pool

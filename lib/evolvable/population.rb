@@ -5,8 +5,8 @@ module Evolvable
     extend Forwardable
 
     def initialize(evolvable_class:,
-                   population_size:,
-                   selection_count:,
+                   population_size: 20,
+                   selection_count: 2,
                    crossover: Crossover.new,
                    mutation: Mutation.new,
                    generation_count: 0,
@@ -16,22 +16,29 @@ module Evolvable
       @selection_count = selection_count
       @crossover = crossover
       @mutation = mutation
-      @mutation_rate = mutation_rate
       @generation_count = generation_count
       assign_individuals(individuals)
     end
 
+    attr_reader :evolvable_class,
+                :population_size,
+                :selection_count,
+                :crossover,
+                :mutation,
+                :generation_count,
+                :individuals
+
     def_delegators :@evolvable_class,
-                   :evolvable_evaluate,
+                   :evolvable_evaluate!,
                    :evolvable_initialize,
-                   :evolvable_genes_count,
-                   :evolvable_gene_pool
+                   :evolvable_gene_pool,
+                   :evolvable_genes_count
 
     def evolve!(generations_count)
       generations_count.times do
-        evaluate_individuals!
+        # evaluate_individuals!
         select_individuals!
-        reproduce_individuals!
+        reproduce_individuals! # slow
         mutate_individuals!
         @generation_count += 1
       end
@@ -55,6 +62,19 @@ module Evolvable
 
     def mutate_individuals!
       @mutation.call!(@individuals)
+    end
+
+    def inspect
+      "#<#{self.class.name} " \
+      "evolvable_class: #{@evolvable_class}, " \
+      "population_size: #{@population_size}, " \
+      "selection_count: #{@selection_count}, " \
+      "crossover: #{@crossover}, " \
+      "mutation: #{@mutation}, " \
+      "generation_count: #{@generation_count}, " \
+      "evolvable_gene_pool_size: #{evolvable_gene_pool.count}, " \
+      "evolvable_genes_count: #{evolvable_genes_count}" \
+      '>'
     end
 
     private
