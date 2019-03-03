@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'forwardable'
+require 'logger'
+
 require 'evolvable/version'
 require 'evolvable/population'
 require 'evolvable/crossover'
@@ -8,41 +10,70 @@ require 'evolvable/mutation'
 require 'evolvable/helper_methods'
 require 'evolvable/errors/not_implemented'
 
-# TODO: make genes an array (not hash) - mutation and crossover functions will benefit
-# Make each gene an object that has its own encode, select, etc function
-# Make gene lookup fast (binary search?)
-
 module Evolvable
   extend HelperMethods
 
   def self.included(base)
     def base.evolvable_gene_pool
-      # TODO: add message about what the gene pool is
-      raise Errors::NotImplemented, __method__
-    end
-
-    def base.evolvable_evaluate!(_individuals)
-      # TODO: add message that says to assign fitness to each individual
-      raise Errors::NotImplemented, __method__
-    end
-
-    def base.evolvable_initialize(_genes, _generation, _index)
-      # TODO: add message about what the individual needs (genes)/fitness
       raise Errors::NotImplemented, __method__
     end
 
     def base.evolvable_genes_count
-      evolvable_gene_pool.count
+      @evolvable_genes_count ||= evolvable_gene_pool_size
+    end
+
+    def base.evolvable_evaluate!(_individuals); end
+
+    def base.evolvable_initialize(genes, generation_count, individual_index)
+      new(name: "#{self} #{generation_count}.#{individual_index}",
+          genes: genes)
+    end
+
+    def base.evolvable_population_attrs
+      {}
+    end
+
+    def base.evolvable_population(args = {})
+      args = evolvable_population_attrs.merge!(args)
+      args[:evolvable_class] = self
+      Population.new(args)
+    end
+
+    def base.evolvable_gene_pool_cache
+      @evolvable_gene_pool_cache ||= evolvable_gene_pool
+    end
+
+    def base.evolvable_gene_pool_size
+      @evolvable_gene_pool_size ||= evolvable_gene_pool_cache.size
+    end
+
+    def base.evolvable_random_genes(count = nil)
+      gene_pool = evolvable_gene_pool_cache
+      count ||= evolvable_genes_count
+      gene_pool = gene_pool.sample(count) if count < gene_pool.size
+      genes = {}
+      gene_pool.each { |name, potentials| genes[name] = potentials.sample }
+      genes
     end
   end
 
+  def self.logger
+    @logger ||= Logger.new(STDOUT)
+  end
+
+  def initialize(name: nil, genes: [])
+    @name = name
+    @genes = genes
+  end
+
+  attr_reader :name,
+              :genes
+
   def fitness
-    # TODO: add message about fitness
     raise Errors::NotImplemented, __method__
   end
 
-  def genes
-    # TODO: add message about fitness
-    raise Errors::NotImplemented, __method__
+  def evolvable_progress
+    "Fitness: #{fitness}"
   end
 end

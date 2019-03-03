@@ -1,11 +1,27 @@
 class Crossover
   def call(parent_genes, offspring_count)
-    parent_offspring_count = offspring_count / 2
-    parent_gene_arrays = parent_genes.map(&:to_a)
-    paired_parent_arrays = parent_gene_arrays.combination(2).cycle
-    Array.new(offspring_count).each do
-      p1_gene_array, p2_gene_array = paired_parent_arrays.next
-      (p1_gene_array | p2_gene_array).sample(p1_gene_array.count).to_h
+    parent_gene_couples = parent_genes.combination(2).cycle
+    Array.new(offspring_count) do
+      p1_genes, p2_genes = parent_gene_couples.next
+      p1_genes.merge(p2_genes) { |_k, p1_val, p2_val| [p1_val, p2_val].sample }
+      offspring_genes = merge_parent_genes(p1_genes, p2_genes)
+      trim_offspring_genes!(offspring_genes, p1_genes.count)
+      offspring_genes
     end
-	end
+  end
+
+  private
+
+  def merge_parent_genes(p1_genes, p2_genes)
+    p1_genes.merge(p2_genes) { |_k, p1_val, p2_val| [p1_val, p2_val].sample }
+  end
+
+  def trim_offspring_genes!(offspring_genes, parent_genes_count)
+    trim_genes_count = offspring_genes.count - parent_genes_count
+    return if trim_genes_count.zero?
+
+    offspring_genes.keys(trim_genes_count).each do |gene_name|
+      offspring_genes.delete(gene_name)
+    end
+  end
 end

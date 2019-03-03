@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require 'evolvable'
+
+class NonsenseExample
+  include Evolvable
+
+  NONSENSE = 'colorless green ideas sleep furiously'.freeze
+
+  def self.evolvable_gene_pool
+    potentials = ('a'..'z').to_a << ' '
+    Array.new(NONSENSE.length) { |n| [n, potentials] }
+  end
+
+  def fitness
+    score = 0
+    @genes.values.each_with_index do |value, index|
+      score += 1 if value == NONSENSE[index]
+    end
+    score
+  end
+
+  def evolvable_progress
+    "Fitness: #{fitness} | #{@genes.values.join}"
+  end
+end
+
+population = NonsenseExample.evolvable_population(log_progress: true)
+population.evolve!(fitness_goal: 37,
+                   generations_count: 10_000_000)
+
+# require 'irb'
+# IRB.start(__FILE__)

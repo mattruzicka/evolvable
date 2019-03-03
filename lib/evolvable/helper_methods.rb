@@ -7,7 +7,7 @@ module Evolvable
       genes = Array.new(genes_count) { [] }
       element_repeat_counts = compute_element_repeat_counts(dimension_lengths)
       sequence_counts = compute_sequence_counts(dimension_lengths)
-      
+
       dimensions.each_with_index do |dimension, dim_index|
         element_count = element_repeat_counts[dim_index]
         sequence = dimension.flat_map { |e| [e] * element_count }
@@ -18,15 +18,6 @@ module Evolvable
       end
 
       genes
-    end
-
-    def random_genes(evolvable_class, count = nil)
-      gene_pool = evolvable_class::evolvable_gene_pool
-      genes_count = count || evolvable_class::evolvable_genes_count
-      return gene_pool.shuffle if genes_count.nil? || genes_count > gene_pool.count
-
-      genes_names = gene_pool.sample(genes_count)
-      genes_names.map! { |gn| [gn, rand] }.to_h
     end
 
     def weighted_random_pick(weights_hash)
