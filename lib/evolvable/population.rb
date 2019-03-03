@@ -33,11 +33,15 @@ module Evolvable
     def_delegators :@evolvable_class,
                    :evolvable_evaluate!,
                    :evolvable_initialize,
-                   :evolvable_random_genes
+                   :evolvable_random_genes,
+                   :evolvable_before_evolution,
+                   :evolvable_after_evolution
 
     def evolve!(generations_count: 1, fitness_goal: nil)
       @fitness_goal = fitness_goal
       generations_count.times do
+        @generation_count += 1
+        evolvable_before_evolution(self)
         evaluate_individuals!
         log_progress if @log_progress
         break if fitness_goal_met?
@@ -45,7 +49,7 @@ module Evolvable
         select_individuals!
         reproduce_individuals!
         mutate_individuals!
-        @generation_count += 1
+        evolvable_after_evolution(self)
       end
     end
 
@@ -64,7 +68,7 @@ module Evolvable
     end
 
     def fitness_goal_met?
-      @fitness_goal && @individuals.last.fitness == @fitness_goal
+      @fitness_goal && @individuals.last.fitness >= @fitness_goal
     end
 
     def select_individuals!

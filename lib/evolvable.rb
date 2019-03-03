@@ -8,12 +8,15 @@ require 'evolvable/population'
 require 'evolvable/crossover'
 require 'evolvable/mutation'
 require 'evolvable/helper_methods'
+require 'evolvable/evolution_callbacks'
 require 'evolvable/errors/not_implemented'
 
 module Evolvable
   extend HelperMethods
 
   def self.included(base)
+    base.extend EvolutionCallbacks
+
     def base.evolvable_gene_pool
       raise Errors::NotImplemented, __method__
     end

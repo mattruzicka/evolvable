@@ -26,8 +26,4 @@ class NonsenseExample
 end
 
 population = NonsenseExample.evolvable_population(log_progress: true)
-population.evolve!(fitness_goal: 37,
-                   generations_count: 10_000_000)
-
-# require 'irb'
-# IRB.start(__FILE__)
+population.evolve!(fitness_goal: 37, generations_count: 10_000)
