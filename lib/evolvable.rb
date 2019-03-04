@@ -27,9 +27,10 @@ module Evolvable
 
     def base.evolvable_evaluate!(_individuals); end
 
-    def base.evolvable_initialize(genes, generation_count, individual_index)
-      new(name: "#{self} #{generation_count}.#{individual_index}",
-          genes: genes)
+    def base.evolvable_initialize(genes, _generation_count, _individual_index)
+      evolvable = new
+      evolvable.genes = genes
+      evolvable
     end
 
     def base.evolvable_population_attrs
@@ -64,13 +65,7 @@ module Evolvable
     @logger ||= Logger.new(STDOUT)
   end
 
-  def initialize(name: nil, genes: [])
-    @name = name
-    @genes = genes
-  end
-
-  attr_reader :name,
-              :genes
+  attr_accessor :genes
 
   def fitness
     raise Errors::NotImplemented, __method__

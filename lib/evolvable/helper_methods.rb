@@ -1,6 +1,6 @@
 module Evolvable
   module HelperMethods
-    def multidimensional_genes(dimensions)
+    def multidimensional_gene_names(dimensions)
       dimension_lengths = dimensions.map(&:length)
       genes_count = dimension_lengths.inject(1) { |product, c| product * c }
 

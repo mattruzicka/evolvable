@@ -5,7 +5,7 @@ module Evolvable
     extend Forwardable
 
     def initialize(evolvable_class:,
-                   population_size: 20,
+                   size: 20,
                    selection_count: 2,
                    crossover: Crossover.new,
                    mutation: Mutation.new,
@@ -13,7 +13,7 @@ module Evolvable
                    log_progress: false,
                    individuals: [])
       @evolvable_class = evolvable_class
-      @population_size = population_size
+      @size = size
       @selection_count = selection_count
       @crossover = crossover
       @mutation = mutation
@@ -23,7 +23,7 @@ module Evolvable
     end
 
     attr_reader :evolvable_class,
-                :population_size,
+                :size,
                 :selection_count,
                 :crossover,
                 :mutation,
@@ -77,7 +77,7 @@ module Evolvable
 
     def reproduce_individuals!
       parent_genes = @individuals.map(&:genes)
-      offspring_genes = @crossover.call(parent_genes, @population_size)
+      offspring_genes = @crossover.call(parent_genes, @size)
       @individuals = offspring_genes.map.with_index do |genes, i|
         evolvable_initialize(genes, @generation_count, i)
       end
@@ -90,11 +90,11 @@ module Evolvable
     def inspect
       "#<#{self.class.name} " \
       "evolvable_class: #{@evolvable_class}, " \
-      "population_size: #{@population_size}, " \
+      "size: #{@size}, " \
       "selection_count: #{@selection_count}, " \
       "crossover: #{@crossover}, " \
       "mutation: #{@mutation}, " \
-      "generation_count: #{@generation_count} " \
+      "generation_count: #{@generation_count}" \
       '>'
     end
 
@@ -102,7 +102,7 @@ module Evolvable
 
     def assign_individuals(individuals)
       @individuals = individuals || []
-      (@population_size - individuals.count).times do |n|
+      (@size - individuals.count).times do |n|
         genes = evolvable_random_genes
         @individuals << evolvable_initialize(genes, @generation_count, n)
       end

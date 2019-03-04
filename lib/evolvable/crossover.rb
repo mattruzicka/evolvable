@@ -20,8 +20,8 @@ class Crossover
     trim_genes_count = offspring_genes.count - parent_genes_count
     return if trim_genes_count.zero?
 
-    offspring_genes.keys(trim_genes_count).each do |gene_name|
-      offspring_genes.delete(gene_name)
+    offspring_genes.keys.sample(trim_genes_count).each do |name|
+      offspring_genes.delete(name)
     end
   end
 end
