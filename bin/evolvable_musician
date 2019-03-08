@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'evolvable'
+
+module Evolvable
+  class Musician
+    include Evolvable
+
+    SOME_PIE = 3.141592653
+
+    MATH_STUFF = ['*', '%', '/', '-', '+', 1..9].concat(0..9.to_a)
+
+    def self.evolvable_gene_pool
+      MATH_STUFF.sample(5)
+    end
+
+    def fitness
+      -(eval(@genes.values) - SOME_PIE).abs
+    rescue
+      -Float::INFINITY
+    end
+
+    def evolvable_progress
+      "Fitness: #{fitness} | #{@genes.values.join}"
+    end
+  end
+end
+
+# TODO: read NONSENSE input from the command line
+
+population = Evolvable::Musician.evolvable_population(log_progress: true)
+population.evolve!(fitness_goal: 0, generations_count: 10_000)
+
+
+# Musician: 
+# - [ ] Write a sonic pi programs
+# - [ ] Goal: my taste
+# - [ ] Make it interactive be able to judge real time at prompt

@@ -7,6 +7,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.0)
+    byebug (11.0.0)
     diff-lcs (1.3)
     jaro_winkler (1.5.2)
     parallel (1.13.0)
@@ -44,6 +45,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.0)
+  byebug
   evolvable!
   rake (~> 10.0)
   rspec (~> 3.0)

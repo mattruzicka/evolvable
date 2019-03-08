@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'evolvable'
+require 'byebug'
+
+module Evolvable
+  class Mathematician
+    include Evolvable
+
+    SOME_PIE = 3.1415926535897932
+
+    MATH_THINGS = ['*',
+                   '%',
+                   '/',
+                   '-',
+                   '+',
+                   (0..9).to_a].flatten
+  
+    MATH_THINGS_COUNT = 20
+
+    def self.evolvable_gene_pool
+      Array.new(MATH_THINGS_COUNT) do |n|
+        ["math_thing_#{n}".to_sym, MATH_THINGS]
+      end
+    end
+
+    def fitness
+      -(eval(@genes.values.join) - SOME_PIE).abs
+    rescue SyntaxError, TypeError, NoMethodError, ZeroDivisionError, ArgumentError
+      -Float::INFINITY
+    end
+
+    def evolvable_progress
+      "Fitness: #{fitness} | (#{@genes.values.join(' ')})"
+    end
+  end
+end
+
+population = Evolvable::Mathematician.evolvable_population(log_progress: true)
+population.evolve!(fitness_goal: 0, generations_count: 100_000)
+
+
+# Mathematician:
+# - [ ] Find three numbers that equal a given number
+# - [ ] Make it interactive, watch it as it solves to prompt

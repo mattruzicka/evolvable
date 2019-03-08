@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'evolvable'
+
+module Evolvable
+  class Linguist
+    include Evolvable
+
+    # NONSENSE = 'colorless green ideas sleep furiously'.freeze
+    NONSENSE = "Good morning happy friday".freeze
+
+    def self.evolvable_gene_pool
+      potentials = ('a'..'z').to_a << ' '
+      Array.new(NONSENSE.length) { |n| [n, potentials] }
+    end
+
+    def fitness
+      score = 0
+      @genes.values.each_with_index do |value, index|
+        score += 1 if value == NONSENSE[index]
+      end
+      score
+    end
+
+    $evo_count = 0
+
+    def evolvable_progress
+      sentence = @genes.values.join
+      system("say #{sentence}") if ($evo_count % 20 == 0) || fitness == NONSENSE.length
+      $evo_count += 1
+      "Fitness: #{fitness} | #{sentence}"
+    end
+  end
+end
+
+# TODO: read NONSENSE input from the command line
+
+fitness_goal = Evolvable::Linguist::NONSENSE.length
+population = Evolvable::Linguist.evolvable_population(log_progress: true)
+population.evolve!(fitness_goal: fitness_goal, generations_count: 10_000)
+
+
+# Linguist:
+# - [ ] Write some words
+# - [ ] Illustrate how it behaves
+# - [ ] Make it interactive, have it try to evolve whatever text is entered at the prompt
+
+

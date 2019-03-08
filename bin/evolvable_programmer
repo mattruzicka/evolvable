@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'evolvable'
+
+module Evolvable
+  class Programmer
+    include Evolvable
+
+    SOME_PIE = 3.141592653
+
+    MATH_STUFF = ['*', '%', '/', '-', '+', 1..9].concat(0..9.to_a)
+
+    def self.evolvable_gene_pool
+      MATH_STUFF.sample(5)
+    end
+
+    def fitness
+      -(eval(@genes.values) - SOME_PIE).abs
+    rescue
+      -Float::INFINITY
+    end
+
+    def evolvable_progress
+      "Fitness: #{fitness} | #{@genes.values.join}"
+    end
+  end
+end
+
+# TODO: read NONSENSE input from the command line
+
+population = Evolvable::Programmer.evolvable_population(log_progress: true)
+population.evolve!(fitness_goal: 0, generations_count: 10_000)
+
+# Programmer:
+# - [ ] Create a program that writes a program in ruby (“hello world”)
+# - [ ] illustrate different mechanisms for fitness - did it write a program (pass/fail), how fast is it, how many characters, how much memory.
+# - [ ] Make interactive, given input, expect output. (Fitness: based on is it the same class of object. Does it have the same data as object. Then rules per class - how many of the same hash keys are the same, how many of the same array entries are the same. Traverse recursively through output, comparing it to input as long as the branches mirror. 
+
+# Engineer:
+# - [ ] Show Box 2d cars
+
+# Physicist:
+# - [ ] Show walking examples
