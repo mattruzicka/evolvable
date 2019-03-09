@@ -10,6 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary = 'A framework for writing genetic algorithms'
   spec.summary = 'Make your Ruby objects evolvable with genetic algorithms'
   spec.homepage = 'https://github.com/mattruzicka/evolvable'
+  spec.license = 'MIT'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/mattruzicka/evolvable'
