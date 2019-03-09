@@ -27,7 +27,7 @@ module Evolvable
 
     def base.evolvable_evaluate!(_individuals); end
 
-    def base.evolvable_initialize(genes, _generation_count, _individual_index)
+    def base.evolvable_initialize(genes, _individual_index, _population)
       evolvable = new
       evolvable.genes = genes
       evolvable

@@ -29,6 +29,15 @@ module Evolvable
       end
     end
 
+    def inspect
+      "#<#{self.class.name} #{as_json.map { |a| a.join(': ') }.join(', ')} >"
+    end
+
+    def as_json
+      { type: self.class.name,
+        rate: @rate }
+    end
+
     private
 
     def find_mutations_count(individuals)

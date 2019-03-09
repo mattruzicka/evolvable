@@ -35,6 +35,7 @@ module Evolvable
                    :evolvable_initialize,
                    :evolvable_random_genes,
                    :evolvable_before_evolution,
+                   :evolvable_after_select,
                    :evolvable_after_evolution
 
     def evolve!(generations_count: 1, fitness_goal: nil)
@@ -47,6 +48,7 @@ module Evolvable
         break if fitness_goal_met?
 
         select_individuals!
+        evolvable_after_select(self)
         reproduce_individuals!
         mutate_individuals!
         evolvable_after_evolution(self)
@@ -79,7 +81,7 @@ module Evolvable
       parent_genes = @individuals.map(&:genes)
       offspring_genes = @crossover.call(parent_genes, @size)
       @individuals = offspring_genes.map.with_index do |genes, i|
-        evolvable_initialize(genes, @generation_count, i)
+        evolvable_initialize(genes, i, self)
       end
     end
 
@@ -88,14 +90,16 @@ module Evolvable
     end
 
     def inspect
-      "#<#{self.class.name} " \
-      "evolvable_class: #{@evolvable_class}, " \
-      "size: #{@size}, " \
-      "selection_count: #{@selection_count}, " \
-      "crossover: #{@crossover}, " \
-      "mutation: #{@mutation}, " \
-      "generation_count: #{@generation_count}" \
-      '>'
+      "#<#{self.class.name} #{as_json} >"
+    end
+
+    def as_json
+      { evolvable_class: @evolvable_class.name,
+        size: @size,
+        selection_count: @selection_count,
+        crossover: @crossover.as_json,
+        mutation: @mutation.as_json,
+        generation_count: @generation_count }
     end
 
     private
@@ -104,7 +108,7 @@ module Evolvable
       @individuals = individuals || []
       (@size - individuals.count).times do |n|
         genes = evolvable_random_genes
-        @individuals << evolvable_initialize(genes, @generation_count, n)
+        @individuals << evolvable_initialize(genes, n, self)
       end
     end
   end

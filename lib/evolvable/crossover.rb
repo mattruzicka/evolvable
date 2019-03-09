@@ -10,6 +10,14 @@ class Crossover
     end
   end
 
+  def inspect
+    "#<#{self.class.name} #{as_json.map { |a| a.join(': ') }.join(', ')} >"
+  end
+
+  def as_json
+    { type: self.class.name }
+  end
+
   private
 
   def merge_parent_genes(p1_genes, p2_genes)
