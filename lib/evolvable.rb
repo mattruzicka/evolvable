@@ -22,14 +22,15 @@ module Evolvable
     end
 
     def base.evolvable_genes_count
-      @evolvable_genes_count ||= evolvable_gene_pool_size
+      evolvable_gene_pool_size
     end
 
     def base.evolvable_evaluate!(_individuals); end
 
-    def base.evolvable_initialize(genes, _individual_index, _population)
+    def base.evolvable_initialize(genes, population, _individual_index)
       evolvable = new
       evolvable.genes = genes
+      evolvable.population = population
       evolvable
     end
 
@@ -38,6 +39,7 @@ module Evolvable
     end
 
     def base.evolvable_population(args = {})
+      clear_evolvable_gene_pool_caches
       args = evolvable_population_attrs.merge!(args)
       args[:evolvable_class] = self
       Population.new(args)
@@ -49,6 +51,11 @@ module Evolvable
 
     def base.evolvable_gene_pool_size
       @evolvable_gene_pool_size ||= evolvable_gene_pool_cache.size
+    end
+
+    def base.clear_evolvable_gene_pool_caches
+      @evolvable_gene_pool_cache = nil
+      @evolvable_gene_pool_size = nil
     end
 
     def base.evolvable_random_genes(count = nil)
@@ -65,13 +72,15 @@ module Evolvable
     @logger ||= Logger.new(STDOUT)
   end
 
-  attr_accessor :genes
+  attr_accessor :genes,
+                :population
 
   def fitness
     raise Errors::NotImplemented, __method__
   end
 
-  def evolvable_progress
-    "Fitness: #{fitness}"
+  def evolvable_progress(info = nil)
+    info ||= "Generation: #{population.generation_count} | Fitness: #{fitness}"
+    Evolvable.logger.info(info)
   end
 end

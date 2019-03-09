@@ -65,8 +65,7 @@ module Evolvable
     end
 
     def log_progress
-      progress = @individuals.last.evolvable_progress
-      Evolvable.logger.info("Generation: #{@generation_count} | #{progress}")
+      @individuals.last.evolvable_progress
     end
 
     def fitness_goal_met?
@@ -81,7 +80,7 @@ module Evolvable
       parent_genes = @individuals.map(&:genes)
       offspring_genes = @crossover.call(parent_genes, @size)
       @individuals = offspring_genes.map.with_index do |genes, i|
-        evolvable_initialize(genes, i, self)
+        evolvable_initialize(genes, self, i)
       end
     end
 
@@ -108,7 +107,7 @@ module Evolvable
       @individuals = individuals || []
       (@size - individuals.count).times do |n|
         genes = evolvable_random_genes
-        @individuals << evolvable_initialize(genes, n, self)
+        @individuals << evolvable_initialize(genes, self, n)
       end
     end
   end
