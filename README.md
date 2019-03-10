@@ -75,6 +75,8 @@ TODO: add descriptions and examples for following
 
 TODO: add description and example
 
+```#fitness```
+
 ### Custom Evolvable Class Methods
 
 TODO: add descriptions and example implementations for the following
@@ -86,6 +88,12 @@ TODO: add descriptions and example implementations for the following
 ```.evolvable_population_attrs```
 
 ```.evolvable_initialize(genes, population, object_index)```
+
+### Monitoring Evolutionary Progress
+
+TODO: add description and example
+
+```#evolvable_progress```
 
 ### Hooks
 
