@@ -4,19 +4,19 @@ Genetic algorithms mimic biological processes such as natural selection, crossov
 
 If you're interested in seeing exactly how the "evolvable" gem evolves populations of Ruby objects, I suggest opening up the [Population](https://github.com/mattruzicka/evolvable/blob/master/lib/evolvable/population.rb) class, specifically check out the following methods:
 
-- evolve!
-- evaluate_objects!
-- select_objects!
-- crossover_objects!
-- mutate_objects!
+- ```evolve!```
+- ```evaluate_objects!```
+- ```select_objects!```
+- ```crossover_objects!```
+- ```mutate_objects!```
 
 ## Usage
 
 To introduce evolvable behavior to any Ruby object, do the following:
 
 1. Include the Evolvable module
-2. Define a class method named "evolvable_gene_pool"
-3. Define an instance method named "fitness"
+2. Define a class method named ```evolvable_gene_pool```
+3. Define an instance method named ```fitness```
 
 For example, let's say we want to make a text-to-speech command evolve from saying random nonsense to saying whatever you desire.
 
@@ -67,8 +67,9 @@ To play with a more interactive version, check out https://github.com/mattruzick
 
 TODO: add descriptions and examples for following
 
-*.evolvable_gene_pool*
-*.evolvable_genes_count*
+```.evolvable_gene_pool```
+
+```.evolvable_genes_count```
 
 ### Fitness
 
@@ -78,18 +79,23 @@ TODO: add description and example
 
 TODO: add descriptions and example implementations for the following
 
-*.evolvable_evaluate!(objects)*
-*.evolvable_population(args = {})*
-*.evolvable_population_attrs*
-*.evolvable_initialize(genes, population, object_index)*
+```.evolvable_evaluate!(objects)```
+
+```.evolvable_population(args = {})```
+
+```.evolvable_population_attrs```
+
+```.evolvable_initialize(genes, population, object_index)```
 
 ### Hooks
 
 TODO: add description
 
-*.evolvable_before_evolution(population)*
-*.evolvable_after_select(population)*
-*.evolvable_after_evolution(population)*
+```.evolvable_before_evolution(population)```
+
+```.evolvable_after_select(population)```
+
+```.evolvable_after_evolution(population)```
 
 ### Custom Mutations
 
@@ -103,7 +109,7 @@ TODO: Show how to define and use a custom crossover object
 
 TODO: add description
 
-*Evolvable.combine_dimensions(dimensions)*
+```Evolvable.combine_dimensions(dimensions)```
 
 ### Configuration
 
@@ -111,9 +117,13 @@ TODO: Make logger configurable and make it smarter about picking a default
 
 ## Demos
 
-- https://github.com/mattruzicka/evolvable_sentence - A more interactive version of the evolvable sentence code above.
-- https://github.com/mattruzicka/evolvable_equation - Evolves an equation of a specified length to evaluate to a given number.
-- More demos to come.
+https://github.com/mattruzicka/evolvable_sentence
+- A more interactive version of the evolvable sentence code above.
+
+https://github.com/mattruzicka/evolvable_equation
+- Evolves an equation of a specified length to evaluate to a given number.
+
+More demos to come...
 
 ## Installation
 
