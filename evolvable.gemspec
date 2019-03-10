@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version = Evolvable::VERSION
   spec.authors = ['Matt Ruzicka']
 
-  spec.summary = 'Adds evolutionary behavior to Ruby objects"
+  spec.summary = 'Add evolutionary behavior to any Ruby object'
   spec.homepage = 'https://github.com/mattruzicka/evolvable'
   spec.license = 'MIT'
 

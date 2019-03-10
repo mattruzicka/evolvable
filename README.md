@@ -1,8 +1,8 @@
 # Evolvable
 
-Genetic algorithms use processes such as natural selection, crossover, and mutation to model evolutionary behaviors in code. The "evolvable" gem can add evolutionary behavior to any Ruby object.
+Genetic algorithms mimic biological processes such as natural selection, crossover, and mutation to model evolutionary behaviors in code. The "evolvable" gem can add evolutionary behavior to any Ruby object.
 
-If you're interested in seeing exactly how "evolvable" evolves populations of Ruby objects, I suggest opening up the [Population](https://github.com/mattruzicka/evolvable/blob/master/lib/evolvable/population.rb) class, specifically the following methods:
+If you're interested in seeing exactly how the "evolvable" gem evolves populations of Ruby objects, I suggest opening up the [Population](https://github.com/mattruzicka/evolvable/blob/master/lib/evolvable/population.rb) class, specifically check out the following methods:
 
 - evolve!
 - evaluate_objects!
@@ -15,10 +15,10 @@ If you're interested in seeing exactly how "evolvable" evolves populations of Ru
 To introduce evolvable behavior to any Ruby object, do the following:
 
 1. Include the Evolvable module
-2. Define the "evolvable_gene_pool" class method
-3. Define the "fitness" instance method
+2. Define a class method named "evolvable_gene_pool"
+3. Define an instance method named "fitness"
 
-For example, let's say we want to hear a text-to-speech command evolve random sentences to whatever your heart desires.
+For example, let's say we want to make a text-to-speech command evolve from saying random nonsense to saying whatever you desire.
 
 ```Ruby
 require 'evolvable'
@@ -70,8 +70,6 @@ TODO: add descriptions and examples for following
 *.evolvable_gene_pool*
 *.evolvable_genes_count*
 
-TODO: add descriptions and examples for multidimensional genes
-
 ### Fitness
 
 TODO: add description and example
@@ -80,17 +78,18 @@ TODO: add description and example
 
 TODO: add descriptions and example implementations for the following
 
-*.evolvable_evaluate!*
+*.evolvable_evaluate!(objects)*
+*.evolvable_population(args = {})*
 *.evolvable_population_attrs*
-*.evolvable_initialize*
+*.evolvable_initialize(genes, population, object_index)*
 
 ### Hooks
 
 TODO: add description
 
-*.evolvable_before_evolution*
-*.evolvable_after_select*
-*.evolvable_after_evolution*
+*.evolvable_before_evolution(population)*
+*.evolvable_after_select(population)*
+*.evolvable_after_evolution(population)*
 
 ### Custom Mutations
 
@@ -99,6 +98,12 @@ TODO: Show how to define and use a custom mutation object
 ### Custom Crossover
 
 TODO: Show how to define and use a custom crossover object
+
+### Helper Methods
+
+TODO: add description
+
+*Evolvable.combine_dimensions(dimensions)*
 
 ### Configuration
 
