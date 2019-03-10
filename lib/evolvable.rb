@@ -8,14 +8,14 @@ require 'evolvable/population'
 require 'evolvable/crossover'
 require 'evolvable/mutation'
 require 'evolvable/helper_methods'
-require 'evolvable/callbacks'
+require 'evolvable/hooks'
 require 'evolvable/errors/not_implemented'
 
 module Evolvable
   extend HelperMethods
 
   def self.included(base)
-    base.extend Callbacks
+    base.extend Hooks
 
     def base.evolvable_gene_pool
       raise Errors::NotImplemented, __method__
@@ -25,14 +25,7 @@ module Evolvable
       evolvable_gene_pool_size
     end
 
-    def base.evolvable_evaluate!(_individuals); end
-
-    def base.evolvable_initialize(genes, population, _individual_index)
-      evolvable = new
-      evolvable.genes = genes
-      evolvable.population = population
-      evolvable
-    end
+    def base.evolvable_evaluate!(_objects); end
 
     def base.evolvable_population_attrs
       {}
@@ -43,6 +36,13 @@ module Evolvable
       args = evolvable_population_attrs.merge!(args)
       args[:evolvable_class] = self
       Population.new(args)
+    end
+
+    def base.evolvable_initialize(genes, population, _object_index)
+      evolvable = new
+      evolvable.genes = genes
+      evolvable.population = population
+      evolvable
     end
 
     def base.evolvable_gene_pool_cache

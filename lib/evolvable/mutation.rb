@@ -11,18 +11,18 @@ module Evolvable
                    :evolvable_gene_pool_size,
                    :evolvable_random_genes
 
-    def call!(individuals)
-      @evolvable_class = individuals.first.class
-      mutations_count = find_mutations_count(individuals)
+    def call!(objects)
+      @evolvable_class = objects.first.class
+      mutations_count = find_mutations_count(objects)
       return if mutations_count.zero?
 
       mutant_genes = generate_mutant_genes(mutations_count)
-      individual_mutations_count = mutations_count / individuals.count
-      individual_mutations_count = 1 if individual_mutations_count.zero?
+      object_mutations_count = mutations_count / objects.count
+      object_mutations_count = 1 if object_mutations_count.zero?
 
-      mutant_genes.each_slice(individual_mutations_count).with_index do |m_genes, index|
-        individual = individuals[index] || individuals.sample
-        genes = individual.genes
+      mutant_genes.each_slice(object_mutations_count).with_index do |m_genes, index|
+        object = objects[index] || objects.sample
+        genes = object.genes
         genes.merge!(m_genes.to_h)
         rm_genes_count = genes.count - evolvable_genes_count
         genes.keys.sample(rm_genes_count).each { |key| genes.delete(key) }
@@ -40,10 +40,10 @@ module Evolvable
 
     private
 
-    def find_mutations_count(individuals)
+    def find_mutations_count(objects)
       return 0 if @rate.zero?
 
-      count = (individuals.count * evolvable_genes_count * @rate)
+      count = (objects.count * evolvable_genes_count * @rate)
       return count.to_i if count >= 1
 
       rand <= count ? 1 : 0

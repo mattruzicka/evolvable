@@ -11,7 +11,7 @@ module Evolvable
                    mutation: Mutation.new,
                    generation_count: 0,
                    log_progress: false,
-                   individuals: [])
+                   objects: [])
       @evolvable_class = evolvable_class
       @size = size
       @selection_count = selection_count
@@ -19,7 +19,7 @@ module Evolvable
       @mutation = mutation
       @generation_count = generation_count
       @log_progress = log_progress
-      assign_individuals(individuals)
+      assign_objects(objects)
     end
 
     attr_reader :evolvable_class,
@@ -28,7 +28,7 @@ module Evolvable
                 :crossover,
                 :mutation,
                 :generation_count,
-                :individuals
+                :objects
 
     def_delegators :@evolvable_class,
                    :evolvable_evaluate!,
@@ -43,49 +43,53 @@ module Evolvable
       generations_count.times do
         @generation_count += 1
         evolvable_before_evolution(self)
-        evaluate_individuals!
+        evaluate_objects!
         log_progress if @log_progress
         break if fitness_goal_met?
 
-        select_individuals!
+        select_objects!
         evolvable_after_select(self)
-        reproduce_individuals!
-        mutate_individuals!
+        crossover_objects!
+        mutate_objects!
         evolvable_after_evolution(self)
       end
     end
 
-    def evaluate_individuals!
-      evolvable_evaluate!(@individuals)
+    def strongest_object
+      objects.max_by(&:fitness)
+    end
+
+    def evaluate_objects!
+      evolvable_evaluate!(@objects)
       if @fitness_goal
-        @individuals.sort_by! { |i| -(i.fitness - @fitness_goal).abs }
+        @objects.sort_by! { |i| -(i.fitness - @fitness_goal).abs }
       else
-        @individuals.sort_by!(&:fitness)
+        @objects.sort_by!(&:fitness)
       end
     end
 
     def log_progress
-      @individuals.last.evolvable_progress
+      @objects.last.evolvable_progress
     end
 
     def fitness_goal_met?
-      @fitness_goal && @individuals.last.fitness >= @fitness_goal
+      @fitness_goal && @objects.last.fitness >= @fitness_goal
     end
 
-    def select_individuals!
-      @individuals.slice!(0..-1 - @selection_count)
+    def select_objects!
+      @objects.slice!(0..-1 - @selection_count)
     end
 
-    def reproduce_individuals!
-      parent_genes = @individuals.map(&:genes)
+    def crossover_objects!
+      parent_genes = @objects.map(&:genes)
       offspring_genes = @crossover.call(parent_genes, @size)
-      @individuals = offspring_genes.map.with_index do |genes, i|
+      @objects = offspring_genes.map.with_index do |genes, i|
         evolvable_initialize(genes, self, i)
       end
     end
 
-    def mutate_individuals!
-      @mutation.call!(@individuals)
+    def mutate_objects!
+      @mutation.call!(@objects)
     end
 
     def inspect
@@ -103,11 +107,11 @@ module Evolvable
 
     private
 
-    def assign_individuals(individuals)
-      @individuals = individuals || []
-      (@size - individuals.count).times do |n|
+    def assign_objects(objects)
+      @objects = objects || []
+      (@size - objects.count).times do |n|
         genes = evolvable_random_genes
-        @individuals << evolvable_initialize(genes, self, n)
+        @objects << evolvable_initialize(genes, self, n)
       end
     end
   end

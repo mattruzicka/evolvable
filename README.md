@@ -1,8 +1,114 @@
 # Evolvable
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/evolvable`. To experiment with that code, run `bin/console` for an interactive prompt.
+Genetic algorithms use processes such as natural selection, crossover, and mutation to model evolutionary behaviors in code. The "evolvable" gem can add evolutionary behavior to any Ruby object.
 
-TODO: Delete this and the text above, and describe your gem
+If you're interested in seeing exactly how "evolvable" evolves populations of Ruby objects, I suggest opening up the [Population](https://github.com/mattruzicka/evolvable/blob/master/lib/evolvable/population.rb) class, specifically the following methods:
+
+- evolve!
+- evaluate_objects!
+- select_objects!
+- crossover_objects!
+- mutate_objects!
+
+## Usage
+
+To introduce evolvable behavior to any Ruby object, do the following:
+
+1. Include the Evolvable module
+2. Define the "evolvable_gene_pool" class method
+3. Define the "fitness" instance method
+
+For example, let's say we want to hear a text-to-speech command evolve random sentences to whatever your heart desires.
+
+```Ruby
+require 'evolvable'
+
+class Sentence
+  include Evolvable
+
+  DICTIONARY = ('a'..'z').to_a << ' '
+  DESIRED_WORDS = 'colorless green ideas sleep furiously'
+
+  def self.evolvable_gene_pool
+    Array.new(DESIRED_WORDS.length) { |index| [index, DICTIONARY] }
+  end
+
+  def fitness
+    score = 0
+    @genes.values.each_with_index do |value, index|
+      score += 1 if value == DESIRED_WORDS[index]
+    end
+    score
+  end
+
+  def words
+    @genes.values.join
+  end
+end
+```
+
+Now let's listen to our computer evolve its speech. The following code assumes your system has a text-to-speech command named "say" installed. Run this code in irb:
+
+```ruby
+population = Sentence.evolvable_population
+object = population.strongest_object
+
+until object.fitness == Sentence::DESIRED_WORDS.length
+  puts object.words
+  system("say #{object.words}")
+  population.evolve!(fitness_goal: Sentence::DESIRED_WORDS.length)
+  object = population.strongest_object
+end
+```
+
+To play with a more interactive version, check out https://github.com/mattruzicka/evolvable_sentence
+
+### The Gene Pool
+
+TODO: add descriptions and examples for following
+
+*.evolvable_gene_pool*
+*.evolvable_genes_count*
+
+TODO: add descriptions and examples for multidimensional genes
+
+### Fitness
+
+TODO: add description and example
+
+### Custom Evolvable Class Methods
+
+TODO: add descriptions and example implementations for the following
+
+*.evolvable_evaluate!*
+*.evolvable_population_attrs*
+*.evolvable_initialize*
+
+### Hooks
+
+TODO: add description
+
+*.evolvable_before_evolution*
+*.evolvable_after_select*
+*.evolvable_after_evolution*
+
+### Custom Mutations
+
+TODO: Show how to define and use a custom mutation object
+
+### Custom Crossover
+
+TODO: Show how to define and use a custom crossover object
+
+### Configuration
+
+TODO: Make logger configurable and make it smarter about picking a default
+
+## Demos
+
+- https://github.com/mattruzicka/evolvable_sentence - A more interactive version of the evolvable sentence code above.
+- https://github.com/mattruzicka/evolvable_equation - Evolves an equation of a specified length to evaluate to a given number.
+- More demos to come.
 
 ## Installation
 
@@ -20,15 +126,15 @@ Or install it yourself as:
 
     $ gem install evolvable
 
-## Usage
-
-TODO: Write usage instructions here
-
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bundle install` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+I am looking to both simplify how genes are defined as well as support more complex gene types by way of a new Gene class. Currently, genes are represented as an array of arrays or hashes depending on the context. This will likely change.
+
+I would also like to make more obvious how an evolvable object's genes can influence its behavior/fitness with well-defined pattern for gene expression, probably via an instance method on a gene called "express".
+
+I have a general sense of how I want to move forward on these features, but feel free to message me with ideas or implementations.
 
 ## Contributing
 
