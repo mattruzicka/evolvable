@@ -30,6 +30,8 @@ module Evolvable
                 :generation_count,
                 :objects
 
+    attr_accessor :log_progress
+
     def_delegators :@evolvable_class,
                    :evolvable_evaluate!,
                    :evolvable_initialize,
@@ -44,7 +46,7 @@ module Evolvable
         @generation_count += 1
         evolvable_before_evolution(self)
         evaluate_objects!
-        log_progress if @log_progress
+        log_evolvable_progress if log_progress
         break if fitness_goal_met?
 
         select_objects!
@@ -68,7 +70,7 @@ module Evolvable
       end
     end
 
-    def log_progress
+    def log_evolvable_progress
       @objects.last.evolvable_progress
     end
 
