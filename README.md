@@ -370,4 +370,4 @@ If you see a TODO in this README, feel free to do it :)
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/evolvable.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mattruzicka/evolvable.
