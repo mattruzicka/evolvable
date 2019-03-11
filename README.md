@@ -79,7 +79,7 @@ The ```Evolvable::Population#evolve!``` method evolves the population from one g
 
 Specifying the **fitness_goal** is useful when there's a known fitness you're trying to achieve. We use it in the evolvable sentence example above. If you want your population to keep evolving until it hits a particular fitness goal, set **generations_count** to a large number. The **generations_count** keyword argument tells ```#evolve!``` how many times to run.
 
-If you're interested in seeing exactly how ```Evolvable::Population#evolve!``` works, Open up the [Population](https://github.com/mattruzicka/evolvable/blob/master/lib/evolvable/population.rb) class and check out the following methods:
+If you're interested in seeing exactly how ```Evolvable::Population#evolve!``` works, open the [Population](https://github.com/mattruzicka/evolvable/blob/master/lib/evolvable/population.rb) class and check out the following methods:
 
 - ```evaluate_objects!```
 - ```select_objects!```
@@ -88,15 +88,16 @@ If you're interested in seeing exactly how ```Evolvable::Population#evolve!``` w
 
 ### The Gene Pool
 
-Currently, the gene pool needs to be an array of arrays. Each inner array contains a gene name and an array of possible values for the gene. Expect future releases to make defining the gene pool more straightforward. Check out [Development](#Development) below for details. Until then, here's an example of a simple ```.evolvable_gene_pool``` definition for evolvable dueling pianos:
+Currently, the gene pool needs to be an array of arrays. Each inner array contains a gene name and an array of possible values for the gene. Expect future releases to make defining the gene pool more straightforward. Check out "[Development](#Development)" below for details. Until then, here's an example of a simple ```.evolvable_gene_pool``` definition for evolvable dueling pianos:
 
 ```ruby
-class DualingPianos
+class SimpleMelody
   NOTES = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']
 
   def self.evolvable_gene_pool
-    [[:piano_1, NOTES],
-     [:piano_2, NOTES]]
+    [[:note_1, NOTES],
+     [:note_2, NOTES],
+     [:note_3, NOTES]]
   end
 end
 ```
