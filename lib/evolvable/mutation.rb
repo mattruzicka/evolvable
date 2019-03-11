@@ -6,6 +6,8 @@ module Evolvable
       @rate = rate
     end
 
+    attr_accessor :rate
+
     def_delegators :@evolvable_class,
                    :evolvable_genes_count,
                    :evolvable_gene_pool_size,

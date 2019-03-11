@@ -22,15 +22,14 @@ module Evolvable
       assign_objects(objects)
     end
 
-    attr_reader :evolvable_class,
-                :size,
-                :selection_count,
-                :crossover,
-                :mutation,
-                :generation_count,
-                :objects
-
-    attr_accessor :log_progress
+    attr_accessor :evolvable_class,
+                  :size,
+                  :selection_count,
+                  :crossover,
+                  :mutation,
+                  :generation_count,
+                  :log_progress,
+                  :objects
 
     def_delegators :@evolvable_class,
                    :evolvable_evaluate!,
