@@ -146,7 +146,7 @@ class TetrisArtBot
 end
 ```
 
-The result of ```#fitness``` can be any object that includes the ([Comparable](https://ruby-doc.org/core-2.6.1/Comparable.html)) mixin from Ruby and implements the ```<=>``` method. Many Ruby classes such as String and Integer have default implementations.
+The result of ```#fitness``` can be any object that includes the [Comparable](https://ruby-doc.org/core-2.6.1/Comparable.html) mixin from Ruby and implements the ```<=>``` method. Many Ruby classes such as String and Integer have default implementations.
 
 You may want to evaluate a whole generation of objects at once. For example, maybe you want each of your bots to play a game against each other and base your fitness score off their win records. For this case, use ```.evolvable_evaluate!(objects)``` like so: 
 
