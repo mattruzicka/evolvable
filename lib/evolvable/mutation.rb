@@ -25,10 +25,13 @@ module Evolvable
       mutant_genes.each_slice(object_mutations_count).with_index do |m_genes, index|
         object = objects[index] || objects.sample
         genes = object.genes
-        genes.merge!(m_genes.to_h)
-        rm_genes_count = genes.count - evolvable_genes_count
-        genes.keys.sample(rm_genes_count).each { |key| genes.delete(key) }
+        shuffled_indices = shuffle_indices
+        m_genes.each { |m| genes[shuffled_indices.pop] = m }
       end
+    end
+
+    def shuffle_indices
+      (0...evolvable_genes_count).to_a.shuffle!
     end
 
     def inspect
@@ -56,7 +59,7 @@ module Evolvable
       mutant_genes = []
       while mutant_genes.count < mutations_count
         genes_count = [gene_pool_size, mutations_count - mutant_genes.count].min
-        mutant_genes.concat evolvable_random_genes(genes_count).to_a
+        mutant_genes.concat evolvable_random_genes(genes_count)
       end
       mutant_genes
     end
