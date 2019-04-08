@@ -46,7 +46,7 @@ module Evolvable
     end
 
     def base.evolvable_gene_pool_cache
-      @evolvable_gene_pool_cache ||= evolvable_gene_pool
+      @evolvable_gene_pool_cache ||= Evolvable.unpack_gene_pool(evolvable_gene_pool)
     end
 
     def base.evolvable_gene_pool_size
@@ -59,31 +59,17 @@ module Evolvable
     end
 
     def base.evolvable_random_genes(count = nil)
-      gene_pool = evolvable_gene_pool_cache
       count ||= evolvable_genes_count
-      # TODO, if stick with genes count as second arg, this need to update
-      gene_pool = gene_pool.sample(count) if count < gene_pool.size
-      genes = []
-      pool_index = -1
-      gene_pool.each do |gene_class, genes_count|
-        genes_count.times do
-          # gene = gene_class.new
-          # gene.pool_index = pool_index += 1
-          genes << gene_class.new
-        end
-      end
-      genes
+      evolvable_gene_pool_cache.sample(count).map!(&:new)
     end
-    #   genes = {}
-    #   gene_pool.each do |name, potentials|
-    #     genes[name] = if potentials.is_a?(Proc)
-    #       potentials.call
-    #     else
-    #       potentials.sample
-    #     end
-    #   end
-    #   genes
-    # end
+  end
+
+  def self.unpack_gene_pool(evolvable_gene_pool)
+    gene_pool = []
+    evolvable_gene_pool.each do |klass, count|
+      (count || 1).times { gene_pool << klass }
+    end
+    gene_pool
   end
 
   def self.logger
