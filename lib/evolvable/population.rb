@@ -5,6 +5,7 @@ module Evolvable
     extend Forwardable
 
     def initialize(evolvable_class:,
+                   name: nil,
                    size: 20,
                    selection_count: 2,
                    crossover: Crossover.new,
@@ -13,6 +14,7 @@ module Evolvable
                    log_progress: false,
                    objects: [])
       @evolvable_class = evolvable_class
+      @name = name
       @size = size
       @selection_count = selection_count
       @crossover = crossover
@@ -23,6 +25,7 @@ module Evolvable
     end
 
     attr_accessor :evolvable_class,
+                  :name,
                   :size,
                   :selection_count,
                   :crossover,
@@ -35,21 +38,24 @@ module Evolvable
                    :evolvable_evaluate!,
                    :evolvable_initialize,
                    :evolvable_random_genes,
-                   :evolvable_before_evolution,
-                   :evolvable_after_select,
+                   :evolvable_before_evaluation,
+                   :evolvable_before_selection,
+                   :evolvable_before_crossover,
+                   :evolvable_before_mutation,
                    :evolvable_after_evolution
+
+
+
+    # Create sound files in before_evaluation callback
 
     def evolve!(generations_count: 1, fitness_goal: nil)
       @fitness_goal = fitness_goal
       generations_count.times do
         @generation_count += 1
-        evolvable_before_evolution(self)
         evaluate_objects!
-        log_evolvable_progress if log_progress
         break if fitness_goal_met?
 
         select_objects!
-        evolvable_after_select(self)
         crossover_objects!
         mutate_objects!
         evolvable_after_evolution(self)
@@ -61,6 +67,7 @@ module Evolvable
     end
 
     def evaluate_objects!
+      evolvable_before_evaluation(self)
       evolvable_evaluate!(@objects)
       if @fitness_goal
         @objects.sort_by! { |i| -(i.fitness - @fitness_goal).abs }
@@ -78,10 +85,12 @@ module Evolvable
     end
 
     def select_objects!
+      evolvable_before_selection(self)# log_evolvable_progress if log_progress # move to default def of evolvable_before_selection
       @objects.slice!(0..-1 - @selection_count)
     end
 
     def crossover_objects!
+      evolvable_before_crossover(self)
       parent_genes = @objects.map(&:genes)
       offspring_genes = @crossover.call(parent_genes, @size)
       @objects = offspring_genes.map.with_index do |genes, i|
@@ -90,6 +99,7 @@ module Evolvable
     end
 
     def mutate_objects!
+      evolvable_before_mutation(self)
       @mutation.call!(@objects)
     end
 
@@ -98,7 +108,8 @@ module Evolvable
     end
 
     def as_json
-      { evolvable_class: @evolvable_class.name,
+      { name: @name,
+        evolvable_class: @evolvable_class.name,
         size: @size,
         selection_count: @selection_count,
         crossover: @crossover.as_json,

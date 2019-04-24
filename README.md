@@ -148,7 +148,7 @@ end
 
 The result of ```#fitness``` can be any object that includes the [Comparable](https://ruby-doc.org/core-2.6.1/Comparable.html) mixin from Ruby and implements the ```<=>``` method. Many Ruby classes such as String and Integer have default implementations.
 
-You may want to evaluate a whole generation of objects at once. For example, maybe you want each of your bots to play a game against each other and base your fitness score off their win records. For this case, use ```.evolvable_evaluate!(objects)``` like so: 
+You may want to evaluate a whole generation of objects at once. For example, maybe you want each of your bots to play a game against each other and base your fitness score off their win records. For this case, use ```.evolvable_evaluate!(objects)``` like so:
 
 ```ruby
 class GamerBot
@@ -245,7 +245,7 @@ Evolvable::Population.new(evolvable_class: population.evolvable_class,
 
 The ```#evolvable_progress``` method is used by ```Evolvable::Population#evolve!``` to log the progress of the "strongest object" in each generation. That is, the object with the best fitness score. It runs just after objects are evaluated and the ```Evolvable::Population#strongest_object``` can be determined. ```Evolvable::Population#log_progress``` must equal true in order for the result of the ```#evolvable_progress``` to be logged.
 
-In the [evolvable sentence demo](https://github.com/mattruzicka/evolvable_sentence), ```evolvable_progress``` is implemented in order to output the strongest object's generation count, fitness score, and words. In this example, we also use the "say" text-to-speech command to pronounce the words. 
+In the [evolvable sentence demo](https://github.com/mattruzicka/evolvable_sentence), ```evolvable_progress``` is implemented in order to output the strongest object's generation count, fitness score, and words. In this example, we also use the "say" text-to-speech command to pronounce the words.
 
 ```Ruby
   class Sentence
@@ -264,7 +264,7 @@ Hooks can also be used to monitor progress.
 
 You can define any the following class method hooks on any Evolvable class. They run during the evolution of each generation in ```Evolvable::Population#evolve!```
 
-```.evolvable_before_evolution(population)```
+```.evolvable_before_evaluation(population)```
 
 ```.evolvable_after_select(population)```
 
@@ -306,7 +306,7 @@ class FortuneCookie
 
   HAIR_COLORS = ['black', 'blond', 'brown', 'gray', 'red', 'white']
   EYE_COLORS = ['blue', 'brown', 'gray', 'green']
- 
+
   FORTUNES = ['You will prosper',
               'You will endure hardship',
               'You are about to eat a crisp and sugary cookie']
