@@ -5,6 +5,7 @@ module Evolvable
     extend Forwardable
 
     def initialize(evolvable_class:,
+                   name: nil,
                    size: 20,
                    selection_count: 2,
                    crossover: Crossover.new,
@@ -13,6 +14,7 @@ module Evolvable
                    log_progress: false,
                    objects: [])
       @evolvable_class = evolvable_class
+      @name = name
       @size = size
       @selection_count = selection_count
       @crossover = crossover
@@ -23,6 +25,7 @@ module Evolvable
     end
 
     attr_accessor :evolvable_class,
+                  :name,
                   :size,
                   :selection_count,
                   :crossover,
@@ -98,7 +101,8 @@ module Evolvable
     end
 
     def as_json
-      { evolvable_class: @evolvable_class.name,
+      { name: @name,
+        evolvable_class: @evolvable_class.name,
         size: @size,
         selection_count: @selection_count,
         crossover: @crossover.as_json,
