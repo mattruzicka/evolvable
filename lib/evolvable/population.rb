@@ -44,11 +44,12 @@ module Evolvable
                    :evolvable_before_mutation,
                    :evolvable_after_evolution
 
-    def evolve!(generations_count: 1, fitness_goal: nil)
+    def evolve!(generations_count: Float::INFINITY, fitness_goal: nil)
       @fitness_goal = fitness_goal
-      generations_count.times do
+      (1..generations_count).each do
         @generation_count += 1
         evaluate_objects!
+        log_evolvable_progress if log_progress
         break if fitness_goal_met?
 
         select_objects!
@@ -81,7 +82,7 @@ module Evolvable
     end
 
     def select_objects!
-      evolvable_before_selection(self)# log_evolvable_progress if log_progress # move to default def of evolvable_before_selection
+      evolvable_before_selection(self)
       @objects.slice!(0..-1 - @selection_count)
     end
 
