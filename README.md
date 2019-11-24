@@ -148,7 +148,7 @@ end
 
 The result of ```#fitness``` can be any object that includes the [Comparable](https://ruby-doc.org/core-2.6.1/Comparable.html) mixin from Ruby and implements the ```<=>``` method. Many Ruby classes such as String and Integer have default implementations.
 
-You may want to evaluate a whole generation of objects at once. For example, maybe you want each of your bots to play a game against each other and base your fitness score off their win records. For this case, use ```.evolvable_evaluate!(objects)``` like so: 
+You may want to evaluate a whole generation of objects at once. For example, maybe you want each of your bots to play a game against each other and base your fitness score off their win records. For this case, use ```.evolvable_evaluate!(objects)``` like so:
 
 ```ruby
 class GamerBot
@@ -245,7 +245,7 @@ Evolvable::Population.new(evolvable_class: population.evolvable_class,
 
 The ```#evolvable_progress``` method is used by ```Evolvable::Population#evolve!``` to log the progress of the "strongest object" in each generation. That is, the object with the best fitness score. It runs just after objects are evaluated and the ```Evolvable::Population#strongest_object``` can be determined. ```Evolvable::Population#log_progress``` must equal true in order for the result of the ```#evolvable_progress``` to be logged.
 
-In the [evolvable sentence demo](https://github.com/mattruzicka/evolvable_sentence), ```evolvable_progress``` is implemented in order to output the strongest object's generation count, fitness score, and words. In this example, we also use the "say" text-to-speech command to pronounce the words. 
+In the [evolvable sentence demo](https://github.com/mattruzicka/evolvable_sentence), ```evolvable_progress``` is implemented in order to output the strongest object's generation count, fitness score, and words. In this example, we also use the "say" text-to-speech command to pronounce the words.
 
 ```Ruby
   class Sentence
@@ -306,7 +306,7 @@ class FortuneCookie
 
   HAIR_COLORS = ['black', 'blond', 'brown', 'gray', 'red', 'white']
   EYE_COLORS = ['blue', 'brown', 'gray', 'green']
- 
+
   FORTUNES = ['You will prosper',
               'You will endure hardship',
               'You are about to eat a crisp and sugary cookie']
@@ -336,10 +336,6 @@ In this not-at-all-contrived example, ```Evolvable.combine_dimensions([HAIR_COLO
 which is useful for composing genes made up of various dimensions and accessing gene values by these dimensions in the ```#fitness``` and ```.evolvable_evaluate!(objects)``` methods.
 
 The ```Evolvable.combine_dimensions(dimensions)``` method accepts an array containing any number of arrays as an argument. One item from each given array will be in each output array and the item's index will be the same as the index of the argument array it belongs to. All combinations of items from the various arrays that follow this rule will be returned as arrays. The number of output arrays is equal to the product of multiplying the sizes of each given array. This method was difficult to write as was this description. I'd be really interested to see other people's implementations :)
-
-### Configuration
-
-TODO: Make logger configurable and make it smarter about picking a default
 
 ## Installation
 
