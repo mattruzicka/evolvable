@@ -62,9 +62,10 @@ module Evolvable
 
   attr_accessor :genes,
                 :population,
+                :evolvable_value,
                 :evolvable_index
 
-  def value
+  def evolvable_value
     raise Errors::NotImplemented, __method__
   end
 
