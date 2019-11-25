@@ -1,3 +1,5 @@
+:warning: Lots of breaking changes are on the way! You can preview the changes here: https://github.com/mattruzicka/evolvable/pull/3 :warning:
+
 # Evolvable
 
 Genetic algorithms mimic biological processes such as natural selection, crossover, and mutation to model evolutionary behaviors in code. This gem can add evolutionary behaviors to any Ruby object.
