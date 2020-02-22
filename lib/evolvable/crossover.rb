@@ -8,19 +8,19 @@ class Crossover
   attr_accessor :growth_rate
 
   def call!(population)
-    assign_offspring_objects!(population)
+    assign_offspring_instances!(population)
     population
   end
 
   private
 
-  def assign_offspring_objects!(population)
+  def assign_offspring_instances!(population)
     offspring_genes = initialize_offspring_genes(population)
-    population.objects = initialize_offspring_objects!(population, offspring_genes)
+    population.instances = initialize_offspring_instances!(population, offspring_genes)
   end
 
   def initialize_offspring_genes(population)
-    parent_genes = population.objects.map!(&:genes)
+    parent_genes = population.instances.map!(&:genes)
     parent_gene_couples = parent_genes.combination(2).cycle
     offspring_count = compute_offspring_count(population)
     Array.new(offspring_count) do
@@ -51,7 +51,7 @@ class Crossover
     offspring_genes -= offspring_genes.sample(trim_genes_count)
   end
 
-  def initialize_offspring_objects!(population, offspring_genes)
+  def initialize_offspring_instances!(population, offspring_genes)
     offspring_genes.map!.with_index do |genes, i|
       population.new_evolvable(genes, population, i)
     end

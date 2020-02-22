@@ -10,7 +10,7 @@ module Evolvable
     attr_reader :gene_configs,
                 :evolvable_genes_count
 
-    def initialize_object_genes
+    def initialize_instance_genes
       return sample_genes(evolvable_genes_count) if evolvable_genes_count
 
       initialize_genes!(gene_args.dup)
@@ -24,8 +24,8 @@ module Evolvable
       end
     end
 
-    def object_genes_count
-      @object_genes_count ||= evolvable_genes_count || gene_args.count
+    def instance_genes_count
+      @instance_genes_count ||= evolvable_genes_count || gene_args.count
     end
 
     private

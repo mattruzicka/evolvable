@@ -8,12 +8,12 @@ module Evolvable::Goal
       @value ||= 0
     end
 
-    def evaluate(object)
-      -(object.evolvable_value - value).abs
+    def evaluate(instance)
+      -(instance.evolvable_value - value).abs
     end
 
-    def met?(object)
-      object.evolvable_value == value
+    def met?(instance)
+      instance.evolvable_value == value
     end
   end
 end

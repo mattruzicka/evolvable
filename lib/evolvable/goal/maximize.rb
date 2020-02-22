@@ -8,12 +8,12 @@ module Evolvable::Goal
       @value ||= Float::INFINITY
     end
 
-    def evaluate(object)
-      object.evolvable_value
+    def evaluate(instance)
+      instance.evolvable_value
     end
 
-    def met?(object)
-      object.evolvable_value >= value
+    def met?(instance)
+      instance.evolvable_value >= value
     end
   end
 end
