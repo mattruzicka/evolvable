@@ -32,8 +32,9 @@ module Evolvable
     end
 
     def base.new_gene_pool
-      define_gene_getters
-      GenePool.new(gene_configs: evolvable_genes || {},
+      gene_configs = evolvable_genes || {}
+      evolvable_genes.each_key { |k| define_method(k) { genes_by_key(k) } }
+      GenePool.new(gene_configs: gene_configs,
                    evolvable_genes_count: evolvable_genes_count)
     end
 
@@ -50,14 +51,6 @@ module Evolvable
     def base.evolvable_before_evolution(population); end
 
     def base.evolvable_after_evolution(population); end
-
-    private
-
-    def base.define_gene_getters
-      evolvable_genes.each_key do |gene_key|
-        define_method(gene_key) { genes_by_key(gene_key) }
-      end
-    end
   end
 
   attr_accessor :genes,
