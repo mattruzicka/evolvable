@@ -18,9 +18,9 @@ require 'evolvable/population'
 
 module Evolvable
   def self.included(base)
-    def base.new_population(args = {})
-      args[:evolvable_class] = self
-      Population.new(args)
+    def base.new_population(keyword_args = {})
+      keyword_args[:evolvable_class] = self
+      Population.new(**keyword_args)
     end
 
     def base.new_evolvable(genes, population, evolvable_index)
