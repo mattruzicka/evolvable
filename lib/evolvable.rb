@@ -24,7 +24,9 @@ module Evolvable
     end
 
     def base.new_evolvable(genes, population, evolvable_index)
-      evolvable = new
+      evolvable = evolvable_initialize(genes: genes,
+                                       population: population,
+                                       evolvable_index: evolvable_index)
       evolvable.genes = genes
       evolvable.population = population
       evolvable.evolvable_index = evolvable_index
@@ -33,9 +35,13 @@ module Evolvable
 
     def base.new_gene_pool
       gene_configs = evolvable_genes || {}
-      evolvable_genes.each_key { |k| define_method(k) { genes_by_key(k) } }
+      define_gene_getters(gene_configs)
       GenePool.new(gene_configs: gene_configs,
                    evolvable_genes_count: evolvable_genes_count)
+    end
+
+    def base.evolvable_initialize(genes:, population:, evolvable_index:)
+      new
     end
 
     def base.evolvable_goal
@@ -51,6 +57,12 @@ module Evolvable
     def base.evolvable_before_evolution(population); end
 
     def base.evolvable_after_evolution(population); end
+
+    def base.define_gene_getters(gene_configs)
+      gene_configs.each_key do |key|
+        define_method(key) { genes_by_key(key) } unless respond_to?(key)
+      end
+    end
   end
 
   attr_accessor :genes,

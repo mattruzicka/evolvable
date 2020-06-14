@@ -24,9 +24,9 @@ class Crossover
     parent_gene_couples = parent_genes.combination(2).cycle
     offspring_count = compute_offspring_count(population)
     Array.new(offspring_count) do
-      p1_genes, p2_genes = parent_gene_couples.next
-      offspring_genes = merge_parent_genes(p1_genes, p2_genes)
-      trim_offspring_genes!(offspring_genes, p1_genes.count)
+      genes_1, genes_2 = parent_gene_couples.next
+      offspring_genes = crossover_genes(genes_1, genes_2)
+      trim_offspring_genes!(offspring_genes, genes_1.count)
       offspring_genes
     end
   end
@@ -38,10 +38,10 @@ class Crossover
     pop_size + (pop_size * growth_rate).round
   end
 
-  def merge_parent_genes(p1_genes, p2_genes)
-    Array.new(p1_genes.count) do |index|
-      [p1_genes, p2_genes].sample[index]
-    end
+  def crossover_genes(genes_1, genes_2)
+    genes_1.lazy.zip(genes_2).map do |gene_a, gene_b|
+      gene_a.class.crossover(gene_a, gene_b)
+    end.to_a
   end
 
   def trim_offspring_genes!(offspring_genes, parent_genes_count)
