@@ -6,6 +6,10 @@ module Evolvable
       def base.new_evolvable
         new
       end
+
+      def base.crossover(gene_1, gene_2)
+        [gene_1, gene_2].sample
+      end
     end
 
     attr_accessor :evolvable_key

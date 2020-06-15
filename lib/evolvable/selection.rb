@@ -11,7 +11,7 @@ module Evolvable
     attr_accessor :count
 
     def call!(population)
-      population.objects.slice!(0..-1 - @count)
+      population.instances.slice!(0..-1 - @count)
       population
     end
   end

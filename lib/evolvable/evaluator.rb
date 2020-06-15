@@ -17,15 +17,15 @@ module Evolvable
     end
 
     def sort!(population)
-      population.objects.sort_by! { |object| goal.evaluate(object) }
+      population.instances.sort_by! { |instance| goal.evaluate(instance) }
     end
 
-    def best_object(population)
-      population.objects.max_by { |object| goal.evaluate(object) }
+    def best_instance(population)
+      population.instances.max_by { |instance| goal.evaluate(instance) }
     end
 
     def met_goal?(population)
-      goal.met?(population.objects.last)
+      goal.met?(population.instances.last)
     end
 
     private

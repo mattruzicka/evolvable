@@ -3,35 +3,35 @@
 module Evolvable
   class GenePool
     def initialize(gene_configs: {}, evolvable_genes_count: nil)
-      @gene_configs = gene_configs
+      @gene_configs = flatten_gene_configs(gene_configs)
       @evolvable_genes_count = evolvable_genes_count
     end
 
     attr_reader :gene_configs,
                 :evolvable_genes_count
 
-    def initialize_object_genes
+    def initialize_instance_genes
       return sample_genes(evolvable_genes_count) if evolvable_genes_count
 
-      initialize_genes!(gene_args.dup)
+      initialize_genes!(gene_configs.dup)
     end
 
     def sample_genes(sample_count)
-      if sample_count > gene_args.count
-        initialize_genes!(gene_args.cycle.first(sample_count))
+      if sample_count > gene_configs.count
+        initialize_genes!(gene_configs.cycle.first(sample_count))
       else
-        initialize_genes!(gene_args.sample(sample_count))
+        initialize_genes!(gene_configs.sample(sample_count))
       end
     end
 
-    def object_genes_count
-      @object_genes_count ||= evolvable_genes_count || gene_args.count
+    def instance_genes_count
+      @instance_genes_count ||= evolvable_genes_count || gene_configs.count
     end
 
     private
 
-    def initialize_genes!(gene_args)
-      gene_args.map! do |args|
+    def initialize_genes!(gene_configs)
+      gene_configs.map! do |args|
         klass, gene_name = args
         gene = klass.new_evolvable
         gene.evolvable_key = gene_name
@@ -39,18 +39,14 @@ module Evolvable
       end
     end
 
-    def gene_args
-      @gene_args ||= flatten_gene_args
-    end
-
-    def flatten_gene_args
-      configs = []
-      gene_configs.each do |gene_name, config|
+    def flatten_gene_configs(configs)
+      flattened = []
+      configs.each do |gene_name, config|
         (config[:count] || 1).times do
-          configs << [config[:class], gene_name]
+          flattened << [config[:class], gene_name]
         end
       end
-      configs
+      flattened
     end
   end
 end

@@ -8,11 +8,11 @@ module Evolvable
 
     attr_accessor :value
 
-    def evaluate(_object)
+    def evaluate(_instance)
       raise Errors::NotImplemented, __method__
     end
 
-    def met?(_object)
+    def met?(_instance)
       raise Errors::NotImplemented, __method__
     end
   end

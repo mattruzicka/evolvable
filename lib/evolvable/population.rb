@@ -11,7 +11,7 @@ module Evolvable
                    gene_pool: nil,
                    evolution: Evolution.new,
                    goal: nil,
-                   objects: [])
+                   instances: [])
       @evolvable_class = evolvable_class
       @name = name
       @size = size
@@ -20,7 +20,7 @@ module Evolvable
       @evolution = evolution
       goal ||= evolvable_class.evolvable_goal
       @evaluator = Evaluator.new(goal: goal)
-      initialize_objects!(objects)
+      initialize_instances!(instances)
     end
 
     attr_accessor :evolvable_class,
@@ -29,7 +29,7 @@ module Evolvable
                   :evolutions_count,
                   :gene_pool,
                   :evolution,
-                  :objects
+                  :instances
 
     def_delegators :evolvable_class,
                    :new_evolvable,
@@ -59,17 +59,17 @@ module Evolvable
       end
     end
 
-    def best_object
-      @evaluator.best_object(self)
+    def best_instance
+      @evaluator.best_instance(self)
     end
 
     private
 
-    def initialize_objects!(objects)
-      @objects = objects || []
-      (@size - objects.count).times do |n|
-        genes = gene_pool.initialize_object_genes
-        @objects << new_evolvable(genes, self, n)
+    def initialize_instances!(instances)
+      @instances = instances || []
+      (@size - instances.count).times do |n|
+        genes = gene_pool.initialize_instance_genes
+        @instances << new_evolvable(genes, self, n)
       end
     end
   end
