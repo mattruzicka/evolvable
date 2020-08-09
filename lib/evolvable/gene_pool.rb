@@ -33,7 +33,7 @@ module Evolvable
     def initialize_genes!(gene_configs)
       gene_configs.map! do |args|
         klass, gene_name = args
-        gene = klass.new_evolvable
+        gene = klass.new
         gene.evolvable_key = gene_name
         gene
       end
