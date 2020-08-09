@@ -23,7 +23,8 @@ module Evolvable
       initialize_instances!(instances)
     end
 
-    attr_accessor :evolvable_class,
+    attr_accessor :id,
+                  :evolvable_class,
                   :name,
                   :size,
                   :evolutions_count,
