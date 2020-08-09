@@ -11,6 +11,8 @@ module Evolvable
     attr_accessor :rate
 
     def call!(population)
+      return population if rate.zero?
+
       instances = population.instances
       gene_pool = population.gene_pool
       mutations_count = find_mutations_count(instances, gene_pool)
@@ -33,9 +35,7 @@ module Evolvable
     end
 
     def find_mutations_count(instances, gene_pool)
-      return 0 if @rate.zero?
-
-      count = (instances.count * gene_pool.instance_genes_count * @rate)
+      count = (instances.count * gene_pool.instance_genes_count * rate)
       return count.to_i if count >= 1
 
       rand <= count ? 1 : 0
