@@ -2,9 +2,9 @@
 
 module Evolvable
   class Evaluator
-    GOALS_CACHE = { maximize: Evolvable::Goal::Maximize.new,
-                    minimize: Evolvable::Goal::Minimize.new,
-                    equalize: Evolvable::Goal::Equalize.new }.freeze
+    GOALS = { maximize: Evolvable::Goal::Maximize.new,
+              minimize: Evolvable::Goal::Minimize.new,
+              equalize: Evolvable::Goal::Equalize.new }.freeze
 
     def initialize(goal: :maxmize)
       @goal = normalize_goal(goal)
@@ -42,12 +42,12 @@ module Evolvable
     end
 
     def goal_from_symbol(goal_type)
-      GOALS_CACHE[goal_type]
+      GOALS[goal_type]
     end
 
     def goal_from_hash(goal_hash)
       goal_type, value = goal_hash.first
-      goal = GOALS_CACHE[goal_type]
+      goal = GOALS[goal_type]
       goal.value = value
       goal
     end
