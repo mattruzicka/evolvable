@@ -50,9 +50,9 @@ module Evolvable
       (1..count).each do
         @evaluator.call!(self)
         @evaluator.sort!(self)
-        evolvable_before_evolution(self)
         break if @evaluator.met_goal?(self)
 
+        evolvable_before_evolution(self)
         evolution.evolve!(self)
         @evolutions_count += 1
         evolvable_after_evolution(self)
