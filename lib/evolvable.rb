@@ -35,7 +35,6 @@ module Evolvable
 
     def base.new_gene_pool
       gene_configs = evolvable_genes || {}
-      define_gene_getters(gene_configs)
       GenePool.new(gene_configs: gene_configs,
                    evolvable_genes_count: evolvable_genes_count)
     end
@@ -57,12 +56,6 @@ module Evolvable
     def base.evolvable_before_evolution(population); end
 
     def base.evolvable_after_evolution(population); end
-
-    def base.define_gene_getters(gene_configs)
-      gene_configs.each_key do |key|
-        define_method(key) { genes_by_key(key) } unless respond_to?(key)
-      end
-    end
   end
 
   attr_accessor :genes,
@@ -74,10 +67,11 @@ module Evolvable
     raise Errors::NotImplemented, __method__
   end
 
-  private
+  def find_gene(key)
+    @genes.detect { |g| g.evolvable_key == key }
+  end
 
-  def genes_by_key(key)
-    @genes_by_key ||= @genes.group_by(&:evolvable_key)
-    @genes_by_key[key] || []
+  def find_genes(key)
+    @genes.select { |g| g.evolvable_key == key }
   end
 end
