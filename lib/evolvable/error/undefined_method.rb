@@ -2,6 +2,6 @@
 
 module Evolvable
   module Errors
-    class NotImplemented < StandardError; end
+    class UndefinedMethod < StandardError; end
   end
 end

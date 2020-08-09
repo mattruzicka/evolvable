@@ -2,7 +2,7 @@
 
 require 'forwardable'
 require 'evolvable/version'
-require 'evolvable/error/not_implemented'
+require 'evolvable/error/undefined_method'
 require 'evolvable/gene'
 require 'evolvable/gene_pool'
 require 'evolvable/goal'
@@ -64,7 +64,7 @@ module Evolvable
                 :evolvable_index
 
   def evolvable_value
-    raise Errors::NotImplemented, __method__
+    raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
   end
 
   def find_gene(key)
