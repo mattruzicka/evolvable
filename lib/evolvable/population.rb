@@ -18,8 +18,7 @@ module Evolvable
       @evolutions_count = evolutions_count
       @gene_pool = gene_pool || evolvable_class.new_gene_pool
       @evolution = evolution
-      goal ||= evolvable_class.evolvable_goal
-      @evaluator = Evaluator.new(goal: goal)
+      @evaluator = Evaluator.new(goal || evolvable_class.evolvable_goal)
       initialize_instances!(instances)
     end
 

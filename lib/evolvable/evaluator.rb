@@ -6,7 +6,7 @@ module Evolvable
               minimize: Evolvable::Goal::Minimize.new,
               equalize: Evolvable::Goal::Equalize.new }.freeze
 
-    def initialize(goal: :maxmize)
+    def initialize(goal = :maxmize)
       @goal = normalize_goal(goal)
     end
 
@@ -30,23 +30,23 @@ module Evolvable
 
     private
 
-    def normalize_goal(goal)
-      case goal
+    def normalize_goal(goal_arg)
+      case goal_arg
       when Symbol
-        goal_from_symbol(goal)
+        goal_from_symbol(goal_arg)
       when Hash
-        goal_from_hash(goal_hash)
+        goal_from_hash(goal_arg)
       else
         goal
       end
     end
 
-    def goal_from_symbol(goal_type)
-      GOALS[goal_type]
+    def goal_from_symbol(goal_arg)
+      GOALS[goal_arg]
     end
 
-    def goal_from_hash(goal_hash)
-      goal_type, value = goal_hash.first
+    def goal_from_hash(goal_arg)
+      goal_type, value = goal_arg.first
       goal = GOALS[goal_type]
       goal.value = value
       goal
