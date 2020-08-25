@@ -34,7 +34,6 @@ module Evolvable
                   :instances
 
     def_delegators :evolvable_class,
-                   :new_evolvable,
                    :evolvable_evaluate!,
                    :evolvable_before_evolution,
                    :evolvable_after_evolution
@@ -65,13 +64,19 @@ module Evolvable
       @evaluator.best_instance(self)
     end
 
+    def new_evolvable(genes: [], evolvable_index: nil)
+      evolvable_class.new_evolvable(population: self,
+                                    genes: genes,
+                                    evolvable_index: evolvable_index)
+    end
+
     private
 
     def initialize_instances!(instances)
       @instances = instances || []
       (@size - instances.count).times do |n|
         genes = gene_pool.initialize_instance_genes
-        @instances << new_evolvable(genes, self, n)
+        @instances << new_evolvable(genes: genes, evolvable_index: n)
       end
     end
   end

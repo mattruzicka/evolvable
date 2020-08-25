@@ -23,24 +23,22 @@ module Evolvable
       Population.new(**keyword_args)
     end
 
-    def base.new_evolvable(genes, population, evolvable_index)
-      evolvable = evolvable_initialize(genes: genes,
-                                       population: population,
-                                       evolvable_index: evolvable_index)
-      evolvable.genes = genes
+    def base.new_evolvable(population: nil, genes: [], evolvable_index: nil)
+      evolvable = initialize_evolvable
       evolvable.population = population
+      evolvable.genes = genes
       evolvable.evolvable_index = evolvable_index
       evolvable
+    end
+
+    def base.initialize_evolvable
+      new
     end
 
     def base.new_gene_pool
       gene_configs = evolvable_genes || {}
       GenePool.new(gene_configs: gene_configs,
                    evolvable_genes_count: evolvable_genes_count)
-    end
-
-    def base.evolvable_initialize(genes:, population:, evolvable_index:)
-      new
     end
 
     def base.evolvable_goal
@@ -58,10 +56,10 @@ module Evolvable
     def base.evolvable_after_evolution(population); end
   end
 
-  attr_accessor :genes,
-                :population,
-                :evolvable_value,
-                :evolvable_index
+  attr_accessor :population,
+                :genes,
+                :evolvable_index,
+                :evolvable_value
 
   def evolvable_value
     raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
