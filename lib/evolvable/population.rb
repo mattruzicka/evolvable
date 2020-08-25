@@ -30,6 +30,7 @@ module Evolvable
                   :evolutions_count,
                   :gene_pool,
                   :evolution,
+                  :evaluator,
                   :instances
 
     def_delegators :evolvable_class,
@@ -43,7 +44,7 @@ module Evolvable
                    :crossover,
                    :mutation
 
-    def_delegators :@evaluator,
+    def_delegators :evaluator,
                    :goal,
                    :goal=
 
