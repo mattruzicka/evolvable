@@ -4,7 +4,8 @@ module Evolvable
   class Population
     extend Forwardable
 
-    def initialize(evolvable_class:,
+    def initialize(id: nil,
+                   evolvable_class:,
                    name: nil,
                    size: 20,
                    evolutions_count: 0,
