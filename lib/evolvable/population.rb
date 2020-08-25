@@ -13,6 +13,7 @@ module Evolvable
                    evolution: Evolution.new,
                    evaluator: Evaluator.new,
                    instances: [])
+      @id = id
       @evolvable_class = evolvable_class
       @name = name
       @size = size
