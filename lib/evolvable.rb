@@ -37,8 +37,7 @@ module Evolvable
 
     def base.new_gene_pool
       gene_configs = evolvable_genes || {}
-      GenePool.new(gene_configs: gene_configs,
-                   evolvable_genes_count: evolvable_genes_count)
+      GenePool.new(gene_configs: gene_configs)
     end
 
     def base.evolvable_goal
@@ -46,8 +45,6 @@ module Evolvable
     end
 
     def base.evolvable_genes; end
-
-    def base.evolvable_genes_count; end
 
     def base.evolvable_evaluate!(population); end
 
