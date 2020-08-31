@@ -7,7 +7,7 @@ module Evolvable
     def initialize(id: nil,
                    evolvable_class:,
                    name: nil,
-                   size: 20,
+                   size: 40,
                    evolutions_count: 0,
                    gene_pool: nil,
                    evolution: Evolution.new,
