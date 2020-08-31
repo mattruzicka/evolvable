@@ -28,6 +28,7 @@ module Evolvable
       evolvable.population = population
       evolvable.genes = genes
       evolvable.evolvable_index = evolvable_index
+      evolvable.initialize_evolvable
       evolvable
     end
 
@@ -52,6 +53,8 @@ module Evolvable
 
     def base.evolvable_after_evolution(population); end
   end
+
+  def initialize_evolvable; end
 
   attr_accessor :population,
                 :genes,
