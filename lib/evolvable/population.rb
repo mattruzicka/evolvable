@@ -47,7 +47,6 @@ module Evolvable
                    :mutation,
                    :mutation=
 
-
     def_delegators :evaluator,
                    :goal,
                    :goal=

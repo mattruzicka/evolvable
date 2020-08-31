@@ -3,7 +3,6 @@
 module Evolvable
   module Gene
     def self.included(base)
-
       def base.crossover(gene_a, gene_b)
         [gene_a, gene_b].sample
       end
