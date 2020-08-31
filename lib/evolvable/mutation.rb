@@ -4,41 +4,37 @@ module Evolvable
   class Mutation
     extend Forwardable
 
-    def initialize(rate: 0.03)
-      @rate = rate
+    def initialize(probability: nil, rate: nil)
+      @probability = probability || (rate ? 1 : 0.03)
+      @rate = rate || 0
     end
 
-    attr_accessor :rate
+    attr_accessor :probability,
+                  :rate
 
     def call!(population)
-      return population if rate.zero?
+      return population if probability.zero?
 
-      instances = population.instances
-      gene_pool = population.gene_pool
-      mutations_count = find_mutations_count(instances, gene_pool)
-      mutate_instance_genes!(instances, gene_pool, mutations_count)
+      population.instances.each do |instance|
+        mutate_instance(instance) if rand <= probability
+      end
       population
     end
 
     private
 
-    def mutate_instance_genes!(instances, gene_pool, mutations_count)
-      return if mutations_count.zero?
+    def mutate_instance(instance)
+      genes_count = instance.genes.count
+      return mutate_gene(instance, rand(genes_count)) if rate.zero?
 
-      mutant_genes = gene_pool.sample_genes(mutations_count)
-      gene_index_range = 0...gene_pool.instance_genes_count
-
-      mutant_genes.each do |mutant_gene|
-        instance = instances.sample
-        instance.genes[rand(gene_index_range)] = mutant_gene
-      end
+      genes_count.times { |index| mutate_gene(instance, index) if rand <= rate }
     end
 
-    def find_mutations_count(instances, gene_pool)
-      count = (instances.count * gene_pool.instance_genes_count * rate)
-      return count.to_i if count >= 1
-
-      rand <= count ? 1 : 0
+    def mutate_gene(instance, gene_index)
+      gene = instance.genes[gene_index]
+      mutant_gene = gene.class.new
+      mutant_gene.evolvable_key = gene.evolvable_key
+      instance.genes[gene_index] = mutant_gene
     end
   end
 end
