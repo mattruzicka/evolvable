@@ -12,7 +12,7 @@ module Evolvable
     attr_accessor :probability,
                   :rate
 
-    def call!(population)
+    def call(population)
       return population if probability.zero?
 
       population.instances.each do |instance|

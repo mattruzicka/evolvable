@@ -16,10 +16,11 @@ module Evolvable
                   :crossover,
                   :mutation
 
-    def evolve!(population)
-      @selection.call!(population)
-      @crossover.call!(population)
-      @mutation.call!(population)
+    def call(population)
+      @selection.call(population)
+      @crossover.call(population)
+      @mutation.call(population)
+      population
     end
   end
 end

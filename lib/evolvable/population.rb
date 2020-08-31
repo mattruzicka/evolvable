@@ -21,7 +21,7 @@ module Evolvable
       @gene_pool = gene_pool || evolvable_class.new_gene_pool
       @evolution = evolution
       @evaluator = evaluator || Evaluator.new
-      initialize_instances!(instances)
+      initialize_instances(instances)
     end
 
     attr_accessor :id,
@@ -41,21 +41,24 @@ module Evolvable
 
     def_delegators :evolution,
                    :selection,
+                   :selection=,
                    :crossover,
-                   :mutation
+                   :crossover=,
+                   :mutation,
+                   :mutation=
+
 
     def_delegators :evaluator,
                    :goal,
                    :goal=
 
-    def evolve!(count: Float::INFINITY)
+    def evolve(count: Float::INFINITY)
       (1..count).each do
-        @evaluator.call!(self)
-        @evaluator.sort!(self)
+        @evaluator.call(self)
         break if @evaluator.met_goal?(self)
 
         evolvable_before_evolution(self)
-        evolution.evolve!(self)
+        evolution.call(self)
         @evolutions_count += 1
         evolvable_after_evolution(self)
       end
@@ -73,7 +76,7 @@ module Evolvable
 
     private
 
-    def initialize_instances!(instances)
+    def initialize_instances(instances)
       @instances = instances || []
       (@size - instances.count).times do |n|
         genes = gene_pool.initialize_instance_genes

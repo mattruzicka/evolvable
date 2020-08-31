@@ -12,11 +12,8 @@ module Evolvable
 
     attr_accessor :goal
 
-    def call!(population)
+    def call(population)
       population.evolvable_evaluate!(population)
-    end
-
-    def sort!(population)
       population.instances.sort_by! { |instance| goal.evaluate(instance) }
     end
 

@@ -4,14 +4,14 @@ module Evolvable
   class Selection
     extend Forwardable
 
-    def initialize(count: 2)
-      @count = count
+    def initialize(size: 2)
+      @size = size
     end
 
-    attr_accessor :count
+    attr_accessor :size
 
-    def call!(population)
-      population.instances.slice!(0..-1 - @count)
+    def call(population)
+      population.instances.slice!(0..-1 - @size)
       population
     end
   end

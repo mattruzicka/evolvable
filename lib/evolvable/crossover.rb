@@ -8,7 +8,7 @@ module Evolvable
 
     attr_accessor :growth_rate
 
-    def call!(population)
+    def call(population)
       population.instances = initialize_offspring(population)
       population
     end
