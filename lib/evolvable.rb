@@ -58,8 +58,7 @@ module Evolvable
 
   attr_accessor :population,
                 :genes,
-                :evolvable_index,
-                :evolvable_value
+                :evolvable_index
 
   def evolvable_value
     raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
