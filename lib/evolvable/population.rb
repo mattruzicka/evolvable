@@ -36,8 +36,8 @@ module Evolvable
 
     def_delegators :evolvable_class,
                    :evolvable_evaluate!,
-                   :evolvable_before_evolution,
-                   :evolvable_after_evolution
+                   :evolvable_before_evolve,
+                   :evolvable_after_evolve
 
     def_delegators :evolution,
                    :selection,
@@ -53,18 +53,22 @@ module Evolvable
 
     def evolve(count: Float::INFINITY)
       (1..count).each do
-        @evaluator.call(self)
-        break if @evaluator.met_goal?(self)
+        evaluator.call(self)
+        evolvable_before_evolve(self)
+        break if met_goal?
 
-        evolvable_before_evolution(self)
         evolution.call(self)
-        @evolutions_count += 1
-        evolvable_after_evolution(self)
+        self.evolutions_count += 1
+        evolvable_after_evolve(self)
       end
     end
 
     def best_instance
-      @evaluator.best_instance(self)
+      evaluator.best_instance(self)
+    end
+
+    def met_goal?
+      evaluator.met_goal?(self)
     end
 
     def new_evolvable(genes: [], evolvable_index: nil)

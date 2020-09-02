@@ -49,9 +49,9 @@ module Evolvable
 
     def base.evolvable_evaluate!(population); end
 
-    def base.evolvable_before_evolution(population); end
+    def base.evolvable_before_evolve(population); end
 
-    def base.evolvable_after_evolution(population); end
+    def base.evolvable_after_evolve(population); end
   end
 
   def initialize_evolvable; end
