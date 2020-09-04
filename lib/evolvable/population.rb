@@ -35,7 +35,6 @@ module Evolvable
                   :instances
 
     def_delegators :evolvable_class,
-                   :evolvable_evaluate!,
                    :before_evolution,
                    :after_evolution
 

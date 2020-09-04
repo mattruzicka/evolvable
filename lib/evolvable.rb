@@ -48,8 +48,6 @@ module Evolvable
       {}
     end
 
-    def base.evolvable_evaluate!(population); end
-
     def base.before_evolution(population); end
 
     def base.after_evolution(population); end
