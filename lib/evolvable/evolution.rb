@@ -5,7 +5,7 @@ module Evolvable
     extend Forwardable
 
     def initialize(selection: Selection.new,
-                   crossover: Crossover.new,
+                   crossover: GeneCrossover.new,
                    mutation: Mutation.new)
       @selection = selection
       @crossover = crossover
