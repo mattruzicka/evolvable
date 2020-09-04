@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 module Evolvable
-  class GenePool
-    def initialize(gene_configs: {})
-      @gene_configs = gene_configs
+  class GeneSpace
+    def initialize(evolvable_genes: {})
+      @evolvable_genes = evolvable_genes
     end
 
-    attr_reader :gene_configs
+    attr_reader :evolvable_genes
 
-    def initialize_instance_genes
+    def initialize_genes
       genes = []
-      gene_configs.each do |gene_name, config|
+      evolvable_genes.each do |gene_name, config|
         (config[:count] || 1).times do
           gene = config[:class].new
           gene.evolvable_key = gene_name

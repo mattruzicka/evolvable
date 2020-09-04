@@ -4,7 +4,7 @@ require 'forwardable'
 require 'evolvable/version'
 require 'evolvable/error/undefined_method'
 require 'evolvable/gene'
-require 'evolvable/gene_pool'
+require 'evolvable/gene_space'
 require 'evolvable/goal'
 require 'evolvable/goal/equalize'
 require 'evolvable/goal/maximize'
@@ -36,16 +36,17 @@ module Evolvable
       new
     end
 
-    def base.new_gene_pool
-      gene_configs = evolvable_genes || {}
-      GenePool.new(gene_configs: gene_configs)
+    def base.new_gene_space
+      GeneSpace.new(evolvable_genes: evolvable_genes)
     end
 
     def base.evolvable_goal
       Goal::Maximize.new
     end
 
-    def base.evolvable_genes; end
+    def base.evolvable_genes
+      {}
+    end
 
     def base.evolvable_evaluate!(population); end
 

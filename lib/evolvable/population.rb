@@ -9,7 +9,7 @@ module Evolvable
                    name: nil,
                    size: 40,
                    evolutions_count: 0,
-                   gene_pool: nil,
+                   gene_space: nil,
                    evolution: Evolution.new,
                    evaluator: Evaluator.new,
                    instances: [])
@@ -18,7 +18,7 @@ module Evolvable
       @name = name
       @size = size
       @evolutions_count = evolutions_count
-      @gene_pool = gene_pool || evolvable_class.new_gene_pool
+      @gene_space = gene_space || evolvable_class.new_gene_space
       @evolution = evolution
       @evaluator = evaluator || Evaluator.new
       initialize_instances(instances)
@@ -29,7 +29,7 @@ module Evolvable
                   :name,
                   :size,
                   :evolutions_count,
-                  :gene_pool,
+                  :gene_space,
                   :evolution,
                   :evaluator,
                   :instances
@@ -82,7 +82,7 @@ module Evolvable
     def initialize_instances(instances)
       @instances = instances || []
       (@size - instances.count).times do |n|
-        genes = gene_pool.initialize_instance_genes
+        genes = gene_space.initialize_genes
         @instances << new_evolvable(genes: genes, evolvable_index: n)
       end
     end
