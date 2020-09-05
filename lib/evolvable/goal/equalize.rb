@@ -9,11 +9,11 @@ module Evolvable::Goal
     end
 
     def evaluate(instance)
-      -(instance.evolvable_value - value).abs
+      -(instance.value - value).abs
     end
 
     def met?(instance)
-      instance.evolvable_value == value
+      instance.value == value
     end
   end
 end

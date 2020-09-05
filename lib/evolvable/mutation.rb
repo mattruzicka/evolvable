@@ -25,6 +25,8 @@ module Evolvable
 
     def mutate_instance(instance)
       genes_count = instance.genes.count
+      return if genes_count.zero?
+
       return mutate_gene(instance, rand(genes_count)) if rate.zero?
 
       genes_count.times { |index| mutate_gene(instance, index) if rand <= rate }
@@ -33,7 +35,7 @@ module Evolvable
     def mutate_gene(instance, gene_index)
       gene = instance.genes[gene_index]
       mutant_gene = gene.class.new
-      mutant_gene.evolvable_key = gene.evolvable_key
+      mutant_gene.key = gene.key
       instance.genes[gene_index] = mutant_gene
     end
   end

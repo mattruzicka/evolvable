@@ -8,7 +8,6 @@ module Evolvable
       end
     end
 
-    attr_accessor :instance,
-                  :evolvable_key
+    attr_accessor :instance, :key
   end
 end

@@ -15,7 +15,7 @@ module Evolvable
       Array.new(population.size) do |index|
         genes_1, genes_2 = parent_gene_couples.next
         genes = genes_1.zip(genes_2).map!(&:sample)
-        population.new_evolvable(genes: genes, evolvable_index: index)
+        population.new_instance(genes: genes, population_index: index)
       end
     end
   end

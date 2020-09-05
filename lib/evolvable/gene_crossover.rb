@@ -15,7 +15,7 @@ module Evolvable
       Array.new(population.size) do |index|
         genes_1, genes_2 = parent_gene_couples.next
         genes = crossover_genes(genes_1, genes_2)
-        population.new_evolvable(genes: genes, evolvable_index: index)
+        population.new_instance(genes: genes, population_index: index)
       end
     end
 

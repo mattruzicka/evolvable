@@ -9,11 +9,11 @@ module Evolvable::Goal
     end
 
     def evaluate(instance)
-      -instance.evolvable_value
+      -instance.value
     end
 
     def met?(instance)
-      instance.evolvable_value <= value
+      instance.value <= value
     end
   end
 end

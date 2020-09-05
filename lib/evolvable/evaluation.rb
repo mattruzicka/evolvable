@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Evolvable
-  class Evaluator
+  class Evaluation
     GOALS = { maximize: Evolvable::Goal::Maximize.new,
               minimize: Evolvable::Goal::Minimize.new,
               equalize: Evolvable::Goal::Equalize.new }.freeze

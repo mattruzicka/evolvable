@@ -9,7 +9,7 @@ require 'evolvable/goal'
 require 'evolvable/goal/equalize'
 require 'evolvable/goal/maximize'
 require 'evolvable/goal/minimize'
-require 'evolvable/evaluator'
+require 'evolvable/evaluation'
 require 'evolvable/evolution'
 require 'evolvable/selection'
 require 'evolvable/gene_crossover'
@@ -25,51 +25,53 @@ module Evolvable
       Population.new(**keyword_args)
     end
 
-    def base.new_evolvable(population: nil, genes: [], evolvable_index: nil)
-      evolvable = initialize_evolvable
+    def base.new_instance(population: nil, genes: [], population_index: nil)
+      evolvable = initialize_instance
       evolvable.population = population
       evolvable.genes = genes
-      evolvable.evolvable_index = evolvable_index
-      evolvable.initialize_evolvable
+      evolvable.population_index = population_index
+      evolvable.initialize_instance
       evolvable
     end
 
-    def base.initialize_evolvable
+    def base.initialize_instance
       new
     end
 
     def base.new_gene_space
-      GeneSpace.new(evolvable_genes: evolvable_genes)
+      GeneSpace.build(gene_space)
     end
 
     def base.evolvable_goal
       Goal::Maximize.new
     end
 
-    def base.evolvable_genes
+    def base.gene_space
       {}
     end
+
+    def base.before_evaluation(population); end
 
     def base.before_evolution(population); end
 
     def base.after_evolution(population); end
   end
 
-  def initialize_evolvable; end
+  def initialize_instance; end
 
   attr_accessor :population,
                 :genes,
-                :evolvable_index
+                :population_index
 
-  def evolvable_value
+  def value
     raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
   end
 
   def find_gene(key)
-    @genes.detect { |g| g.evolvable_key == key }
+    @genes.detect { |g| g.key == key }
   end
 
   def find_genes(key)
-    @genes.select { |g| g.evolvable_key == key }
+    @genes.select { |g| g.key == key }
   end
 end

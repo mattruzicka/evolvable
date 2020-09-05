@@ -19,13 +19,13 @@ module Evolvable
       parent_genes = population.instances.map!(&:genes)
       parent_gene_couples = parent_genes.combination(2).cycle
       offspring = []
-      evolvable_index = 0
+      population_index = 0
       loop do
         genes_1, genes_2 = parent_gene_couples.next
         crossover_genes(genes_1, genes_2).each do |genes|
-          offspring << population.new_evolvable(genes: genes, evolvable_index: evolvable_index)
-          evolvable_index += 1
-          return offspring if evolvable_index == population.size
+          offspring << population.new_instance(genes: genes, population_index: population_index)
+          population_index += 1
+          return offspring if population_index == population.size
         end
       end
     end

@@ -2,18 +2,24 @@
 
 module Evolvable
   class GeneSpace
-    def initialize(evolvable_genes: {})
-      @evolvable_genes = evolvable_genes
+    def self.build(config)
+      return config if config.respond_to?(:new_genes)
+
+      new(config: config)
     end
 
-    attr_reader :evolvable_genes
+    def initialize(config: {})
+      @config = config
+    end
 
-    def initialize_genes
+    attr_reader :config
+
+    def new_genes
       genes = []
-      evolvable_genes.each do |gene_name, config|
-        (config[:count] || 1).times do
-          gene = config[:class].new
-          gene.evolvable_key = gene_name
+      config.each do |gene_key, gene_config|
+        (gene_config[:count] || 1).times do
+          gene = gene_config[:class].new
+          gene.key = gene_key
           genes << gene
         end
       end
