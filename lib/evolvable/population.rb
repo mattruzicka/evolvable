@@ -51,7 +51,8 @@ module Evolvable
                    :goal,
                    :goal=
 
-    def evolve(count: Float::INFINITY)
+    def evolve(count: Float::INFINITY, goal_value: nil)
+      goal.value = goal_value if goal_value
       (1..count).each do
         before_evaluation(self)
         evaluation.call(self)
