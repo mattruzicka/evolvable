@@ -6,7 +6,7 @@ module Evolvable
               minimize: Evolvable::Goal::Minimize.new,
               equalize: Evolvable::Goal::Equalize.new }.freeze
 
-    def initialize(goal = :maxmize)
+    def initialize(goal = :maximize)
       @goal = normalize_goal(goal)
     end
 
