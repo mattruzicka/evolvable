@@ -3,12 +3,14 @@
 require 'bundler/setup'
 require 'evolvable'
 
-# You can add fixtures and/or initialization code here to make experimenting
-# with your gem easier. You can also use a different console, if you like.
+# Require "The Evolvable String Tutorial" example code
+require './bin/evolvable_string/char_gene'
+require './bin/evolvable_string/evolvable_string'
 
-# (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
-# Pry.start
+puts "To get started, try this:\n\n" \
+     " population = EvolvableString.new_population\n" \
+     " population.mutation.probability = 0.8\n" \
+     " population.evolve(goal_value: EvolvableString::TARGET_STRING.length)\n\n"
 
 require 'irb'
 IRB.start(__FILE__)
