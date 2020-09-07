@@ -9,7 +9,7 @@ module Evolvable
     end
 
     def initialize(config: {})
-      @config = config
+      @config = normalize_config(config)
     end
 
     attr_reader :config
@@ -24,6 +24,14 @@ module Evolvable
         end
       end
       genes
+    end
+
+    private
+
+    def normalize_config(config)
+      config.each do |_gene_key, gene_config|
+        gene_config[:class] = Kernel.const_get(gene_config[:type]) if gene_config[:type]
+      end
     end
   end
 end
