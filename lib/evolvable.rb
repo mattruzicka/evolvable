@@ -42,10 +42,6 @@ module Evolvable
       GeneSpace.build(gene_space)
     end
 
-    def base.evolvable_goal
-      Goal::Maximize.new
-    end
-
     def base.gene_space
       {}
     end
