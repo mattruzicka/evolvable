@@ -1,6 +1,6 @@
 # Release 1.0.0
 
-Hello 🌎🌍🌏.
+Hello 🌎 🌍 🌏
 
 Check out the [README](https://github.com/mattruzicka/evolvable/blob/master/README.md) for everything
 
