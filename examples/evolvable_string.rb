@@ -1,3 +1,5 @@
+require './examples/evolvable_string/char_gene'
+
 class EvolvableString
   include Evolvable
 

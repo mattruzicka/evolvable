@@ -3,9 +3,7 @@
 require 'bundler/setup'
 require 'evolvable'
 
-# Require "The Evolvable String Tutorial" example code
-require './bin/evolvable_string/char_gene'
-require './bin/evolvable_string/evolvable_string'
+require './examples/evolvable_string'
 
 puts "To get started, try this:\n\n" \
      " population = EvolvableString.new_population\n" \
