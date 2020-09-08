@@ -7,9 +7,11 @@ A framework for building evolutionary behaviors using object-oriented Ruby.
 With its straightforward and extensible API, Evolvable aims to make building simple and complex evolutionary algorithms fun and relatively easy.
 
 ## Demos
-- [Evolvable Strings](https://evolvable.dev/strings)
+
+- [Evolvable Strings](#) - coming soon...
 
 ## Installation
+
 Add `gem 'evolvable'` to your application's Gemfile and run `bundle install` or install it yourself with `gem install evolvable`
 
 ## Getting Started
@@ -21,9 +23,9 @@ After installing and requiring the "evolvable" Ruby gem:
 3. Implement a `#value` instance method on the evolvable class you defined in step 1. (See [Evaluation](#Evaluation)).
 4. Initialize a population and start evolving. (See [Population](#Population)).
 
-Visit [The Evolvable String Tutorial](https://gist.github.com/mattruzicka/3cd4c73b6c5d27f05d2e09af7fff8780) to see these steps in action. It walks through a simplified implementation of the "evolvable strings" demo above. You can also view [the tutorial’s source code](#).
+Visit [The Evolvable String Tutorial](https://gist.github.com/mattruzicka/3cd4c73b6c5d27f05d2e09af7fff8780) to see these steps in action. It walks through a simplified implementation of the "evolvable strings" demo above. You can also view the complete [example source code](https://github.com/mattruzicka/evolvable/blob/master/examples/evolvable_string.rb).
 
-If you’d like to skip to playing around with an evolvable string Population object, you can do so  by cloning this repo and running the command`bin/console` in the evolvable directory.
+If you’d like to skip to playing around with an evolvable string Population object, you can do so by cloning this repo and running the command`bin/console` in the evolvable directory.
 
 To see a more interesting, fun, and open-source version of evolvable string, check out this [evolve string](https://github.com/mattruzicka/evolve_string) command line program.
 
@@ -39,18 +41,18 @@ To see a more interesting, fun, and open-source version of evolvable string, che
 
 ## Instances
 
-After deciding what you want to evolve, you'll want to define your class and include the `Evolvable` module. Your class could be for almost any kind of instance. Let's say you want to evolve a melody. You might do something like this:
+After deciding what you want to evolve, you'll want to define your class and include the `Evolvable` module. Let's say you want to evolve a melody. You might do something like this:
 
 ```ruby
 class Melody
   include Evolvable
 
   def self.gene_space
-    # Expected, see section on "Genes"
+    # Expected
   end
 
   def value
-    # Required, see section on "Evaluation"
+    # Required
   end
 end
 ```
@@ -71,20 +73,20 @@ See the section on [Genes](#genes) for more details.
 #### .new_population(keyword_args = {})
 Initializes a new population. Example: `population = Melody.new_population(size: 100)`
 
-Accepts the same arguments as Population.new [documented below](#populations)
+Accepts the same arguments as Population.new
 
 #### .new_instance(population: nil, genes: [], population_index: nil)
 Initializes a new instance. Accepts a population object, a genes array, and a population_index.
 
-_It is not recommended that you override this method_ as it is used by Evolvable internals. If you need to customize how your instances are initialized you can override either of following two "initialize_instance" methods.
-
 This method is useful for re-initializing instances and populations that have been persisted.
+
+_It is not recommended that you override this method_ as it is used by Evolvable internals. If you need to customize how your instances are initialized you can override either of following two "initialize_instance" methods.
 
 #### .initialize_instance
 The default implementation simply delegates to `.new` and is useful for instances with custom initialize methods.
 
 #### #initalize_instance
-Runs after Evolvable is finished building your instance. It's useful for stuff like implementing custom gene initialization logic. For example, the [Evolvable Strings demo](https://evolvable.dev/strings) uses it to read from a "length gene" and add or remove "char genes" accordingly.
+Runs after Evolvable is finished building your instance. It's useful for stuff like implementing custom gene initialization logic. For example, the Evolvable Strings demo (coming soon...) uses it to read from a "length gene" and add or remove "char genes" accordingly.
 
 #### #population, #population=
 The population object being used to evolve this instance.
@@ -94,7 +96,7 @@ An array of all this instance's genes. You can find specific types of genes with
 
 #### #find_genes(key)
 
-Returns an array of genes with a key that matches the given key. Gene keys are defined by the [.gene_space](###.gene_space) method. In the Melody example above, the key for the note genes would be `:notes` and this method would return an array of them. Example: `note_genes = melody.find_genes(:notes)`
+Returns an array of genes with a key that matches the given key. Gene keys are defined by the [.gene_space](####.gene_space) method. In the Melody example above, the key for the note genes would be `:notes` and this method would return an array of them. Example: `note_genes = melody.find_genes(:notes)`
 
 #### #find_gene(key)
 Returns the first gene with the given key. In the Melody example above, a instrument gene will the key `:instrument`. We might write something like `instrument_gene = melody.find_gene(instrument)`
@@ -131,7 +133,6 @@ class Melody
   end
 end
 ```
-
 
 ## Genes
 Evolvable::Gene
