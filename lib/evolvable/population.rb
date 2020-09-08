@@ -4,115 +4,94 @@ module Evolvable
   class Population
     extend Forwardable
 
-    def initialize(evolvable_class:,
-                   size: 20,
-                   selection_count: 2,
-                   crossover: Crossover.new,
-                   mutation: Mutation.new,
-                   generation_count: 0,
-                   log_progress: false,
-                   objects: [])
+    def initialize(id: nil,
+                   evolvable_class:,
+                   name: nil,
+                   size: 40,
+                   evolutions_count: 0,
+                   gene_space: nil,
+                   evolution: Evolution.new,
+                   evaluation: Evaluation.new,
+                   instances: [])
+      @id = id
       @evolvable_class = evolvable_class
+      @name = name
       @size = size
-      @selection_count = selection_count
-      @crossover = crossover
-      @mutation = mutation
-      @generation_count = generation_count
-      @log_progress = log_progress
-      assign_objects(objects)
+      @evolutions_count = evolutions_count
+      @gene_space = initialize_gene_space(gene_space)
+      @evolution = evolution
+      @evaluation = evaluation || Evaluation.new
+      initialize_instances(instances)
     end
 
-    attr_accessor :evolvable_class,
+    attr_accessor :id,
+                  :evolvable_class,
+                  :name,
                   :size,
-                  :selection_count,
-                  :crossover,
-                  :mutation,
-                  :generation_count,
-                  :log_progress,
-                  :objects
+                  :evolutions_count,
+                  :gene_space,
+                  :evolution,
+                  :evaluation,
+                  :instances
 
-    def_delegators :@evolvable_class,
-                   :evolvable_evaluate!,
-                   :evolvable_initialize,
-                   :evolvable_random_genes,
-                   :evolvable_before_evolution,
-                   :evolvable_after_select,
-                   :evolvable_after_evolution
+    def_delegators :evolvable_class,
+                   :before_evaluation,
+                   :before_evolution,
+                   :after_evolution
 
-    def evolve!(generations_count: 1, fitness_goal: nil)
-      @fitness_goal = fitness_goal
-      generations_count.times do
-        @generation_count += 1
-        evolvable_before_evolution(self)
-        evaluate_objects!
-        log_evolvable_progress if log_progress
-        break if fitness_goal_met?
+    def_delegators :evolution,
+                   :selection,
+                   :selection=,
+                   :crossover,
+                   :crossover=,
+                   :mutation,
+                   :mutation=
 
-        select_objects!
-        evolvable_after_select(self)
-        crossover_objects!
-        mutate_objects!
-        evolvable_after_evolution(self)
+    def_delegators :evaluation,
+                   :goal,
+                   :goal=
+
+    def evolve(count: Float::INFINITY, goal_value: nil)
+      goal.value = goal_value if goal_value
+      (1..count).each do
+        before_evaluation(self)
+        evaluation.call(self)
+        before_evolution(self)
+        break if met_goal?
+
+        evolution.call(self)
+        self.evolutions_count += 1
+        after_evolution(self)
       end
     end
 
-    def strongest_object
-      objects.max_by(&:fitness)
+    def best_instance
+      evaluation.best_instance(self)
     end
 
-    def evaluate_objects!
-      evolvable_evaluate!(@objects)
-      if @fitness_goal
-        @objects.sort_by! { |i| -(i.fitness - @fitness_goal).abs }
-      else
-        @objects.sort_by!(&:fitness)
-      end
+    def met_goal?
+      evaluation.met_goal?(self)
     end
 
-    def log_evolvable_progress
-      @objects.last.evolvable_progress
-    end
-
-    def fitness_goal_met?
-      @fitness_goal && @objects.last.fitness >= @fitness_goal
-    end
-
-    def select_objects!
-      @objects.slice!(0..-1 - @selection_count)
-    end
-
-    def crossover_objects!
-      parent_genes = @objects.map(&:genes)
-      offspring_genes = @crossover.call(parent_genes, @size)
-      @objects = offspring_genes.map.with_index do |genes, i|
-        evolvable_initialize(genes, self, i)
-      end
-    end
-
-    def mutate_objects!
-      @mutation.call!(@objects)
-    end
-
-    def inspect
-      "#<#{self.class.name} #{as_json} >"
-    end
-
-    def as_json
-      { evolvable_class: @evolvable_class.name,
-        size: @size,
-        selection_count: @selection_count,
-        crossover: @crossover.as_json,
-        mutation: @mutation.as_json,
-        generation_count: @generation_count }
+    def new_instance(genes: [], population_index: nil)
+      evolvable_class.new_instance(population: self,
+                                   genes: genes,
+                                   population_index: population_index)
     end
 
     private
 
-    def assign_objects(objects)
-      @objects = objects || []
-      (@size - objects.count).times do |n|
-        genes = evolvable_random_genes
-        @objects << evolvable_initialize(genes, self, n)
+    def initialize_gene_space(gene_space)
+      return GeneSpace.build(gene_space) if gene_space
+
+      evolvable_class.new_gene_space
+    end
+
+    def initialize_instances(instances)
+      @instances = instances || []
+      (@size - instances.count).times do |n|
+        genes = gene_space.new_genes
+        @instances << new_instance(genes: genes, population_index: n)
       end
     end
   end

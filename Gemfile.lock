@@ -1,34 +1,19 @@
 PATH
   remote: .
   specs:
-    evolvable (0.1.0)
+    evolvable (1.0.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    ast (2.4.0)
-    byebug (11.0.0)
-    diff-lcs (1.3)
-    jaro_winkler (1.5.2)
-    parallel (1.13.0)
-    parser (2.6.0.0)
-      ast (~> 2.4.0)
+    ast (2.4.1)
+    byebug (11.1.3)
+    jaro_winkler (1.5.4)
+    parallel (1.19.2)
+    parser (2.7.1.4)
+      ast (~> 2.4.1)
     powerpack (0.1.2)
     rainbow (3.0.0)
-    rake (10.5.0)
-    rspec (3.8.0)
-      rspec-core (~> 3.8.0)
-      rspec-expectations (~> 3.8.0)
-      rspec-mocks (~> 3.8.0)
-    rspec-core (3.8.0)
-      rspec-support (~> 3.8.0)
-    rspec-expectations (3.8.2)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.8.0)
-    rspec-mocks (3.8.0)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.8.0)
-    rspec-support (3.8.0)
     rubocop (0.64.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -37,7 +22,7 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.4.0)
-    ruby-progressbar (1.10.0)
+    ruby-progressbar (1.10.1)
     unicode-display_width (1.4.1)
 
 PLATFORMS
@@ -47,9 +32,7 @@ DEPENDENCIES
   bundler (~> 2.0)
   byebug (~> 11.0)
   evolvable!
-  rake (~> 10.0)
-  rspec (~> 3.0)
   rubocop (~> 0.64.0)
 
 BUNDLED WITH
-   2.0.1
+   2.1.4

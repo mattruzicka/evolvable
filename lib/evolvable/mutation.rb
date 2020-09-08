@@ -1,64 +1,42 @@
+# frozen_string_literal: true
+
 module Evolvable
   class Mutation
     extend Forwardable
 
-    def initialize(rate: 0.03)
-      @rate = rate
+    def initialize(probability: nil, rate: nil)
+      @probability = probability || (rate ? 1 : 0.03)
+      @rate = rate || 0
     end
 
-    attr_accessor :rate
+    attr_accessor :probability,
+                  :rate
 
-    def_delegators :@evolvable_class,
-                   :evolvable_genes_count,
-                   :evolvable_gene_pool_size,
-                   :evolvable_random_genes
+    def call(population)
+      return population if probability.zero?
 
-    def call!(objects)
-      @evolvable_class = objects.first.class
-      mutations_count = find_mutations_count(objects)
-      return if mutations_count.zero?
-
-      mutant_genes = generate_mutant_genes(mutations_count)
-      object_mutations_count = mutations_count / objects.count
-      object_mutations_count = 1 if object_mutations_count.zero?
-
-      mutant_genes.each_slice(object_mutations_count).with_index do |m_genes, index|
-        object = objects[index] || objects.sample
-        genes = object.genes
-        genes.merge!(m_genes.to_h)
-        rm_genes_count = genes.count - evolvable_genes_count
-        genes.keys.sample(rm_genes_count).each { |key| genes.delete(key) }
+      population.instances.each do |instance|
+        mutate_instance(instance) if rand <= probability
       end
-    end
-
-    def inspect
-      "#<#{self.class.name} #{as_json.map { |a| a.join(': ') }.join(', ')} >"
-    end
-
-    def as_json
-      { type: self.class.name,
-        rate: @rate }
+      population
     end
 
     private
 
-    def find_mutations_count(objects)
-      return 0 if @rate.zero?
+    def mutate_instance(instance)
+      genes_count = instance.genes.count
+      return if genes_count.zero?
 
-      count = (objects.count * evolvable_genes_count * @rate)
-      return count.to_i if count >= 1
+      return mutate_gene(instance, rand(genes_count)) if rate.zero?
 
-      rand <= count ? 1 : 0
+      genes_count.times { |index| mutate_gene(instance, index) if rand <= rate }
     end
 
-    def generate_mutant_genes(mutations_count)
-      gene_pool_size = evolvable_gene_pool_size
-      mutant_genes = []
-      while mutant_genes.count < mutations_count
-        genes_count = [gene_pool_size, mutations_count - mutant_genes.count].min
-        mutant_genes.concat evolvable_random_genes(genes_count).to_a
-      end
-      mutant_genes
+    def mutate_gene(instance, gene_index)
+      gene = instance.genes[gene_index]
+      mutant_gene = gene.class.new
+      mutant_gene.key = gene.key
+      instance.genes[gene_index] = mutant_gene
     end
   end
 end

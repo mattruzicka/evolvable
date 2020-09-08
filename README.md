@@ -2,375 +2,179 @@
 
 # Evolvable
 
-Genetic algorithms mimic biological processes such as natural selection, crossover, and mutation to model evolutionary behaviors in code. This gem can add evolutionary behaviors to any Ruby object.
+A framework for building evolutionary behaviors using object-oriented Ruby.
+
+[Evolutionary algorithms](https://en.wikipedia.org/wiki/Evolutionary_algorithm) build upon ideas such as natural selection, crossover, and mutation to construct relatively simple solutions to complex problems. This gem has been used to implement evolutionary behaviors for [visual, textual, and auditory experiences](https://projectpag.es/evolvable) as well as a variety of AI agents.
+
+With its straightforward and extensible API, Evolvable aims to make building simple and complex evolutionary algorithms fun and relatively easy.
 
 ## Demos
 
-- [Evolvable Sentence](https://github.com/mattruzicka/evolvable_sentence) - An interactive version of the evolvable sentence example in "Getting Started"
-- [Evolvable Equation](https://github.com/mattruzicka/evolvable_equation) - Evolves an equation of a specified length to evaluate to a given number
-
-## Usage
-
-- [Getting Started](#Getting-Started)
-- [The Gene Pool](#The-Gene-Pool)
-- [Fitness](#Fitness)
-- [Evolvable Population](#Evolvable-Population)
-- [Monitoring Progress](#Monitoring-Progress)
-- [Hooks](#Hooks)
-- [Mutation Objects](#Mutation-Objects)
-- [Crossover Objects](#Crossover-Objects)
-- [Helper Methods](#Helper-Methods)
-- [Configuration](#Configuration)
-
-### Getting Started
-
-To build an object with evolvable behavior, do the following:
-
-1. Add ```include Evolvable``` to your class
-2. Define ```.evolvable_gene_pool``` ([documentation](#The-Gene-Pool))
-3. Define ```#fitness``` ([documentation](#Fitness))
-
-As an example, let's make a text-to-speech command evolve from saying random nonsense to whatever you desire. We'll start by defining a Sentence class and doing the three steps above:
-
-```Ruby
-require 'evolvable'
-
-class Sentence
-  include Evolvable
-
-  DICTIONARY = ('a'..'z').to_a << ' '
-  DESIRED_WORDS = 'colorless green ideas sleep furiously'
-
-  def self.evolvable_gene_pool
-    Array.new(DESIRED_WORDS.length) { |index| [index, DICTIONARY] }
-  end
-
-  def fitness
-    score = 0
-    @genes.values.each_with_index do |value, index|
-      score += 1 if value == DESIRED_WORDS[index]
-    end
-    score
-  end
-end
-```
-
-Now let's listen to our computer evolve its speech. The following code assumes your system has a text-to-speech command named "say" installed. Run this code in irb:
-
-```ruby
-# To play with a more interactive version, check out https://github.com/mattruzicka/evolvable_sentence
-
-population = Sentence.evolvable_population
-object = population.strongest_object
-
-until object.fitness == Sentence::DESIRED_WORDS.length
-  words = object.genes.values.join
-  puts words
-  system("say #{words}")
-  population.evolve!(fitness_goal: Sentence::DESIRED_WORDS.length)
-  object = population.strongest_object
-end
-
-```
-
-The ```Evolvable::Population#evolve!``` method evolves the population from one generation to the next. It accepts two optional keyword arguments:
-
-```ruby
-{ generations_count: 1, fitness_goal: nil }
-```
-
-Specifying the **fitness_goal** is useful when there's a known fitness you're trying to achieve. We use it in the evolvable sentence example above. If you want your population to keep evolving until it hits a particular fitness goal, set **generations_count** to a large number. The **generations_count** keyword argument tells ```#evolve!``` how many times to run.
-
-If you're interested in seeing exactly how ```Evolvable::Population#evolve!``` works, open the [Population](https://github.com/mattruzicka/evolvable/blob/master/lib/evolvable/population.rb) class and check out the following methods:
-
-- ```evaluate_objects!```
-- ```select_objects!```
-- ```crossover_objects!```
-- ```mutate_objects!```
-
-### The Gene Pool
-
-Currently, the gene pool needs to be an array of arrays. Each inner array contains a gene name and an array of possible values for the gene. Expect future releases to make defining the gene pool more straightforward. Check out "[Development](#Development)" below for details. Until then, here's an example of a simple ```.evolvable_gene_pool``` definition for evolvable dueling pianos:
-
-```ruby
-class SimpleMelody
-  NOTES = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']
-
-  def self.evolvable_gene_pool
-    [[:note_1, NOTES],
-     [:note_2, NOTES],
-     [:note_3, NOTES]]
-  end
-end
-```
-
-The number of potential genes in the gene pool can be extremely large. For these cases, "Evolvable" makes it possible for objects to contain only a subset of genes with the ```.evolvable_genes_count``` method. Any gene defined in the ```.evolvable_gene_pool``` can still manifest during mutations. In this way, we can limit the gene size of particular objects without limiting the genes available to a population.
-
-```ruby
-require 'evolvable'
-
-class ComplexBot
-  include Evolvable
-
-  def self.evolvable_gene_pool
-    potential_gene_values = (1..10_000).to_a
-    Array.new(1_000_000) { |n| [n, potential_gene_values] }
-  end
-
-  def self.evolvable_genes_count
-    5_000
-  end
-end
-
-ComplexBot.evolvable_gene_pool.size # => 1_000_000
-population = ComplexBot.evolvable_population
-complex_bot = population.objects.first
-complex_bot.genes.count # => 10_000
-```
-
-### Fitness
-
-The ```#fitness``` method is responsible for measuring how well an object performs. It returns a value or "score" which influences whether an object will be selected to "breed" the next generation of objects. How fitness is defined depends on what you're trying to achieve. If you're trying to break a high score record in Tetris, for example, then the fitness function for your tetris bot might simply return its tetris score:
-
-```ruby
-class TetrisBot
-  alias fitness tetris_score
-end
-```
-
-If, however, your aim is to construct a bot that plays Tetris in an aesthetically pleasing way, maybe you'd define fitness by surveying your artist friends.
-
-```ruby
-class TetrisArtBot
-  def fitness
-    artist_friend_ratings.sum / artist_friend_ratings.count
-  end
-end
-```
-
-The result of ```#fitness``` can be any object that includes the [Comparable](https://ruby-doc.org/core-2.6.1/Comparable.html) mixin from Ruby and implements the ```<=>``` method. Many Ruby classes such as String and Integer have default implementations.
-
-You may want to evaluate a whole generation of objects at once. For example, maybe you want each of your bots to play a game against each other and base your fitness score off their win records. For this case, use ```.evolvable_evaluate!(objects)``` like so: 
-
-```ruby
-class GamerBot
-  def self.evolvable_evaluate!(objects)
-    objects.combination(2).each do |player_1, player_2|
-      winner = Game.play(player_1, player_2)
-      winner.win_count += 1
-    end
-  end
-
-  alias fitness win_count
-end
-```
-
-### Evolvable Population
-
-The Evolvable::Population class can be initialized in two ways
-
-1. ```EvolvableBot.evolvable_population```
-2. ```Evolvable::Population.new(evolvable_class: EvolvableBot)```
-
-
-Both ways accept the following keyword arguments as defined by ```Evolvable::Population#initialize```
-```ruby
-{ evolvable_class:, # Required. Inferred if you use the .evolvable_population method
-  size: 20, # The number of objects in each generation
-  selection_count: 2, # The number of objects to be selected as parents for crossover
-  crossover: Crossover.new, # Any object that implements #call
-  mutation: Mutation.new, # Any object that implements #call!
-  generation_count: 0, # Useful when you want to re-initialize a previously saved population of objects
-  objects: [], # Ditto
-  log_progress: false } # See the "Monitoring Progress" section for details
-```
-
-The ```.evolvable_population(args = {})``` method merges any given args with with any keyword arguments defined in ```.evolvable_population_attrs```. To illustrate:
-
-```ruby
-class Plant
-  include Evolvable
-
-  def self.evolvable_population_attrs
-  { size: 100,
-    selection_count: 5,
-    mutation: Evolvable::Mutation.new(rate: 0.3),
-    log_progress: false }
-  end
-
-  def self.evolvable_gene_pool
-    [[:leaf_count, (1..100).to_a],
-     [:root_type, ['fibrous', 'taproot']]]
-  end
-end
-
-population = Plant.evolvable_population(log_progress: true)
-population.size # => 100
-population.selection_count # => 5
-population.mutation.rate # => 0.3
-population.log_progress # => true
-```
-
-The ```.evolvable_initialize(genes, population, object_index)``` method is used by Evolvable::Population to initialize new objects. You can override it to control how your objects are initialized. Make sure to assign the passed in **genes** to your initialized objects. Here's an example implementation for when you want your imaginary friends to have names:
-
-```ruby
-class ImaginaryFriend
-  def self.evolvable_initialize(genes, population, object_index)
-    friend = new(name: BABY_NAMES.sample)
-    friend.genes = genes
-    friend.population = population
-    friend
-  end
-end
-```
-
-The third argument to ```.evolvable_initialize``` is the index of the object in the population before being evaluated. It is useful when you what to give your objects more utilitarian names:
-
-```ruby
-friend.name == "#{name} #{population.generation_count}.#{object_index}" # => "ImaginaryFriend 0.11"
-```
-
-A time when you'd want to use Evolvable::Population initializer instead of ```EvolvableBot.evolvable_population``` is when you're re-initializing a population. For example, maybe you want to continue evolving a population of chat bots that you had previously saved to a database:
-
-```ruby
-population = load_chat_bot_population
-Evolvable::Population.new(evolvable_class: population.evolvable_class,
-                          size: population.size,
-                          selection_count: population.selection_count,
-                          crossover: population.crossover,
-                          mutation: population.mutation,
-                          generation_count: population.generation_count,
-                          objects: population.objects)
-```
-
-### Monitoring Progress
-
-The ```#evolvable_progress``` method is used by ```Evolvable::Population#evolve!``` to log the progress of the "strongest object" in each generation. That is, the object with the best fitness score. It runs just after objects are evaluated and the ```Evolvable::Population#strongest_object``` can be determined. ```Evolvable::Population#log_progress``` must equal true in order for the result of the ```#evolvable_progress``` to be logged.
-
-In the [evolvable sentence demo](https://github.com/mattruzicka/evolvable_sentence), ```evolvable_progress``` is implemented in order to output the strongest object's generation count, fitness score, and words. In this example, we also use the "say" text-to-speech command to pronounce the words. 
-
-```Ruby
-  class Sentence
-    def evolvable_progress
-      words = @genes.values.join
-      puts "Generation: #{population.generation_count} | Fitness: #{fitness} | #{words}"
-      system("say #{words}") if say?
-    end
-  end
-  population.log_progress = true
-```
-
-Hooks can also be used to monitor progress.
-
-### Hooks
-
-You can define any the following class method hooks on any Evolvable class. They run during the evolution of each generation in ```Evolvable::Population#evolve!```
-
-```.evolvable_before_evolution(population)```
-
-```.evolvable_after_select(population)```
-
-```.evolvable_after_evolution(population)```
-
-### Mutation Objects
-
-The [Evolvable::Mutation](https://github.com/mattruzicka/evolvable/blob/master/lib/evolvable/mutation.rb) class defines the default mutation implementation with a default mutation rate of 0.03. It can be initialized with a custom mutation rate like so:
-
-```ruby
-mutation = Evolvable::Mutation.new(rate: 0.05)
-population = Evolvable::Population.new(mutation: mutation)
-population.evolve!
-```
-
-Any Ruby object that implements ```#call!(objects)``` can be used as a mutation object. The default implementation is specialized to work with evolvable objects that define a ```evolvable_genes_count``` that is less than ```evolvable_gene_pool.size```. For more information on this, see [The Gene Pool](#The-Gene-Pool)
-
-### Crossover Objects
-
-The [Evolvable::Crossover](https://github.com/mattruzicka/evolvable/blob/master/lib/evolvable/crossover.rb) class defines the default crossover implementation.
-
-```ruby
-crossover = Evolvable::Crossover.new
-population = Evolvable::Population.new(crossover: crossover)
-population.evolve!
-```
-
-Any Ruby object that implements ```#call(parent_genes, offspring_count)``` can be used as a crossover object. The default implementation is specialized to work with evolvable objects that define a ```evolvable_genes_count``` that is less than ```evolvable_gene_pool.size```. For more information on this, see [The Gene Pool](#The-Gene-Pool)
-
-### Helper Methods
-
-```Evolvable.combine_dimensions(dimensions)```
-
-This is helpful when you want to create, for lack of a better word, "multidimensional genes". In the following example, we want our fortune cookie to evolve fortunes based on its eater's hair and eye color because fortune cookies understand things that we aren't capable of knowing.
-
-```ruby
-class FortuneCookie
-  include Evolvable
-
-  HAIR_COLORS = ['black', 'blond', 'brown', 'gray', 'red', 'white']
-  EYE_COLORS = ['blue', 'brown', 'gray', 'green']
- 
-  FORTUNES = ['You will prosper',
-              'You will endure hardship',
-              'You are about to eat a crisp and sugary cookie']
-
-  def self.evolvable_gene_pool
-    gene_names_array = Evolvable.combine_dimensions([HAIR_COLORS, EYE_COLORS])
-    gene_names_array.map! { |gene_name| [gene_name, FORTUNES] }
-  end
-
-  def fitness
-    hair_color = find_eater_hair_color
-    eye_color = find_eater_eye_color
-    fortune = @genes[[hair_color, eye_color]]
-    eater.give_fortune(fortune)
-    sleep 2.weeks
-    eater.how_true?(fortune)
-  end
-end
-```
-
-In this not-at-all-contrived example, ```Evolvable.combine_dimensions([HAIR_COLOR, EYE_COLORS])``` returns
-
-```ruby
-[["auburn", "blue"], ["auburn", "brown"], ["auburn", "gray"], ["auburn", "green"], ["black", "blue"], ["black", "brown"], ["black", "gray"], ["black", "green"], ["blond", "blue"], ["blond", "brown"], ["blond", "gray"], ["blond", "green"], ["brown", "blue"], ["brown", "brown"], ["brown", "gray"], ["brown", "green"], ["gray", "blue"], ["gray", "brown"], ["gray", "gray"], ["gray", "green"], ["red", "blue"], ["red", "brown"], ["red", "gray"], ["red", "green"], ["white", "blue"], ["white", "brown"], ["white", "gray"], ["white", "green"]]
-```
-
-which is useful for composing genes made up of various dimensions and accessing gene values by these dimensions in the ```#fitness``` and ```.evolvable_evaluate!(objects)``` methods.
-
-The ```Evolvable.combine_dimensions(dimensions)``` method accepts an array containing any number of arrays as an argument. One item from each given array will be in each output array and the item's index will be the same as the index of the argument array it belongs to. All combinations of items from the various arrays that follow this rule will be returned as arrays. The number of output arrays is equal to the product of multiplying the sizes of each given array. This method was difficult to write as was this description. I'd be really interested to see other people's implementations :)
-
-### Configuration
-
-TODO: Make logger configurable and make it smarter about picking a default
+- [Evolvable Strings](#) - coming soon...
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add `gem 'evolvable'` to your application's Gemfile and run `bundle install` or install it yourself with `gem install evolvable`
+
+## Getting Started
+
+After installing and requiring the "evolvable" Ruby gem:
+
+1. Include the `Evolvable` module in the class for the instances you want to evolve. (See [Instances](#Instances)).
+2. Implement a `.gene_space` class method, define any gene classes referenced by it, and include the `Evolvable::Gene` module for each. (See [Genes](#Genes)).
+3. Implement a `#value` instance method on the evolvable class you defined in step 1. (See [Evaluation](#Evaluation)).
+4. Initialize a population and start evolving. (See [Population](#Population)).
+
+Visit [The Evolvable String Tutorial](https://gist.github.com/mattruzicka/3cd4c73b6c5d27f05d2e09af7fff8780) to see these steps in action. It walks through a simplified implementation of the "evolvable strings" demo above. You can also view the complete [example source code](https://github.com/mattruzicka/evolvable/blob/master/examples/evolvable_string.rb).
+
+If you’d like to skip to playing around with an evolvable string Population object, you can do so by cloning this repo and running the command`bin/console` in the evolvable directory.
+
+To see a more interesting, fun, and open-source version of evolvable string, check out this [evolve string](https://github.com/mattruzicka/evolve_string) command line program.
+
+## Usage
+- [Instances](#Instances)
+- [Genes](#Genes)
+- [Evaluation](#Evaluation)
+- [Populations](#Populations)
+- [Evolution](#Evolution)
+- [Selection](#Selection)
+- [Crossover](#Crossover)
+- [Mutation](#Mutation)
+
+## Instances
+
+After deciding what you want to evolve, you'll want to define your class and include the `Evolvable` module. Let's say you want to evolve a melody. You might do something like this:
 
 ```ruby
-gem 'evolvable'
+class Melody
+  include Evolvable
+
+  def self.gene_space
+    # Expected
+  end
+
+  def value
+    # Required
+  end
+end
 ```
 
-And then execute:
+#### .gene_space
+You're expected to override this method and return a gene space configuration hash or GeneSpace object.
 
-    $ bundle
+As an example, here's a definition for the melody class above. Each instace will have 16 note genes that represent a single note value and 1 instrument gene.
+```ruby
+def self.gene_space
+  { instrument: { type: 'InstrumentGene', count: 1 },
+    notes: { type: 'NoteGene', count: 16 } } }
+end
+```
 
-Or install it yourself as:
+See the section on [Genes](#genes) for more details.
 
-    $ gem install evolvable
+#### .new_population(keyword_args = {})
+Initializes a new population. Example: `population = Melody.new_population(size: 100)`
 
-## Development
+Accepts the same arguments as Population.new
 
-After checking out the repo, run `bundle install` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+#### .new_instance(population: nil, genes: [], population_index: nil)
+Initializes a new instance. Accepts a population object, a genes array, and a population_index.
 
-I am looking to both simplify how genes are defined as well as support more complex gene types by way of a new Gene class. Currently, genes are represented as an array of arrays or hashes depending on the context. This will likely change.
+This method is useful for re-initializing instances and populations that have been persisted.
 
-I would also like to make more obvious how an evolvable object's genes can influence its behavior/fitness with well-defined pattern for gene expression, probably via an instance method on a gene called "express".
+_It is not recommended that you override this method_ as it is used by Evolvable internals. If you need to customize how your instances are initialized you can override either of following two "initialize_instance" methods.
 
-I have a general sense of how I want to move forward on these features, but feel free to message me with ideas or implementations.
+#### .initialize_instance
+The default implementation simply delegates to `.new` and is useful for instances with custom initialize methods.
 
-If you see a TODO in this README, feel free to do it :)
+#### #initalize_instance
+Runs after Evolvable is finished building your instance. It's useful for stuff like implementing custom gene initialization logic. For example, the Evolvable Strings demo (coming soon...) uses it to read from a "length gene" and add or remove "char genes" accordingly.
 
-## Contributing
+#### #population, #population=
+The population object being used to evolve this instance.
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/mattruzicka/evolvable.
+#### #genes, #genes=
+An array of all this instance's genes. You can find specific types of genes with the following two methods.
+
+#### #find_genes(key)
+
+Returns an array of genes with a key that matches the given key. Gene keys are defined by the [.gene_space](####.gene_space) method. In the Melody example above, the key for the note genes would be `:notes` and this method would return an array of them. Example: `note_genes = melody.find_genes(:notes)`
+
+#### #find_gene(key)
+Returns the first gene with the given key. In the Melody example above, a instrument gene will the key `:instrument`. We might write something like `instrument_gene = melody.find_gene(instrument)`
+
+#### #population_index, #population_index=
+Returns the instance's integer index in the population. The most basic way to distinguish instances in a population.
+
+#### #value
+You must implement this method.
+
+Technically, this method can return any object that implements Ruby's [Comparable](https://ruby-doc.org/core-2.7.1/Comparable.html). See the section on [Evaluation](#Evaluation) for details.
+
+#### Evolvable Hooks
+
+The following class methods can be overridden in order to hook into a population's evolutions. The hooks run for each evolution in the following order:
+
+**.before_evaluation(population)**
+**.before_evolution(population)**
+**.after_evolution(population)**
+
+To use our Melody example from above, you could override the `.before_evolution` method to play the best melody from each generation with something like this:
+
+```ruby
+class Melody
+  def self.before_evolution(population)
+    best_melody = population.best_instance
+    best_melody.play
+  end
+
+  def play
+    instrument_gene = find_gene(:instrument)
+    note_genes = melody.find_genes(:notes)
+    instrument_gene.play(note_genes)
+  end
+end
+```
+
+## Genes
+Evolvable::Gene
+Evolvable::GeneSpace
+
+TODO
+
+## Evaluation
+Evolvable::Evaluation
+
+TODO
+
+### Evaluation Goal
+Evolvable::Goal::Maximize
+Evolvable::Goal::Minimize
+Evolvable::Goal::Equalize
+
+## Populations
+Evolvable::Population
+
+TODO
+
+## Evolution
+Evolvable::Evolution
+
+TODO
+
+## Selection
+Evolvable::Selection
+
+TODO
+
+## Crossover
+Evolvable::GeneCrossover
+Evolvable::UniformCrossover
+Evolvable::PointCrossover
+
+TODO
+
+## Mutation
+Evolvable::Mutation
+
+TODO

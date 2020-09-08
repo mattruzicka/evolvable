@@ -1,86 +1,73 @@
 # frozen_string_literal: true
 
 require 'forwardable'
-require 'logger'
-
 require 'evolvable/version'
-require 'evolvable/population'
-require 'evolvable/crossover'
+require 'evolvable/error/undefined_method'
+require 'evolvable/gene'
+require 'evolvable/gene_space'
+require 'evolvable/goal'
+require 'evolvable/goal/equalize'
+require 'evolvable/goal/maximize'
+require 'evolvable/goal/minimize'
+require 'evolvable/evaluation'
+require 'evolvable/evolution'
+require 'evolvable/selection'
+require 'evolvable/gene_crossover'
+require 'evolvable/point_crossover'
+require 'evolvable/uniform_crossover'
 require 'evolvable/mutation'
-require 'evolvable/helper_methods'
-require 'evolvable/hooks'
-require 'evolvable/errors/not_implemented'
+require 'evolvable/population'
 
 module Evolvable
-  extend HelperMethods
-
   def self.included(base)
-    base.extend Hooks
-
-    def base.evolvable_gene_pool
-      raise Errors::NotImplemented, __method__
+    def base.new_population(keyword_args = {})
+      keyword_args[:evolvable_class] = self
+      Population.new(**keyword_args)
     end
 
-    def base.evolvable_genes_count
-      evolvable_gene_pool_size
-    end
-
-    def base.evolvable_evaluate!(_objects); end
-
-    def base.evolvable_population_attrs
-      {}
-    end
-
-    def base.evolvable_population(args = {})
-      clear_evolvable_gene_pool_caches
-      args = evolvable_population_attrs.merge!(args)
-      args[:evolvable_class] = self
-      Population.new(args)
-    end
-
-    def base.evolvable_initialize(genes, population, _object_index)
-      evolvable = new
-      evolvable.genes = genes
+    def base.new_instance(population: nil, genes: [], population_index: nil)
+      evolvable = initialize_instance
       evolvable.population = population
+      evolvable.genes = genes
+      evolvable.population_index = population_index
+      evolvable.initialize_instance
       evolvable
     end
 
-    def base.evolvable_gene_pool_cache
-      @evolvable_gene_pool_cache ||= evolvable_gene_pool
+    def base.initialize_instance
+      new
     end
 
-    def base.evolvable_gene_pool_size
-      @evolvable_gene_pool_size ||= evolvable_gene_pool_cache.size
+    def base.new_gene_space
+      GeneSpace.build(gene_space)
     end
 
-    def base.clear_evolvable_gene_pool_caches
-      @evolvable_gene_pool_cache = nil
-      @evolvable_gene_pool_size = nil
+    def base.gene_space
+      {}
     end
 
-    def base.evolvable_random_genes(count = nil)
-      gene_pool = evolvable_gene_pool_cache
-      count ||= evolvable_genes_count
-      gene_pool = gene_pool.sample(count) if count < gene_pool.size
-      genes = {}
-      gene_pool.each { |name, potentials| genes[name] = potentials.sample }
-      genes
-    end
+    def base.before_evaluation(population); end
+
+    def base.before_evolution(population); end
+
+    def base.after_evolution(population); end
   end
 
-  def self.logger
-    @logger ||= Logger.new(STDOUT)
+  def initialize_instance; end
+
+  attr_accessor :population,
+                :genes,
+                :population_index
+
+  def value
+    raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
   end
 
-  attr_accessor :genes,
-                :population
-
-  def fitness
-    raise Errors::NotImplemented, __method__
+  def find_gene(key)
+    @genes.detect { |g| g.key == key }
   end
 
-  def evolvable_progress(info = nil)
-    info ||= "Generation: #{population.generation_count} | Fitness: #{fitness}"
-    Evolvable.logger.info(info)
+  def find_genes(key)
+    @genes.select { |g| g.key == key }
   end
 end
