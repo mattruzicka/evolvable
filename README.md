@@ -1,5 +1,3 @@
-:warning: Lots of breaking changes are on the way! You can preview the changes here: https://github.com/mattruzicka/evolvable/pull/3 :warning:
-
 # Evolvable
 
 A framework for building evolutionary behaviors using object-oriented Ruby.
