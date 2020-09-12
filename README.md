@@ -24,15 +24,15 @@ After installing and requiring the "evolvable" Ruby gem:
 3. Implement `#value`. (See [Evaluation](#Evaluation)).
 4. Initialize a population and start evolving. (See [Populations](#Populations)).
 
-Visit the [Evolvable Strings Tutorial](https://github.com/mattruzicka/evolvable/wiki/Evolvable-Strings-Tutorial) to see these steps in action. It walks through a simplified implementation of the [evolve string](https://github.com/mattruzicka/evolve_string) command-line program. Here's the [example source code](https://github.com/mattruzicka/evolvable/blob/master/examples/evolvable_string.rb) for the tutorial.
+Visit the [Evolving Strings](https://github.com/mattruzicka/evolvable/wiki/Evolving-Strings) tutorial to see these steps in action. It walks through a simplified implementation of the [evolve string](https://github.com/mattruzicka/evolve_string) command-line program. Here's the [example source code](https://github.com/mattruzicka/evolvable/blob/master/examples/evolvable_string.rb) for the tutorial.
 
 If you’d like to quickly play around with an evolvable string Population object, you can do so by cloning this repo and running the command `bin/console` in this project's directory.
 
 ## Usage
 - [Configuration](#Configuration)
 - [Genes](#Genes)
-- [Evaluation](#Evaluation)
 - [Populations](#Populations)
+- [Evaluation](#Evaluation)
 - [Evolution](#Evolution)
 - [Selection](#Selection)
 - [Crossover](#Crossover)
@@ -105,7 +105,7 @@ An array of all an instance's genes. You can find specific types of genes with t
 
 #### #find_genes(key)
 
-Returns an array of genes that have the given key. Gene keys are defined in the [.gene_space](####.gene_space) method. In the Melody example above, the key for the note genes would be `:notes`. The following would return an array of them: `note_genes = melody.find_genes(:notes)`
+Returns an array of genes that have the given key. Gene keys are defined in the [.gene_space](#gene_space) method. In the Melody example above, the key for the note genes would be `:notes`. The following would return an array of them: `note_genes = melody.find_genes(:notes)`
 
 #### #find_gene(key)
 
@@ -215,51 +215,128 @@ In this way, instances can express behaviors via genes and even orchestrate inte
 
 #### The Evolvable::GeneSpace object
 
-TODO
+The `Evolvable::GeneSpace` object is responsible for initializing the full set of genes for a particular instance according to the configuration returned by the [.gene_space](#gene_space) method. It is used by the `Evolvable::Population` to initialize new instances.
 
-## Evaluation
+Technically, any object that responds to a `new_genes` method which returns an array of genes for a particular instance can function as a GeneSpace object. Custom implementations will be used if returned by the `.gene_space` method.
 
-TODO
-
-#### The Evolvable::Evaluation object
-
-TODO
-
-#### The Evolvable::Goal::Maximize object
-
-TODO
-
-#### The Evolvable::Goal::Minimize object
-
-TODO
-
-#### The Evolvable::Goal::Equalize object
-
-TODO
 
 ## Populations
 
-TODO
+The `Evolvable::Population` object is responsible for generating and evolving instances. It orchestrates all the other Evolvable objects in order to do so.
 
-#### The Evolvable::Population object
 
-TODO
+#### .new
+
+Accepts the following keyword arguments:
+**evolvable_class** - Required. Implicitly specified when using EvolvableClass.new_population.
+**id**, **name** - Default to `nil`. Not used by Evolvable, but convenient when working with multiple populations.
+**size** - Defaults to `40`. Specifies the number of instances in the population.
+**evolutions_count** - Defaults to `0`. Useful when re-initializing a saved population with instances.
+**gene_space** - Defaults to `evolvable_class.new_gene_space` which uses the [.gene_space](#gene_space) method
+**evolution** - Defaults to `Evolution.new`. (See [evolution](#evolution))
+**evaluation** - Defaults to `Evaluation.new`, with a goal of maximizing towards Float::INFINITY (See [evaluation](#evaluation))
+**instances** - Defaults to initializing a `size` number of `evolvable_class` instances using the `gene_space` object. Any given instances are assigned, but if given less than `size`, more will be initialized.
+
+#### #evolve
+
+Accepts the following keyword arguments:
+**count** The number of evolutions to run. Expects a positive integer and Defaults to Float::INFINITY. Will continue running until reached unless a `goal_value` is specified
+**goal_value** Assigns the goal object's value. (See [evaluation](#evaluation)). Will continue running until an instance's value reaches it.
+
+#### #best_instance
+Returns an instance with the value that is closest to the goal value.
+
+#### #met_goal?
+Returns true if any instance's value matches the goal value, otherwise false.
+
+#### #new_instance
+Used to initialize instances for this population. Not that this method will not actually add the initialized instance to its array of instances.
+
+Accepts the following keyword arguments:
+**genes** - An array of initialized gene objects. Defaults to `[]`
+**population_index** Defaults to `nil` and expects an integer. See (Evolvable#population_index)[https://github.com/mattruzicka/evolvable#population_index-population_index]
+
+
+#### selection, selection=
+The [selection](#selection) object.
+
+#### crossover, crossover=
+The [crossover](#crossover) object.
+
+#### mutation, mutation=
+The [mutation](#mutation) object.
+
+#### goal, goal=
+The [evaluation](#evaluation)'s goal object.
+
+## Evaluation
+
+In order for selection to be effective in the context of progressive evolution, there needs to be some way of comparing various instances with each other. In traditional genetic algorithms, this is referred to as the "fitness function". Evolvable uses the `Evolvable::Evaluation` object which expects instances to define a [#value](https://github.com/mattruzicka/evolvable#value) method in order to evaluate them relative to each other against a customizable goal and value.
+
+A goal object has a value which can be most easily assigned via an argument to `Evolvable::Population#evolve` like so `population.evolve(goal_value: 1000)`. Evolvable provides the following goal object implementations and goal value defaults.
+
+#### The Evolvable::Goal::Maximize object
+
+Prioritizes instances with greater values. This is the default.
+
+The default goal value is `Float::INFINITY`, but it can be reassigned as anything that implements the Ruby [Comparable](https://ruby-doc.org/core-2.7.1/Comparable.html) module.
+
+#### The Evolvable::Goal::Minimize object
+
+Prioritizes instances with lesser values.
+
+The default goal value is `-Float::INFINITY`, but it can be reassigned as anything that implements the Ruby [Comparable](https://ruby-doc.org/core-2.7.1/Comparable.html) module.
+
+#### The Evolvable::Goal::Equalize object
+
+Prioritizes instances which equal the goal value.
+
+The default goal value is `0`, but it can be reassigned as anything that implements the Ruby [Comparable](https://ruby-doc.org/core-2.7.1/Comparable.html) module.
+
+#### Custom Goal Objects
+
+You can implement custom goal object like so:
+
+```ruby
+class CustomGoal
+  include Evolvable::Goal
+
+  def evaluate(instance)
+    # Required by Evolvable::Evaluation in order to sort instances in preparation for selection.
+  end
+
+  def met?(instance)
+    # Used by Evolvable::Population#evolve to stop evolving when the goal value has been reached.
+  end
+end
+```
+
+The goal for a population can be specified via assignment - `population.goal = Evolvable::Goal::Equalize.new` - or by passing an evaluation object when [initializing a population](#populations)
+
+
+You can intialize the `Evolvable::Evaluation` object with any goal object like this:
+```ruby
+goal_object = SomeGoal.new(value: 100)
+Evolvable::Evaluation.new(goal_object)
+```
+or more succinctly like this:
+```ruby
+Evolvable::Evaluation.new(:maximize) # Uses default goal value of Float::INFINITY
+Evolvable::Evaluation.new(maximize: 50) # Sets goal value to 50
+Evolvable::Evaluation.new(:minimize) # Uses default goal value of -Float::INFINITY
+Evolvable::Evaluation.new(minimize: 100) # Sets goal value to 100
+Evolvable::Evaluation.new(:equalize) # Uses default goal value of 0
+Evolvable::Evaluation.new(equalize: 1000) # Sets goal value to 1000
+
+```
 
 ## Evolution
 
-TODO
-
-#### The Evolvable::Evolution object
-
-TODO
+TODO, The Evolvable::Evolution object
 
 ## Selection
 
-TODO
-
-#### The Evolvable::Selection object
-
-TODO
+TODO, The Evolvable::Selection object
 
 ## Crossover
 
@@ -267,20 +344,16 @@ TODO
 
 #### The Evolvable::GeneCrossover object
 
-TODO
+Enables genes to define their own crossover behavior. The default implementation mirrors the behavior of `Evolvable::UniformCrossover`
 
 #### The Evolvable::UniformCrossover object
 
-TODO
+Randomly chooses a gene from one of the parents for each gene position.
 
 #### The Evolvable::PointCrossover object
 
-TODO
+Supports single and mutli point crossover. The default is single point crossover with a `points_count` of 1 which can be changed on an existing population (`population.crossover.points_count = 5`) or during initialization (`Evolvable::PointCrossover.new(5)`)
 
 ## Mutation
 
-TODO
-
-#### The Evolvable::Mutation object
-
-TODO
+TODO, The Evolvable::Mutation object
