@@ -33,7 +33,7 @@ module Evolvable
       when Hash
         goal_from_hash(goal_arg)
       else
-        goal
+        goal_arg
       end
     end
 
