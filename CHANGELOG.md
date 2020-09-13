@@ -1,4 +1,8 @@
-# Release 1.0.0
+## 1.0.1
+
+Fix goal normalization in `Evolvable::Evaluation` when given an object
+
+## 1.0.0
 
 Hello 🌎 🌍 🌏
 
