@@ -17,9 +17,9 @@ module Evolvable
                   :mutation
 
     def call(population)
-      @selection.call(population)
-      @crossover.call(population)
-      @mutation.call(population)
+      selection.call(population)
+      crossover.call(population)
+      mutation.call(population)
       population
     end
   end
