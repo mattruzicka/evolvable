@@ -16,10 +16,9 @@ module Evolvable
 
     def new_genes
       genes = []
-      config.each do |gene_key, gene_config|
+      config.each do |_gene_key, gene_config|
         (gene_config[:count] || 1).times do
           gene = gene_config[:class].new
-          gene.key = gene_key
           genes << gene
         end
       end
@@ -29,8 +28,10 @@ module Evolvable
     private
 
     def normalize_config(config)
-      config.each do |_gene_key, gene_config|
-        gene_config[:class] = Kernel.const_get(gene_config[:type]) if gene_config[:type]
+      config.each do |gene_key, gene_config|
+        gene_class = Kernel.const_get(gene_config[:type])
+        gene_class.key = gene_key
+        gene_config[:class] = gene_class if gene_config[:type]
       end
     end
   end

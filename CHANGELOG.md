@@ -1,6 +1,12 @@
+## Master
+
+Features
+* Make gene_key assignment a class level concern. Makes custom gene initialization simpler. https://github.com/mattruzicka/evolvable/pull/6
+
 ## 1.0.1
 
-Fix goal normalization in `Evolvable::Evaluation` when given an object
+Bug fixes
+* Fix goal normalization in `Evolvable::Evaluation` when given an object
 
 ## 1.0.0
 
