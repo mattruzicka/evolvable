@@ -35,7 +35,6 @@ module Evolvable
     def mutate_gene(instance, gene_index)
       gene = instance.genes[gene_index]
       mutant_gene = gene.class.new
-      mutant_gene.key = gene.key
       instance.genes[gene_index] = mutant_gene
     end
   end
