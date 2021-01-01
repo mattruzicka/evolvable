@@ -29,9 +29,11 @@ module Evolvable
 
     def normalize_config(config)
       config.each do |gene_key, gene_config|
+        next unless gene_config[:type]
+
         gene_class = Kernel.const_get(gene_config[:type])
         gene_class.key = gene_key
-        gene_config[:class] = gene_class if gene_config[:type]
+        gene_config[:class] = gene_class
       end
     end
   end
