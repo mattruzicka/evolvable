@@ -12,6 +12,7 @@ module Evolvable
                    gene_space: nil,
                    evolution: Evolution.new,
                    evaluation: Evaluation.new,
+                   data_store: DataStore.new,
                    instances: [])
       @id = id
       @evolvable_class = evolvable_class
@@ -21,6 +22,7 @@ module Evolvable
       @gene_space = initialize_gene_space(gene_space)
       @evolution = evolution
       @evaluation = evaluation || Evaluation.new
+      @data_store = data_store
       initialize_instances(instances)
     end
 
@@ -32,7 +34,8 @@ module Evolvable
                   :gene_space,
                   :evolution,
                   :evaluation,
-                  :instances
+                  :instances,
+                  :data_store
 
     def_delegators :evolvable_class,
                    :before_evaluation,
@@ -56,6 +59,7 @@ module Evolvable
       (1..count).each do
         before_evaluation(self)
         evaluation.call(self)
+        save_generation if save_generation?
         before_evolution(self)
         break if met_goal?
 
@@ -69,6 +73,10 @@ module Evolvable
       evaluation.best_instance(self)
     end
 
+    def best_value
+      best_instance&.value
+    end
+
     def met_goal?
       evaluation.met_goal?(self)
     end
@@ -77,6 +85,16 @@ module Evolvable
       evolvable_class.new_instance(genes: genes,
                                    evolutions_count: evolutions_count,
                                    population_index: population_index)
+    end
+
+    def_delegators :data_store, :generations
+
+    def save_generation
+      data_store.save_generation(self)
+    end
+
+    def save_generation?
+      data_store&.save_generation?(self)
     end
 
     private
