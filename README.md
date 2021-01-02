@@ -244,7 +244,10 @@ The number of evolutions to run. Expects a positive integer and Defaults to Floa
 Assigns the goal object's value. Will continue running until any instance's value reaches it. See [evaluation](#evaluation-1)
 
 ### Evolvable::Population#best_instance
-Returns an instance with the value that is nearest to the goal value.
+Delegates to evaluation object. Returns an instance with the value that is nearest to the goal value.
+
+### Evolvable::Population#best_value
+Delegates to evaluation object. Returns the value of the best instance.
 
 ### Evolvable::Population#met_goal?
 Returns true if any instance's value matches the goal value, otherwise false.
@@ -275,6 +278,21 @@ The [evaluation](#evaluation-1)'s goal object.
 ## Evaluation
 
 For selection to be effective in the context of progressive evolution, there needs to be some way of comparing various instances with each other. In traditional genetic algorithms, this is referred to as the "fitness function". The `Evolvable::Evaluation` object expects instances to define a [EvolvableClass#value](#evolvableclassvalue) method that it uses to evaluate them relative to each other and against a definable goal.
+
+### Evolvable::Evaluation#call(population)
+Uses a goal object's evaluate method to sort instances from worst to best.
+
+### Evolvable::Evaluation#best_instance(population)
+Used by Population#best_instance
+
+### Evolvable::Evaluation#best_value(population)
+Used by Population#best_value
+
+### Evolvable::Evaluation#met_goal?(population)
+Delegates to goal object.
+
+### Evolvable::Evaluation#goal
+The goal object used to evaluate instances.
 
 A goal object has a value that can be most easily assigned via an argument to `Evolvable::Population#evolve` like this: `population.evolve(goal_value: 1000)`. Evolvable provides the following goal object implementations and goal value defaults.
 
