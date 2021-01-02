@@ -74,7 +74,7 @@ module Evolvable
     end
 
     def best_value
-      best_instance&.value
+      evaluation.best_value(self)
     end
 
     def met_goal?

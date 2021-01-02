@@ -20,6 +20,10 @@ module Evolvable
       population.instances.max_by { |instance| goal.evaluate(instance) }
     end
 
+    def best_value(population)
+      best_instance(population)&.value
+    end
+
     def met_goal?(population)
       goal.met?(population.instances.last)
     end
