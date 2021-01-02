@@ -21,5 +21,9 @@ module Evolvable
     def key
       self.class.key
     end
+
+    def inspect
+      self.class.name
+    end
   end
 end

@@ -55,6 +55,10 @@ module Evolvable
     def base.after_evolution(population); end
   end
 
+  def inspect
+    "#{self.class.name} #{evolutions_count}.#{population_index}"
+  end
+
   def initialize_instance; end
 
   attr_accessor :genes,
