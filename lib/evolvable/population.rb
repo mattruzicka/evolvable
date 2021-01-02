@@ -74,8 +74,8 @@ module Evolvable
     end
 
     def new_instance(genes: [], population_index: nil)
-      evolvable_class.new_instance(population: self,
-                                   genes: genes,
+      evolvable_class.new_instance(genes: genes,
+                                   evolutions_count: evolutions_count,
                                    population_index: population_index)
     end
 

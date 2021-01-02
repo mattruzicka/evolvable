@@ -25,10 +25,10 @@ module Evolvable
       Population.new(**keyword_args)
     end
 
-    def base.new_instance(population: nil, genes: [], population_index: nil)
+    def base.new_instance(genes: [], evolutions_count: nil, population_index: nil)
       evolvable = initialize_instance
-      evolvable.population = population
       evolvable.genes = genes
+      evolvable.evolutions_count = evolutions_count
       evolvable.population_index = population_index
       evolvable.initialize_instance
       evolvable
@@ -55,8 +55,8 @@ module Evolvable
 
   def initialize_instance; end
 
-  attr_accessor :population,
-                :genes,
+  attr_accessor :genes,
+                :evolutions_count,
                 :population_index
 
   def value

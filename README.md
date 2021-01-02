@@ -70,9 +70,9 @@ Initializes a new population. Example: `population = Melody.new_population(size:
 
 Accepts the same arguments as [Population.new](#evolvablepopulationnew)
 
-### EvolvableClass.new_instance(population: nil, genes: [], population_index: nil)
+### EvolvableClass.new_instance(genes: [], evolutions_count: nil, population_index: nil)
 
-Initializes a new instance. Accepts a population object, an array of gene objects, and the instance's population index. This method is useful for re-initializing instances and populations that have been saved.
+Initializes a new instance. Accepts an array of gene objects, a population's evolutions count, and the instance's index within the population.
 
 _It is not recommended that you override this method_ as it is used by Evolvable internals. If you need to customize how your instances are initialized you can override either of the following two "initialize_instance" methods.
 
