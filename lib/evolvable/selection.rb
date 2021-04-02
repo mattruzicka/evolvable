@@ -10,9 +10,9 @@ module Evolvable
 
     attr_accessor :size
 
-    def call(population)
-      population.instances.slice!(0..-1 - @size)
-      population
+    def call(instances)
+      instances.slice!(0..-1 - @size)
+      instances
     end
   end
 end

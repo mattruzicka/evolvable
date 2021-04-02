@@ -17,8 +17,13 @@ require 'evolvable/point_crossover'
 require 'evolvable/uniform_crossover'
 require 'evolvable/mutation'
 require 'evolvable/population'
-require 'evolvable/generation'
 require 'evolvable/data_store'
+require 'evolvable/null_store'
+require 'evolvable/ruby_store'
+require 'evolvable/file_store'
+require 'evolvable/redis_store'
+
+require 'byebug'
 
 module Evolvable
   def self.included(base)

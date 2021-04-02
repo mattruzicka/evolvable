@@ -4,7 +4,7 @@ module Evolvable
   class Population
     extend Forwardable
 
-    def initialize(id: nil,
+    def initialize(id: Time.now.utc.to_i,
                    evolvable_class:,
                    name: nil,
                    size: 40,
@@ -12,7 +12,7 @@ module Evolvable
                    gene_space: nil,
                    evolution: Evolution.new,
                    evaluation: Evaluation.new,
-                   data_store: DataStore.new,
+                   data_store: nil,
                    instances: [])
       @id = id
       @evolvable_class = evolvable_class
@@ -22,7 +22,8 @@ module Evolvable
       @gene_space = initialize_gene_space(gene_space)
       @evolution = evolution
       @evaluation = evaluation || Evaluation.new
-      @data_store = data_store
+      self.data_store = data_store
+
       initialize_instances(instances)
     end
 
@@ -87,7 +88,18 @@ module Evolvable
                                    population_index: population_index)
     end
 
-    def_delegators :data_store, :generations
+    def data_store=(store_option)
+      @data_store = case store_option
+                    when :ruby
+                      RubyStore.new
+                    when :redis
+                      RedisStore.new
+                    when :file
+                      FileStore.new
+                    else
+                      store_option
+                    end
+    end
 
     def save_generation
       data_store.save_generation(self)
@@ -95,6 +107,10 @@ module Evolvable
 
     def save_generation?
       data_store&.save_generation?(self)
+    end
+
+    def generation_key
+      "#{id || 'generation'}-#{evolutions_count}"
     end
 
     private

@@ -2,30 +2,50 @@
 
 module Evolvable
   class DataStore
+    extend Forwardable
+
     def initialize(config = default_config)
       self.config = config
-      @generations = []
     end
+
+    attr_reader :config
 
     def config=(config)
-      @save_generations = config[:save_generations]
-      @save_generations_step = config[:save_generations_step]
+      @generation_save = config[:generation_save]
+      @generation_step = config[:generation_step]
     end
+
+    attr_accessor :generation_save,
+                  :generation_step
 
     def default_config
-      { save_generations: false, save_generations_step: 1 }
-    end
-
-    attr_reader :config, :generations
-
-    attr_accessor :save_generations, :save_generations_step
-
-    def save_generation(population)
-      @generations << Generation.new(population)
+      { generation_save: :all,
+        generation_step: 1 }
     end
 
     def save_generation?(population)
-      @save_generations && (population.evolutions_count % @save_generations_step).zero?
+      generation_save != :none && (population.evolutions_count % generation_step).zero?
+    end
+
+    def select_instances(population)
+      case generation_save
+      when :all
+        population.instances.dup
+      when :selection
+        population.selection.call(population.instances.dup)
+      when Numeric
+        population.instances.last(generation_save)
+      else
+        generation_save&.call(population)
+      end
+    end
+
+    def save_generation(_population)
+      raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
+    end
+
+    def load_generation(_generation_key)
+      raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
     end
   end
 end

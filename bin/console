@@ -10,11 +10,11 @@ puts "To get started, try this:\n\n" \
      " population.mutation.probability = 0.8\n" \
      " population.evolve(goal_value: EvolvableString::TARGET_STRING.length)\n\n"
 
-# $population = EvolvableString.new_population
-# $population.mutation.probability = 0.8
-# $population.data_store.save_generations = true
-# $population.data_store.save_generations_step = 10
-# $population.evolve(goal_value: EvolvableString::TARGET_STRING.length)
+$population = EvolvableString.new_population(data_store: :ruby)
+$population.mutation.probability = 0.8
+$population.data_store.generation_save = :selection
+$population.data_store.generation_step = 10
+$population.evolve(goal_value: EvolvableString::TARGET_STRING.length)
 
 require 'irb'
 IRB.start(__FILE__)
