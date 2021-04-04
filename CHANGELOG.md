@@ -1,4 +1,6 @@
-## Master
+## Unreleased
+
+## 1.0.2 - 2021-04-04
 
 Features
 * Make gene_key assignment a class level concern. Makes custom gene initialization simpler. https://github.com/mattruzicka/evolvable/pull/6
