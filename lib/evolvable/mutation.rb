@@ -6,7 +6,7 @@ module Evolvable
 
     def initialize(probability: nil, rate: nil)
       @probability = probability || (rate ? 1 : 0.03)
-      @rate = rate || 0
+      @rate = rate
     end
 
     attr_accessor :probability,
@@ -16,26 +16,37 @@ module Evolvable
       return population if probability.zero?
 
       population.instances.each do |instance|
-        mutate_instance(instance) if rand <= probability
+        next unless mutate_genes?
+
+        instance.genome.each_gene_config { |gc| mutate_genes(gc[:genes]) }
       end
       population
     end
 
     private
 
-    def mutate_instance(instance)
-      genes_count = instance.genes.count
-      return if genes_count.zero?
-
-      return mutate_gene(instance, rand(genes_count)) if rate.zero?
-
-      genes_count.times { |index| mutate_gene(instance, index) if rand <= rate }
+    def mutate_genes?
+      case probability
+      when 1
+        true
+      when 0
+        false
+      else
+        rand <= probability
+      end
     end
 
-    def mutate_gene(instance, gene_index)
-      gene = instance.genes[gene_index]
-      mutant_gene = gene.class.new
-      instance.genes[gene_index] = mutant_gene
+    def mutate_genes(genes)
+      genes_count = genes.count
+      return if genes_count.zero?
+
+      return mutate_gene_by_index(genes, rand(genes_count)) unless rate
+
+      genes_count.times { |index| mutate_gene_by_index(genes, index) if rand <= rate }
+    end
+
+    def mutate_gene_by_index(genes, gene_index)
+      genes[gene_index] = genes[gene_index].class.new
     end
   end
 end

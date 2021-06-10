@@ -5,6 +5,7 @@ require 'evolvable/version'
 require 'evolvable/error/undefined_method'
 require 'evolvable/gene'
 require 'evolvable/gene_space'
+require 'evolvable/genome'
 require 'evolvable/goal'
 require 'evolvable/equalize_goal'
 require 'evolvable/maximize_goal'
@@ -17,18 +18,24 @@ require 'evolvable/point_crossover'
 require 'evolvable/uniform_crossover'
 require 'evolvable/mutation'
 require 'evolvable/population'
+require 'evolvable/count_gene'
+require 'evolvable/rigid_count_gene'
 
 module Evolvable
+  extend Forwardable
+
   def self.included(base)
     def base.new_population(keyword_args = {})
       keyword_args[:evolvable_class] = self
       Population.new(**keyword_args)
     end
 
-    def base.new_instance(population: nil, genes: [], generation_index: nil)
+    def base.new_instance(population: nil,
+                          genome: Genome.new,
+                          generation_index: nil)
       evolvable = initialize_instance
       evolvable.population = population
-      evolvable.genes = genes
+      evolvable.genome = genome
       evolvable.generation_index = generation_index
       evolvable.initialize_instance
       evolvable
@@ -55,8 +62,9 @@ module Evolvable
 
   def initialize_instance; end
 
-  attr_accessor :population,
-                :genes,
+  attr_accessor :id,
+                :population,
+                :genome,
                 :generation_index
 
   # Deprecated. The population_index method will be
@@ -67,11 +75,9 @@ module Evolvable
     raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
   end
 
-  def find_gene(key)
-    @genes.detect { |g| g.key == key }
-  end
-
-  def find_genes(key)
-    @genes.select { |g| g.key == key }
-  end
+  def_delegators :genome,
+                 :find_gene,
+                 :find_genes,
+                 :find_gene_count,
+                 :genes
 end

@@ -4,8 +4,8 @@ module Evolvable
   class Population
     extend Forwardable
 
-    def initialize(id: nil,
-                   evolvable_class:,
+    def initialize(evolvable_class:,
+                   id: nil,
                    name: nil,
                    size: 40,
                    evolutions_count: 0,
@@ -21,7 +21,7 @@ module Evolvable
       @gene_space = initialize_gene_space(gene_space)
       @evolution = evolution
       @evaluation = evaluation || Evaluation.new
-      initialize_instances(instances)
+      new_instances(instances)
     end
 
     attr_accessor :id,
@@ -73,10 +73,19 @@ module Evolvable
       evaluation.met_goal?(self)
     end
 
-    def new_instance(genes: [], population_index: nil)
-      evolvable_class.new_instance(population: self,
-                                   genes: genes,
-                                   population_index: population_index)
+    def new_instance(genome: nil)
+      genome ||= gene_space.new_genome
+      instance = evolvable_class.new_instance(population: self,
+                                              genome: genome,
+                                              generation_index: @instances.count)
+      @instances << instance
+      instance
+    end
+
+    def new_instances(instances = nil)
+      instances ||= @instances || []
+      @instances = instances
+      Array.new(@size - @instances.count) { new_instance }
     end
 
     private
@@ -85,14 +94,6 @@ module Evolvable
       return GeneSpace.build(gene_space) if gene_space
 
       evolvable_class.new_gene_space
-    end
-
-    def initialize_instances(instances)
-      @instances = instances || []
-      (@size - instances.count).times do |n|
-        genes = gene_space.new_genes
-        @instances << new_instance(genes: genes, population_index: n)
-      end
     end
   end
 end

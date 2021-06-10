@@ -16,28 +16,37 @@ module Evolvable
     private
 
     def initialize_offspring(population)
-      parent_genes = population.instances.map!(&:genes)
-      parent_gene_couples = parent_genes.combination(2).cycle
+      parent_genomes = population.instances.map!(&:genomes)
+      parent_genome_couples = parent_genomes.combination(2).cycle
       offspring = []
-      population_index = 0
       loop do
-        genes_1, genes_2 = parent_gene_couples.next
-        crossover_genes(genes_1, genes_2).each do |genes|
-          offspring << population.new_instance(genes: genes, population_index: population_index)
-          population_index += 1
-          return offspring if population_index == population.size
+        genome_1, genome_2 = parent_genome_couples.next
+        crossover_genomes(genome_1, genome_2).each do |genome|
+          instance = population.new_instance(genome: genome)
+          offspring << instance
+          return offspring if instance.generation_index == population.size
         end
       end
     end
 
-    def crossover_genes(genes_1, genes_2)
-      offspring_genes = [[], []]
-      generate_ranges(genes_1.length).each do |range|
-        offspring_genes.reverse!
-        offspring_genes[0][range] = genes_1[range]
-        offspring_genes[1][range] = genes_2[range]
+    def crossover_genomes(genome_1, genome_2)
+      genome_1 = genome_1.dup
+      genome_2 = genome_2.dup
+      genome_1.each do |gene_key, gene_config_1|
+        gene_config_2 = genome_2.config[gene_key]
+        genes_1 = gene_config_1[:genes]
+        genes_2 = gene_config_2[:genes]
+        crossover_genes!(genes_1, genes_2)
       end
-      offspring_genes
+      [genome_1, genome_2]
+    end
+
+    def crossover_genes!(genes_1, genes_2)
+      generate_ranges(genes_1.length).each do |range|
+        genes_2_range_values = genes_2[range]
+        genes_2[range] = genes_1[range]
+        genes_1[range] = genes_2_range_values
+      end
     end
 
     def generate_ranges(genes_count)
