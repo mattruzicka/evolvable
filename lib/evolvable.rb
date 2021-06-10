@@ -20,6 +20,7 @@ require 'evolvable/mutation'
 require 'evolvable/population'
 require 'evolvable/count_gene'
 require 'evolvable/rigid_count_gene'
+require 'evolvable/serializer'
 
 module Evolvable
   extend Forwardable

@@ -4,6 +4,11 @@ module Evolvable
   class Population
     extend Forwardable
 
+    def self.load(data)
+      dump_attrs = Serializer.load(data)
+      new(**dump_attrs)
+    end
+
     def initialize(evolvable_class:,
                    id: nil,
                    name: nil,
@@ -86,6 +91,21 @@ module Evolvable
       instances ||= @instances || []
       @instances = instances
       Array.new(@size - @instances.count) { new_instance }
+    end
+
+    def dump
+      Serializer.dump(dump_attrs)
+    end
+
+    def dump_attrs
+      { evolvable_class: evolvable_class,
+        id: id,
+        name: name,
+        size: size,
+        evolutions_count: evolutions_count,
+        gene_space: gene_space,
+        evolution: evolution,
+        evaluation: evaluation }
     end
 
     private
