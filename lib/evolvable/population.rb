@@ -9,7 +9,8 @@ module Evolvable
       new(**dump_attrs)
     end
 
-    def initialize(evolvable_class:,
+    def initialize(evolvable_type: nil,
+                   evolvable_class: nil, # Deprecated
                    id: nil,
                    name: nil,
                    size: 40,
@@ -19,7 +20,7 @@ module Evolvable
                    evaluation: Evaluation.new,
                    instances: [])
       @id = id
-      @evolvable_class = evolvable_class
+      @evolvable_type = evolvable_type || evolvable_class
       @name = name
       @size = size
       @evolutions_count = evolutions_count
@@ -30,7 +31,7 @@ module Evolvable
     end
 
     attr_accessor :id,
-                  :evolvable_class,
+                  :evolvable_type,
                   :name,
                   :size,
                   :evolutions_count,
@@ -39,7 +40,7 @@ module Evolvable
                   :evaluation,
                   :instances
 
-    def_delegators :evolvable_class,
+    def_delegators :evolvable_type,
                    :before_evaluation,
                    :before_evolution,
                    :after_evolution
@@ -93,12 +94,16 @@ module Evolvable
       Array.new(@size - @instances.count) { new_instance }
     end
 
+    def evolvable_class
+      @evolvable_class ||= evolvable_type.is_a?(Class) ? evolvable_type : Kernel.const_get(evolvable_type)
+    end
+
     def dump
       Serializer.dump(dump_attrs)
     end
 
     def dump_attrs
-      { evolvable_class: evolvable_class,
+      { evolvable_type: evolvable_type,
         id: id,
         name: name,
         size: size,

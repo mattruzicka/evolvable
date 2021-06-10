@@ -27,7 +27,7 @@ module Evolvable
 
   def self.included(base)
     def base.new_population(keyword_args = {})
-      keyword_args[:evolvable_class] = self
+      keyword_args[:evolvable_type] = self
       Population.new(**keyword_args)
     end
 
