@@ -25,11 +25,11 @@ module Evolvable
       Population.new(**keyword_args)
     end
 
-    def base.new_instance(population: nil, genes: [], population_index: nil)
+    def base.new_instance(population: nil, genes: [], generation_index: nil)
       evolvable = initialize_instance
       evolvable.population = population
       evolvable.genes = genes
-      evolvable.population_index = population_index
+      evolvable.generation_index = generation_index
       evolvable.initialize_instance
       evolvable
     end
@@ -57,7 +57,11 @@ module Evolvable
 
   attr_accessor :population,
                 :genes,
-                :population_index
+                :generation_index
+
+  # Deprecated. The population_index method will be
+  # removed in version 2.0
+  alias population_index generation_index
 
   def value
     raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
