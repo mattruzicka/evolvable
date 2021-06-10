@@ -1,5 +1,15 @@
 ## Unreleased
 
+Features
+* Genome abstraction for genes 69afd7c957cbf89cc03b4f3f0ba967bf571c34c5
+* Built-in support for count genes 69afd7c957cbf89cc03b4f3f0ba967bf571c34c5
+* Add serializer for dumping and loading for population and genogenome objects 9d2a42a29103e1525b3c5471578ee97baeb6e8c6
+
+Changes
+* Renamed Goal classes. The old, namespaced goal classes will be removed in version 2.0 a3fb1915230cc297e545d873a80f0324bca5833d
+* Renamed Evolvable#population_index to generation_index. The The population_index method will be removed in version 2.0 e0251f7c51818c30986d5a9a2b44f3834107ec55
+* Rename evolvable_class keyword arg in Evolvable::Population#initialize to evolvable_type and suport strings and classes as arguments. Passing evolvable_class is deprecated and will be removed in version 2.0 and at that time the evolvable_tyoe keyword arg will be required 1491f4b6f5bb615ae17e749922a852edce48072b
+
 ## 1.0.2 - 2021-04-04
 
 Features
