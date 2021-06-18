@@ -22,7 +22,7 @@ module Evolvable
       keys.flatten!
       return @config.dig(keys.first, :genes) if keys.count <= 1
 
-      @config.values_at(*keys).flat_map { _1.fetch(:genes, []) }
+      @config.values_at(*keys).flat_map { _1&.fetch(:genes, []) || [] }
     end
 
     def find_gene_count(key)
