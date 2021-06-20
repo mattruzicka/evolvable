@@ -4,6 +4,16 @@ Features
 * Genome abstraction for genes 69afd7c957cbf89cc03b4f3f0ba967bf571c34c5
 * Built-in support for count genes 69afd7c957cbf89cc03b4f3f0ba967bf571c34c5
 * Add serializer for dumping and loading for population and genogenome objects 9d2a42a29103e1525b3c5471578ee97baeb6e8c6
+* Add the following delegation methods to Evolvable::Population ffb9998b09f02fa6759322c324b2f448fd3af223
+
+```
+selection_size
+selection_size=
+mutation_rate
+mutation_rate=
+mutation_probability
+mutation_probability=
+```
 
 Changes
 * Renamed Goal classes. The old, namespaced goal classes will be removed in version 2.0 a3fb1915230cc297e545d873a80f0324bca5833d
