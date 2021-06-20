@@ -40,7 +40,7 @@ module Evolvable
                   :evaluation,
                   :instances
 
-    def_delegators :evolvable_type,
+    def_delegators :evolvable_class,
                    :before_evaluation,
                    :before_evolution,
                    :after_evolution
