@@ -53,6 +53,14 @@ module Evolvable
                    :mutation,
                    :mutation=
 
+    def_delegator :selection, :size, :selection_size
+    def_delegator :selection, :size=, :selection_size=
+
+    def_delegator :mutation, :rate, :mutation_rate
+    def_delegator :mutation, :rate=, :mutation_rate=
+    def_delegator :mutation, :probability, :mutation_probability
+    def_delegator :mutation, :probability=, :mutation_probability=
+
     def_delegators :evaluation,
                    :goal,
                    :goal=
