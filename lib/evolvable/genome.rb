@@ -39,16 +39,8 @@ module Evolvable
       @config.keys
     end
 
-    def each_gene_key
-      @config.each_key
-    end
-
-    def each_gene_config
-      @config.each_value
-    end
-
     def genes
-      each_gene_config.flat_map { |gc| gc[:genes] }
+      @config.flat_map { |_gene_key, gene_config| gene_config[:genes] }
     end
 
     def inspect
