@@ -18,6 +18,7 @@ module Evolvable
                    gene_space: nil,
                    evolution: Evolution.new,
                    evaluation: Evaluation.new,
+                   parent_instances: [],
                    instances: [])
       @id = id
       @evolvable_type = evolvable_type || evolvable_class
@@ -27,7 +28,8 @@ module Evolvable
       @gene_space = initialize_gene_space(gene_space)
       @evolution = evolution
       @evaluation = evaluation || Evaluation.new
-      new_instances(instances)
+      @parent_instances = parent_instances
+      @instances = new_instances(count: @size - instances.count, instances: instances)
     end
 
     attr_accessor :id,
@@ -38,6 +40,7 @@ module Evolvable
                   :gene_space,
                   :evolution,
                   :evaluation,
+                  :parent_instances,
                   :instances
 
     def_delegators :evolvable_class,
@@ -88,18 +91,28 @@ module Evolvable
     end
 
     def new_instance(genome: nil)
-      genome ||= gene_space.new_genome
+      return generate_instances(1).first unless genome || parent_instances.empty?
+
       instance = evolvable_class.new_instance(population: self,
-                                              genome: genome,
+                                              genome: genome || gene_space.new_genome,
                                               generation_index: @instances.count)
       @instances << instance
       instance
     end
 
-    def new_instances(instances = nil)
+    def new_instances(count:, instances: nil)
       instances ||= @instances || []
       @instances = instances
-      Array.new(@size - @instances.count) { new_instance }
+
+      if parent_instances.empty?
+        Array.new(count) { new_instance(genome: gene_space.new_genome) }
+      else
+        @instances = generate_instances(count)
+      end
+    end
+
+    def new_parent_genome_cycle
+      parent_instances.map(&:genome).shuffle!.combination(2).cycle
     end
 
     def evolvable_class
@@ -127,6 +140,12 @@ module Evolvable
       return GeneSpace.build(gene_space) if gene_space
 
       evolvable_class.new_gene_space
+    end
+
+    def generate_instances(count)
+      instances = crossover.new_instances(self, count)
+      mutation.mutate_instances(instances)
+      instances
     end
   end
 end

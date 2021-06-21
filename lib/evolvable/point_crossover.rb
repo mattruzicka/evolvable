@@ -9,25 +9,24 @@ module Evolvable
     attr_accessor :points_count
 
     def call(population)
-      population.instances = initialize_offspring(population)
+      population.instances = new_instances(population, population.size)
       population
     end
 
-    private
-
-    def initialize_offspring(population)
-      parent_genomes = population.instances.map!(&:genomes)
-      parent_genome_couples = parent_genomes.combination(2).cycle
-      offspring = []
+    def new_instances(population, count)
+      parent_genome_cycle = population.new_parent_genome_cycle
+      instances = []
       loop do
-        genome_1, genome_2 = parent_genome_couples.next
+        genome_1, genome_2 = parent_genome_cycle.next
         crossover_genomes(genome_1, genome_2).each do |genome|
           instance = population.new_instance(genome: genome)
-          offspring << instance
-          return offspring if instance.generation_index == population.size
+          instances << instance
+          return instances if instance.generation_index == count
         end
       end
     end
+
+    private
 
     def crossover_genomes(genome_1, genome_2)
       genome_1 = genome_1.dup

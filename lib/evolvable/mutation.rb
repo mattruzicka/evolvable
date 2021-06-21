@@ -13,28 +13,19 @@ module Evolvable
                   :rate
 
     def call(population)
-      return population if probability.zero?
-
-      population.instances.each do |instance|
-        next unless mutate_genes?
-
-        instance.genome.each_gene_config { |gc| mutate_genes(gc[:genes]) }
-      end
+      mutate_instances(population.instances) unless probability.zero?
       population
     end
 
-    private
+    def mutate_instances(instances)
+      instances.each do |instance|
+        next unless rand <= probability
 
-    def mutate_genes?
-      case probability
-      when 1
-        true
-      when 0
-        false
-      else
-        rand <= probability
+        instance.genome.each { |_key, config| mutate_genes(config[:genes]) }
       end
     end
+
+    private
 
     def mutate_genes(genes)
       genes_count = genes.count

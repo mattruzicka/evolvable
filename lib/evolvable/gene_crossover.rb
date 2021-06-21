@@ -3,20 +3,19 @@
 module Evolvable
   class GeneCrossover
     def call(population)
-      population.instances = initialize_offspring(population)
+      new_instances(population, population.size)
       population
     end
 
-    private
-
-    def initialize_offspring(population)
-      genomes = population.instances.map!(&:genome).shuffle!
-      genomes_pairs = genomes.combination(2).cycle
-      Array.new(population.size) do
-        genome = build_genome(genomes_pairs.next)
+    def new_instances(population, count)
+      parent_genome_cycle = population.new_parent_genome_cycle
+      Array.new(count) do
+        genome = build_genome(parent_genome_cycle.next)
         population.new_instance(genome: genome)
       end
     end
+
+    private
 
     def build_genome(genome_pair)
       new_config = {}
@@ -39,7 +38,10 @@ module Evolvable
     def crossover_genes(count, gene_config_1, gene_config_2)
       genes_1 = gene_config_1[:genes]
       genes_2 = gene_config_2[:genes]
-      gene_class = genes_1.first.class
+      first_gene = genes_1.first || genes_2.first
+      return [] unless first_gene
+
+      gene_class = first_gene.class
       Array.new(count) do |index|
         gene_a = genes_1[index]
         gene_b = genes_2[index]
