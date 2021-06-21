@@ -70,7 +70,7 @@ module Evolvable
 
     def evolve(count: Float::INFINITY, goal_value: nil)
       goal.value = goal_value if goal_value
-      (1..count).each do
+      1.upto(count) do
         before_evaluation(self)
         evaluation.call(self)
         before_evolution(self)
