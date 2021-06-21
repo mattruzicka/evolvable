@@ -66,15 +66,12 @@ module Evolvable
   attr_accessor :id,
                 :population,
                 :genome,
-                :generation_index
+                :generation_index,
+                :value
 
   # Deprecated. The population_index method will be
   # removed in version 2.0
   alias population_index generation_index
-
-  def value
-    raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
-  end
 
   def_delegators :genome,
                  :find_gene,
