@@ -12,7 +12,9 @@ module Evolvable
       end
 
       def base.crossover(gene_a, gene_b)
-        [gene_a, gene_b].sample
+        genes = [gene_a, gene_b]
+        genes.compact!
+        genes.sample
       end
     end
 

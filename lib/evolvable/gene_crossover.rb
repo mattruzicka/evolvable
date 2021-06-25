@@ -3,25 +3,49 @@
 module Evolvable
   class GeneCrossover
     def call(population)
-      population.instances = initialize_offspring(population)
+      new_instances(population, population.size)
       population
+    end
+
+    def new_instances(population, count)
+      parent_genome_cycle = population.new_parent_genome_cycle
+      Array.new(count) do
+        genome = build_genome(parent_genome_cycle.next)
+        population.new_instance(genome: genome)
+      end
     end
 
     private
 
-    def initialize_offspring(population)
-      parent_genes = population.instances.map!(&:genes)
-      parent_gene_couples = parent_genes.combination(2).cycle
-      Array.new(population.size) do |index|
-        genes_1, genes_2 = parent_gene_couples.next
-        genes = crossover_genes(genes_1, genes_2)
-        population.new_instance(genes: genes, population_index: index)
+    def build_genome(genome_pair)
+      new_config = {}
+      genome_1, genome_2 = genome_pair.shuffle!
+      genome_1.each do |gene_key, gene_config_1|
+        gene_config_2 = genome_2.config[gene_key]
+        count_gene = crossover_count_genes(gene_config_1, gene_config_2)
+        genes = crossover_genes(count_gene.count, gene_config_1, gene_config_2)
+        new_config[gene_key] = { count_gene: count_gene, genes: genes }
       end
+      Genome.new(config: new_config)
     end
 
-    def crossover_genes(genes_1, genes_2)
-      genes_1.zip(genes_2).map! do |gene_a, gene_b|
-        gene_a.class.crossover(gene_a, gene_b)
+    def crossover_count_genes(gene_config_1, gene_config_2)
+      count_gene_1 = gene_config_1[:count_gene]
+      count_gene_2 = gene_config_2[:count_gene]
+      count_gene_1.class.crossover(count_gene_1, count_gene_2)
+    end
+
+    def crossover_genes(count, gene_config_1, gene_config_2)
+      genes_1 = gene_config_1[:genes]
+      genes_2 = gene_config_2[:genes]
+      first_gene = genes_1.first || genes_2.first
+      return [] unless first_gene
+
+      gene_class = first_gene.class
+      Array.new(count) do |index|
+        gene_a = genes_1[index]
+        gene_b = genes_2[index]
+        gene_class.crossover(gene_a, gene_b) || gene_class.new
       end
     end
   end

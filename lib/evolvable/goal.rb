@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Evolvable
-  module Goal
+  class Goal
     def initialize(value: nil)
       @value = value if value
     end
