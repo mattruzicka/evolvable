@@ -4,7 +4,7 @@
 
 A framework for building evolvable applications.
 
-[Evolutionary algorithms](https://en.wikipedia.org/wiki/Evolutionary_algorithm) build upon ideas such as natural selection, crossover, and mutation to construct relatively simple solutions to complex problems. This framework provides abstractions for building simple and complex evolutionary algorithms that are adaptable to any domain.
+[Evolutionary algorithms](https://en.wikipedia.org/wiki/Evolutionary_algorithm) build upon ideas such as natural selection, crossover, and mutation to construct relatively simple solutions to complex problems. This framework provides abstractions for building evolutionary algorithms and applications that are adaptable to any domain.
 
 ### The Evolvable Abstraction
 
