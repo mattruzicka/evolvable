@@ -394,7 +394,7 @@ Supports single and multi-point crossover. The default is single-point crossover
 
 ## Mutation
 
-Mutation serves the role of increasing genetic variation, especially when a population's instances are small in number and mostly homogeneous. When an instance undergoes a mutation, it means that one of its existing genes is replaced with a newly initialized gene. Using the language from the [section on genes](genes), a gene mutation invokes a new outcome from the gene's sample space.
+Mutation serves the role of increasing genetic variation, especially when a population's instances are small in number and mostly homogeneous. When an instance undergoes a mutation, it means that one of its existing genes is replaced with a newly initialized gene. Using the language from the [section on genes](#genes), a gene mutation invokes a new outcome from the gene's sample space.
 
 ### Evolvable::Mutation.new
 
