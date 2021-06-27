@@ -76,6 +76,6 @@ module Evolvable
   def_delegators :genome,
                  :find_gene,
                  :find_genes,
-                 :find_gene_count,
+                 :find_genes_count,
                  :genes
 end

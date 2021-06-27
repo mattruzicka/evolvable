@@ -25,7 +25,7 @@ module Evolvable
       @config.values_at(*keys).flat_map { _1&.fetch(:genes, []) || [] }
     end
 
-    def find_gene_count(key)
+    def find_genes_count(key)
       find_count_gene(key).count
     end
 
