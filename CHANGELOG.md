@@ -7,6 +7,8 @@ Features
 * Add the following delegation methods to Evolvable::Population ffb9998b09f02fa6759322c324b2f448fd3af223
 * Keep previous generation parents for generating instances for the current generation whenever 856ac3a778106d34221ce8ce8ae14b963877dc76
 * Add Evolvable::Population.new_instance and methods to Evolvable Selection, Crossover, and Mutation for acting on instances 856ac3a778106d34221ce8ce8ae14b963877dc76
+# Add EvolvablePopulation#reset_instances b61cccbee8ac8cc9f00496e5461131bb796af974
+# Improve gene class lookup. Suppose you have an evolvable Dog class with a Dog::TailGene class. Now you can just pass 'TailGene' as the 'type' in your gene space definition 079dcef000e57553db8c6e5b89207d2d8e5c9890
 
 ```
 selection_size
