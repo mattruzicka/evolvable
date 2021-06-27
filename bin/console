@@ -7,11 +7,11 @@ require 'byebug'
 Dir['./examples/*'].each { |f| require f }
 
 # HelloWorld
-# evaluation = Evolvable::Evaluation.new(equalize: 0)
-# population = HelloWorld.new_population(size: 100, evaluation: evaluation)
-# population.mutation_probability = 0.6
-# population.evolve
-# HelloWorld.start_loop(population)
+evaluation = Evolvable::Evaluation.new(equalize: 0)
+population = HelloWorld.new_population(size: 100, evaluation: evaluation)
+population.mutation_probability = 0.6
+population.evolve
+HelloWorld.start_loop(population)
 
 # Stickman
 # population = Stickman.new_population(size: 5)

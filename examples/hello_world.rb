@@ -29,13 +29,24 @@ class HelloWorld
     def start_loop(population)
       loop do
         HelloWorld.seek_target
+        prepare_to_exit_loop && break if exit_loop?
+
         population.reset_instances
         population.evolve
       end
     end
 
+    def exit_loop?
+      ['"exit"', 'exit'].include?(target)
+    end
+
+    def prepare_to_exit_loop
+      print "\n\n\n\n\n #{green_text('Goodbye!')}\n\n\n"
+      true
+    end
+
     def seek_target
-      print "\n\n\n\n\n #{green_text('Use Ctrl-C to stop')} \e[1A\e[1A\e[1A\r" \
+      print "\n\n\n\n\n #{green_text('Use "exit" to stop')} \e[1A\e[1A\e[1A\r" \
       " #{green_text('Enter a string to evolve: ')}"
       self.target = gets.strip!
     end
