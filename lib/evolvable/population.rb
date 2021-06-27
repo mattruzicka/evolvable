@@ -111,6 +111,11 @@ module Evolvable
       end
     end
 
+    def reset_instances
+      self.instances = []
+      new_instances(count: size)
+    end
+
     def new_parent_genome_cycle
       parent_instances.map(&:genome).shuffle!.combination(2).cycle
     end
