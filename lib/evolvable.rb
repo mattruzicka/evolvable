@@ -47,7 +47,7 @@ module Evolvable
     end
 
     def base.new_gene_space
-      GeneSpace.build(gene_space)
+      GeneSpace.build(gene_space, self)
     end
 
     def base.gene_space

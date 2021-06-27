@@ -121,7 +121,7 @@ module Evolvable
     end
 
     def evolvable_class
-      @evolvable_class ||= evolvable_type.is_a?(Class) ? evolvable_type : Kernel.const_get(evolvable_type)
+      @evolvable_class ||= evolvable_type.is_a?(Class) ? evolvable_type : Object.const_get(evolvable_type)
     end
 
     def dump
@@ -142,7 +142,7 @@ module Evolvable
     private
 
     def initialize_gene_space(gene_space)
-      return GeneSpace.build(gene_space) if gene_space
+      return GeneSpace.build(gene_space, evolvable_class) if gene_space
 
       evolvable_class.new_gene_space
     end

@@ -2,13 +2,14 @@
 
 module Evolvable
   class GeneSpace
-    def self.build(config)
+    def self.build(config, evolvable_class)
       return config if config.respond_to?(:new_genome)
 
-      new(config: config)
+      new(config: config, evolvable_class: evolvable_class)
     end
 
-    def initialize(config: {})
+    def initialize(config: {}, evolvable_class: nil)
+      @evolvable_class = evolvable_class
       @config = normalize_config(config)
     end
 
@@ -24,10 +25,14 @@ module Evolvable
       config.each do |gene_key, gene_config|
         next unless gene_config[:type]
 
-        gene_class = Kernel.const_get(gene_config[:type])
+        gene_class = lookup_gene_class(gene_config[:type])
         gene_class.key = gene_key
         gene_config[:class] = gene_class
       end
+    end
+
+    def lookup_gene_class(class_name)
+      (@evolvable_class || Object).const_get(class_name)
     end
 
     def new_genome_config
