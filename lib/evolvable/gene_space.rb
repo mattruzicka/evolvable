@@ -2,7 +2,7 @@
 
 module Evolvable
   class GeneSpace
-    def self.build(config, evolvable_class)
+    def self.build(config, evolvable_class = nil)
       return config if config.respond_to?(:new_genome)
 
       new(config: config, evolvable_class: evolvable_class)
