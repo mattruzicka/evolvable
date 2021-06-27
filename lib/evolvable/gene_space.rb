@@ -22,6 +22,19 @@ module Evolvable
     private
 
     def normalize_config(config)
+      case config
+      when Hash
+        normalize_hash_config(config)
+      when Array
+        if config.first.is_a?(Array)
+          build_config_from_2d_array(config)
+        else
+          merge_config_with_array({}, config)
+        end
+      end
+    end
+
+    def normalize_hash_config(config)
       config.each do |gene_key, gene_config|
         next unless gene_config[:type]
 
@@ -29,6 +42,36 @@ module Evolvable
         gene_class.key = gene_key
         gene_config[:class] = gene_class
       end
+    end
+
+    def build_config_from_2d_array(array_config)
+      config = {}
+      array_config.each { |array| merge_config_with_array(config, array) }
+      config
+    end
+
+    def merge_config_with_array(config, gene_array)
+      gene_key, gene_class, count = extract_array_configs(gene_array)
+      gene_class.key = gene_key
+      config[gene_key] = { class: gene_class, count: count }
+      config
+    end
+
+    def extract_array_configs(gene_array)
+      first_item = gene_array.first
+      return extract_array_with_key_configs(gene_array) if first_item.is_a?(Symbol)
+
+      gene_class = lookup_gene_class(first_item)
+      _type, count = gene_array
+      [gene_class, gene_class, count]
+    rescue NameError
+      extract_array_with_key_configs(gene_array)
+    end
+
+    def extract_array_with_key_configs(gene_array)
+      gene_key, type, count = gene_array
+      gene_class = lookup_gene_class(type)
+      [gene_key, gene_class, count]
     end
 
     def lookup_gene_class(class_name)

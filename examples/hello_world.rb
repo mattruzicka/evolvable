@@ -22,6 +22,25 @@ class HelloWorld
   class << self
     MAX_STRING_LENGTH = 40
 
+    # TODO: Extract the below comment into tests and documentation
+
+    # Gene Space Definition Options
+    # All of the below result in the same behavior for this particular
+    # program since it simply finds its name via the #genes method
+
+    # Hash definition
+    # { char_genes: { type: 'CharGene', count: 1..MAX_STRING_LENGTH } }
+
+    # Array of arrays definition
+    # [[:char_genes, 'CharGene', 1..MAX_STRING_LENGTH]]
+    # [['char_genes', 'CharGene',  1..MAX_STRING_LENGTH]]
+    # [['CharGene', 1..MAX_STRING_LENGTH]]
+
+    # Single array for when there's only one type of gene
+    # ['CharGene', 1..MAX_STRING_LENGTH]
+    # [:char_genes, 'CharGene', 1..MAX_STRING_LENGTH]
+    # ['char_genes', 'CharGene', 1..MAX_STRING_LENGTH]
+
     def gene_space
       { char_genes: { type: 'CharGene', count: 1..MAX_STRING_LENGTH } }
     end
