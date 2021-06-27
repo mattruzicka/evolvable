@@ -47,7 +47,6 @@ class Stickman
     end
 
     def animate_best_instances
-      last_index = @best_instances.count - 1
       @best_instances.each_with_index do |instance, index|
         puts "\n\n#{green_text(instance.draw)}\n\n"
         print green_text(" Generation: #{index}\r\n ")
