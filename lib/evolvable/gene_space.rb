@@ -75,6 +75,8 @@ module Evolvable
     end
 
     def lookup_gene_class(class_name)
+      return class_name if class_name.is_a?(Class)
+
       (@evolvable_class || Object).const_get(class_name)
     end
 
