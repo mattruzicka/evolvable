@@ -4,7 +4,7 @@ class AsciiArt
   include Evolvable
 
   class << self
-    def gene_space
+    def search_space
       { chars: { type: 'AsciiGene', count: 136 } }
     end
 

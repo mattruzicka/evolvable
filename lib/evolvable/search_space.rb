@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Evolvable
-  class GeneSpace
+  class SearchSpace
     def self.build(config, evolvable_class = nil)
       return config if config.respond_to?(:new_genome)
 
@@ -119,4 +119,8 @@ module Evolvable
       CountGene.new(range: min..max)
     end
   end
+
+  # Deprecated. Will be removed in 2.0
+  # use Evolvable::EqualizeGoal instead
+  class GeneSpace < SearchSpace; end
 end

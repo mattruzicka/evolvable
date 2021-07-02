@@ -41,7 +41,7 @@ class HelloWorld
     # [:char_genes, 'CharGene', 1..MAX_STRING_LENGTH]
     # ['char_genes', 'CharGene', 1..MAX_STRING_LENGTH]
 
-    def gene_space
+    def search_space
       { char_genes: { type: 'CharGene', count: 1..MAX_STRING_LENGTH } }
     end
 

@@ -15,7 +15,8 @@ module Evolvable
                    name: nil,
                    size: 40,
                    evolutions_count: 0,
-                   gene_space: nil,
+                   gene_space: nil, # Deprecated
+                   search_space: nil,
                    evolution: Evolution.new,
                    evaluation: Evaluation.new,
                    parent_instances: [],
@@ -25,7 +26,7 @@ module Evolvable
       @name = name
       @size = size
       @evolutions_count = evolutions_count
-      @gene_space = initialize_gene_space(gene_space)
+      @search_space = initialize_search_space(search_space || gene_space)
       @evolution = evolution
       @evaluation = evaluation || Evaluation.new
       @parent_instances = parent_instances
@@ -37,7 +38,7 @@ module Evolvable
                   :name,
                   :size,
                   :evolutions_count,
-                  :gene_space,
+                  :search_space,
                   :evolution,
                   :evaluation,
                   :parent_instances,
@@ -94,7 +95,7 @@ module Evolvable
       return generate_instances(1).first unless genome || parent_instances.empty?
 
       instance = evolvable_class.new_instance(population: self,
-                                              genome: genome || gene_space.new_genome,
+                                              genome: genome || search_space.new_genome,
                                               generation_index: @instances.count)
       @instances << instance
       instance
@@ -105,7 +106,7 @@ module Evolvable
       @instances = instances
 
       if parent_instances.empty?
-        Array.new(count) { new_instance(genome: gene_space.new_genome) }
+        Array.new(count) { new_instance(genome: search_space.new_genome) }
       else
         @instances = generate_instances(count)
       end
@@ -134,17 +135,17 @@ module Evolvable
         name: name,
         size: size,
         evolutions_count: evolutions_count,
-        gene_space: gene_space,
+        search_space: search_space,
         evolution: evolution,
         evaluation: evaluation }
     end
 
     private
 
-    def initialize_gene_space(gene_space)
-      return GeneSpace.build(gene_space, evolvable_class) if gene_space
+    def initialize_search_space(search_space)
+      return SearchSpace.build(search_space, evolvable_class) if search_space
 
-      evolvable_class.new_gene_space
+      evolvable_class.new_search_space
     end
 
     def generate_instances(count)

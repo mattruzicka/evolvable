@@ -4,7 +4,7 @@ require 'forwardable'
 require 'evolvable/version'
 require 'evolvable/error/undefined_method'
 require 'evolvable/gene'
-require 'evolvable/gene_space'
+require 'evolvable/search_space'
 require 'evolvable/genome'
 require 'evolvable/goal'
 require 'evolvable/equalize_goal'
@@ -46,10 +46,17 @@ module Evolvable
       new
     end
 
-    def base.new_gene_space
-      GeneSpace.build(gene_space, self)
+    def base.new_search_space
+      space_config = search_space.empty? ? gene_space : search_space
+      SearchSpace.build(space_config, self)
     end
 
+    def base.search_space
+      {}
+    end
+
+    # Deprecated. Will be removed in 2.0
+    # use Evolvable::EqualizeGoal instead
     def base.gene_space
       {}
     end

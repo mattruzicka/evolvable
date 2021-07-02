@@ -19,7 +19,7 @@ Add `gem 'evolvable'` to your application's Gemfile and run `bundle install` or 
 After installing and requiring the "evolvable" Ruby gem:
 
 1. Include the `Evolvable` module in the class for the instances you want to evolve. (See [Configuration](#Configuration)).
-2. Implement `.gene_space`, define any gene classes referenced by it, and include the `Evolvable::Gene` module for each. (See [Genes](#Genes)).
+2. Implement `.search_space`, define any gene classes referenced by it, and include the `Evolvable::Gene` module for each. (See [Genes](#Genes)).
 3. Implement `#value`. (See [Evaluation](#evaluation-1)).
 4. Initialize a population and start evolving. (See [Populations](#Populations)).
 
@@ -45,7 +45,7 @@ You'll need to define a class for the instances you want to evolve and include t
 class Melody
   include Evolvable
 
-  def self.gene_space
+  def self.search_space
     { instrument: { type: 'InstrumentGene', count: 1 },
       notes: { type: 'NoteGene', count: 16 } }
   end
@@ -56,11 +56,11 @@ class Melody
 end
 ```
 
-The `Evolvable` module expects the [".gene_space" class method](#evolvableclassgene_space) and requires the ["#value" instance method](#evolvableclassvalue) to be defined as documented below. Other methods exposed by `Evolvable` have also been documented below.
+The `Evolvable` module expects the [".search_space" class method](#evolvableclasssearch_space) and requires the ["#value" instance method](#evolvableclassvalue) to be defined as documented below. Other methods exposed by `Evolvable` have also been documented below.
 
-### EvolvableClass.gene_space
+### EvolvableClass.search_space
 
-You're expected to override this and return a gene space configuration hash or GeneSpace object. It defines the mapping for a hyperdimensional "gene space" so to speak. The above sample definition for the melody class configures each instance to have 16 note genes and 1 instrument gene.
+You're expected to override this and return a gene space configuration hash or SearchSpace object. It defines the mapping for a hyperdimensional "gene space" so to speak. The above sample definition for the melody class configures each instance to have 16 note genes and 1 instrument gene.
 
 See the section on [Genes](#genes) for more details.
 
@@ -94,7 +94,7 @@ An array of all an instance's genes. You can find specific types of genes with t
 
 ### EvolvableClass#find_genes(key)
 
-Returns an array of genes that have the given key. Gene keys are defined in the [EvolvableClass.gene_space](#evolvableclassgene_space) method. In the Melody example above, the key for the note genes would be `:notes`. The following would return an array of them: `note_genes = melody.find_genes(:notes)`
+Returns an array of genes that have the given key. Gene keys are defined in the [EvolvableClass.search_space](#evolvableclasssearch_space) method. In the Melody example above, the key for the note genes would be `:notes`. The following would return an array of them: `note_genes = melody.find_genes(:notes)`
 
 ### EvolvableClass#find_gene(key)
 
@@ -200,11 +200,11 @@ end
 
 In this way, instances can express behaviors via genes and even orchestrate interactions between them. Genes can also interact with each other during an instance's initialization process via the [EvolvableClass#initialize_instance](#evolvableclassinitialize_instance-1) method
 
-### The Evolvable::GeneSpace object
+### The Evolvable::SearchSpace object
 
-The `Evolvable::GeneSpace` object is responsible for initializing the full set of genes for a particular instance according to the configuration returned by the [EvolvableClass.gene_space](#evolvableclassgene_space) method. It is used by the `Evolvable::Population` to initialize new instances.
+The `Evolvable::SearchSpace` object is responsible for initializing the full set of genes for a particular instance according to the configuration returned by the [EvolvableClass.search_space](#evolvableclasssearch_space) method. It is used by the `Evolvable::Population` to initialize new instances.
 
-Technically, any object that responds to a `new_genes` method which returns an array of genes for a particular instance can function as a GeneSpace object. Custom implementations will be used if returned by the `.gene_space` method.
+Technically, any object that responds to a `new_genes` method which returns an array of genes for a particular instance can function as a SearchSpace object. Custom implementations will be used if returned by the `.search_space` method.
 
 
 ## Populations
@@ -225,14 +225,14 @@ Both default to `nil`. Not used by Evolvable, but convenient when working with m
 Defaults to `40`. Specifies the number of instances in the population.
 #### evolutions_count
 Defaults to `0`. Useful when re-initializing a saved population with instances.
-#### gene_space
-Defaults to `evolvable_class.new_gene_space` which uses the [EvolvableClass.gene_space](#evolvableclassgene_space) method
+#### search_space
+Defaults to `evolvable_class.new_search_space` which uses the [EvolvableClass.search_space](#evolvableclasssearch_space) method
 #### evolution
 Defaults to `Evolvable::Evolution.new`. See [evolution](#evolution-1)
 #### evaluation
 Defaults to `Evolvable::Evaluation.new`, with a goal of maximizing towards Float::INFINITY. See [evaluation](#evaluation-1)
 #### instances
-Defaults to initializing a `size` number of `evolvable_class` instances using the `gene_space` object. Any given instances are assigned, but if given less than `size`, more will be initialized.
+Defaults to initializing a `size` number of `evolvable_class` instances using the `search_space` object. Any given instances are assigned, but if given less than `size`, more will be initialized.
 
 ### Evolvable::Population#evolve
 

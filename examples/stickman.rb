@@ -22,7 +22,7 @@ class Stickman
   end
 
   class << self
-    def gene_space
+    def search_space
       { head: { type: 'HeadGene', count: 1 },
         body: { type: 'AsciiGene', count: 1 },
         appendages: { type: 'AppendageGene', count: 4 } }
