@@ -25,6 +25,7 @@ Changes
 * Renamed Evolvable#population_index to generation_index. The The population_index method will be removed in version 2.0 e0251f7c51818c30986d5a9a2b44f3834107ec55
 * Rename evolvable_class keyword arg in Evolvable::Population#initialize to evolvable_type and suport strings and classes as arguments. Passing evolvable_class is deprecated and will be removed in version 2.0 and at that time the evolvable_tyoe keyword arg will be required 1491f4b6f5bb615ae17e749922a852edce48072b
 * Evolvable::Population.new_instance new uses the previous generation's parents to generate a new instance, if there is one. Otherwise, it continues to randomly intitialize the instances from the defined gene space.
+* Renamed Evolvable::GeneSpace to Evolvable::SearchSpace. Using Evolvable::GeneSpace and Evolvable.gene_space is deprecated and support will be removed in version 2.0 837322a66c87d6b3fdf992c1b6c7e1b2fb920fe7
 
 ## 1.0.2 - 2021-04-04
 
