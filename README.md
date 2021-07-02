@@ -204,9 +204,6 @@ In this way, instances can express behaviors via genes and even orchestrate inte
 
 The `Evolvable::SearchSpace` object is responsible for initializing the full set of genes for a particular instance according to the configuration returned by the [EvolvableClass.search_space](#evolvableclasssearch_space) method. It is used by the `Evolvable::Population` to initialize new instances.
 
-Technically, any object that responds to a `new_genes` method which returns an array of genes for a particular instance can function as a SearchSpace object. Custom implementations will be used if returned by the `.search_space` method.
-
-
 ## Populations
 
 The `Evolvable::Population` object is responsible for generating and evolving instances. It orchestrates all the other Evolvable objects to do so.

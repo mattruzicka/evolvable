@@ -2,10 +2,15 @@
 
 module Evolvable
   class SearchSpace
-    def self.build(config, evolvable_class = nil)
-      return config if config.respond_to?(:new_genome)
-
-      new(config: config, evolvable_class: evolvable_class)
+    class << self
+      def build(config, evolvable_class = nil)
+        if config.is_a?(SearchSpace)
+          config.evolvable_class = evolvable_class if evolvable_class
+          config
+        else
+          new(config: config, evolvable_class: evolvable_class)
+        end
+      end
     end
 
     def initialize(config: {}, evolvable_class: nil)
@@ -13,10 +18,20 @@ module Evolvable
       @config = normalize_config(config)
     end
 
-    attr_reader :config
+    attr_accessor :evolvable_class, :config
 
     def new_genome
       Genome.new(config: new_genome_config)
+    end
+
+    def merge_search_space(val)
+      val = val.config if val.is_a?(self.class)
+      @config.merge normalize_config(val)
+    end
+
+    def merge_search_space!(val)
+      val = val.config if val.is_a?(self.class)
+      @config.merge! normalize_config(val)
     end
 
     private

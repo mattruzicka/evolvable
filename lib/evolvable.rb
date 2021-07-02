@@ -48,11 +48,17 @@ module Evolvable
 
     def base.new_search_space
       space_config = search_space.empty? ? gene_space : search_space
-      SearchSpace.build(space_config, self)
+      search_space = SearchSpace.build(space_config, self)
+      search_spaces.each { |space| search_space.merge_search_space!(space) }
+      search_space
     end
 
     def base.search_space
       {}
+    end
+
+    def base.search_spaces
+      []
     end
 
     # Deprecated. Will be removed in 2.0
