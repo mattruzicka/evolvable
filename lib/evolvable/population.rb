@@ -125,19 +125,25 @@ module Evolvable
       @evolvable_class ||= evolvable_type.is_a?(Class) ? evolvable_type : Object.const_get(evolvable_type)
     end
 
-    def dump
-      Serializer.dump(dump_attrs)
+    def dump(only: nil, except: nil)
+      Serializer.dump(dump_attrs(only: only, except: except))
     end
 
-    def dump_attrs
-      { evolvable_type: evolvable_type,
-        id: id,
-        name: name,
-        size: size,
-        evolutions_count: evolutions_count,
-        search_space: search_space,
-        evolution: evolution,
-        evaluation: evaluation }
+    DUMP_METHODS = [:evolvable_type,
+                    :id,
+                    :name,
+                    :size,
+                    :evolutions_count,
+                    :search_space,
+                    :evolution,
+                    :evaluation].freeze
+
+    def dump_attrs(only: nil, except: nil)
+      attrs = {}
+      dump_methods = only || DUMP_METHODS
+      dump_methods -= except if except
+      dump_methods.each { |m| attrs[m] = send(m) }
+      attrs
     end
 
     private
