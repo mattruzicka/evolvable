@@ -10,6 +10,7 @@ Features
 # Add EvolvablePopulation#reset_instances b61cccbee8ac8cc9f00496e5461131bb796af974
 # Improve gene class lookup. Suppose you have an evolvable Dog class with a Dog::TailGene class. Now you can just pass 'TailGene' as the 'type' in your gene space definition 079dcef000e57553db8c6e5b89207d2d8e5c9890
 # Allow Evolvable.search_space to return a hash, array (when only one gene type), or array of arrays be56c9cc73c7202abc4588cb20c340d1e49498ed
+# Add Evolvable.search_spaces method which can be defined instead of or in addition to Evolvable.search_space, as an array of search space definitions (configs or Evolvable::SearchSpace objects) a3c3896d8b1799b7fac6143812a5ef630f716d85
 
 ```
 selection_size
