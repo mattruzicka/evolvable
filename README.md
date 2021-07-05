@@ -2,13 +2,11 @@
 
 [![Gem Version](https://badge.fury.io/rb/evolvable.svg)](https://badge.fury.io/rb/evolvable) [![Maintainability](https://api.codeclimate.com/v1/badges/7faf84a6d467718b33c0/maintainability)](https://codeclimate.com/github/mattruzicka/evolvable/maintainability)
 
-A framework for building evolvable applications.
-
-[Evolutionary algorithms](https://en.wikipedia.org/wiki/Evolutionary_algorithm) build upon ideas such as natural selection, crossover, and mutation to construct relatively simple solutions to complex problems. This framework provides abstractions for building evolutionary algorithms and applications that are adaptable to any domain.
+An [evolutionary computation](https://en.wikipedia.org/wiki/Evolutionary_computation) framework for building programs that use processes such as natural selection, crossover, and mutation to generate relatively simple solutions to complex problems. If you've studied biological evolution or genetic algorithms, then you're familiar with the idea.
 
 ### The Evolvable Abstraction
 
-Population objects are composed of instances that include the `Evolvable` module. Instances are composed of gene objects that include the `Evolvable::Gene` module. Evaluation and evolution objects are used by populations to evolve instances. They can be configured, extended, and swapped.
+Population objects are composed of instances that include the `Evolvable` module. Instances are composed of gene objects that include the `Evolvable::Gene` module. Gene objects constitute the search space and are used to initialize instances. Evaluation and evolution objects evolve them.
 
 ## Installation
 
