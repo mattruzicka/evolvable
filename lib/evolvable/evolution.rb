@@ -5,20 +5,21 @@ module Evolvable
     extend Forwardable
 
     def initialize(selection: Selection.new,
-                   crossover: GeneCrossover.new,
+                   combination: GeneCrossover.new,
+                   crossover: nil, # deprecated
                    mutation: Mutation.new)
       @selection = selection
-      @crossover = crossover
+      @combination = crossover || combination
       @mutation = mutation
     end
 
     attr_accessor :selection,
-                  :crossover,
+                  :combination,
                   :mutation
 
     def call(population)
       selection.call(population)
-      crossover.call(population)
+      combination.call(population)
       mutation.call(population)
       population
     end
