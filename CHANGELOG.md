@@ -24,10 +24,13 @@ mutation_probability=
 Changes
 * Renamed Goal classes. The old, namespaced goal classes will be removed in version 2.0 a3fb1915230cc297e545d873a80f0324bca5833d
 * Renamed Evolvable#population_index to generation_index. The The population_index method will be removed in version 2.0 e0251f7c51818c30986d5a9a2b44f3834107ec55
-* Rename evolvable_class keyword arg in Evolvable::Population#initialize to evolvable_type and suport strings and classes as arguments. Passing evolvable_class is deprecated and will be removed in version 2.0 and at that time the evolvable_tyoe keyword arg will be required 1491f4b6f5bb615ae17e749922a852edce48072b
+* Renamed evolvable_class keyword arg in Evolvable::Population#initialize to evolvable_type and suport strings and classes as arguments. Passing evolvable_class is deprecated and will be removed in version 2.0 and at that time the evolvable_tyoe keyword arg will be required 1491f4b6f5bb615ae17e749922a852edce48072b
 * Evolvable::Population.new_instance new uses the previous generation's parents to generate a new instance, if there is one. Otherwise, it continues to randomly intitialize the instances from the defined gene space.
 * Renamed Evolvable::GeneSpace to Evolvable::SearchSpace. Using Evolvable::GeneSpace and Evolvable.gene_space is deprecated and support will be removed in version 2.0 837322a66c87d6b3fdf992c1b6c7e1b2fb920fe7
-* Rename Evolution#crossover to Evolution#combination. Using Evolution#crossover is deprecated and support will be removed in version 2.0 7fad505a6dbc679412d5c0565d64791a6edad6b7
+* Renamed Evolution#crossover to Evolution#combination. Using Evolution#crossover is deprecated and support will be removed in version 2.0 7fad505a6dbc679412d5c0565d64791a6edad6b7
+# Renamed Population#crossover, crossover= to combination d2190c5b32584a95e25c40a30b685e634a1b6b7f
+* Renamed Gene.crossover to Gene.combine. Gene.crossover is deprecated and support will be removedin version 2.0 ed2190c5b32584a95e25c40a30b685e634a1b6b7f
+
 
 ## 1.0.2 - 2021-04-04
 
