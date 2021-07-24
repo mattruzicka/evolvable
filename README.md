@@ -1,14 +1,12 @@
 # Evolvable
+
 [![Gem Version](https://badge.fury.io/rb/evolvable.svg)](https://badge.fury.io/rb/evolvable) [![Maintainability](https://api.codeclimate.com/v1/badges/7faf84a6d467718b33c0/maintainability)](https://codeclimate.com/github/mattruzicka/evolvable/maintainability)
 
-A framework for building evolutionary behaviors in Ruby.
-
-[Evolutionary algorithms](https://en.wikipedia.org/wiki/Evolutionary_algorithm) build upon ideas such as natural selection, crossover, and mutation to construct relatively simple solutions to complex problems. This gem has been used to implement evolutionary behaviors for [visual, textual, and auditory experiences](https://projectpag.es/evolvable) as well as a variety of AI agents.
-
-With a straightforward and extensible API, Evolvable aims to make building simple as well as complex evolutionary algorithms fun and relatively easy.
+An [evolutionary computation](https://en.wikipedia.org/wiki/Evolutionary_computation) framework for building programs that use processes such as natural selection, crossover, and mutation to generate relatively simple solutions to complex problems. If you've studied biological evolution or genetic algorithms, then you're already familiar with the idea.
 
 ### The Evolvable Abstraction
-Population objects are composed of instances that include the `Evolvable` module. Instances are composed of gene objects that include the `Evolvable::Gene` module. Evaluation and evolution objects are used by population objects to evolve your instances. An evaluation object has one goal object and the evolution object is composed of selection, crossover, and mutation objects by default. All classes exposed by Evolvable are prefixed with `Evolvable::` and can be configured, inherited, removed, and extended.
+
+Population objects are composed of instances that include the `Evolvable` module. Instances are composed of gene objects that include the `Evolvable::Gene` module. Gene objects constitute the search space and are used to initialize instances. Evaluation and evolution objects evolve them.
 
 ## Installation
 
@@ -16,25 +14,24 @@ Add `gem 'evolvable'` to your application's Gemfile and run `bundle install` or 
 
 ## Getting Started
 
-After installing and requiring the "evolvable" Ruby gem:
-
-1. Include the `Evolvable` module in the class for the instances you want to evolve. (See [Configuration](#Configuration)).
-2. Implement `.search_space`, define any gene classes referenced by it, and include the `Evolvable::Gene` module for each. (See [Genes](#Genes)).
-3. Implement `#value`. (See [Evaluation](#evaluation-1)).
-4. Initialize a population and start evolving. (See [Populations](#Populations)).
+1. Include the `Evolvable` module in the class for the instances you want to evolve. (See [Configuration](#configuration))
+2. Implement `.search_space` with references to gene classes that include the `Evolvable::Gene` module. (See [Genes](#genes))
+3. Implement `#value`. (See [Evaluation](#evaluation-1))
+4. Initialize a population and start evolving. (See [Populations](#populations))
 
 Visit the [Evolving Strings](https://github.com/mattruzicka/evolvable/wiki/Evolving-Strings) tutorial to see these steps in action. It walks through a simplified implementation of the [evolve string](https://github.com/mattruzicka/evolve_string) command-line program. Here's the [example source code](https://github.com/mattruzicka/evolvable/blob/master/examples/evolvable_string.rb) for the tutorial.
 
 If you’d like to quickly play around with an evolvable string Population object, you can do so by cloning this repo and running the command `bin/console` in this project's directory.
 
 ## Usage
-- [Configuration](#Configuration)
-- [Genes](#Genes)
-- [Populations](#Populations)
+
+- [Configuration](#configuration)
+- [Genes](#genes)
+- [Populations](populations)
 - [Evaluation](#evaluation-1)
 - [Evolution](#evolution-1)
 - [Selection](#selection-1)
-- [Crossover](#Crossover)
+- [Crossover](#crossover)
 - [Mutation](#mutation-1)
 
 ## Configuration
@@ -392,7 +389,7 @@ Supports single and multi-point crossover. The default is single-point crossover
 
 ## Mutation
 
-Mutation serves the role of increasing genetic variation, especially when a population's instances are small in number and mostly homogeneous. When an instance undergoes a mutation, it means that one of its existing genes is replaced with a newly initialized gene. Using the language from the [section on genes](genes), a gene mutation invokes a new outcome from the gene's sample space.
+Mutation serves the role of increasing genetic variation, especially when a population's instances are small in number and mostly homogeneous. When an instance undergoes a mutation, it means that one of its existing genes is replaced with a newly initialized gene. Using the language from the [section on genes](#genes), a gene mutation invokes a new outcome from the gene's sample space.
 
 ### Evolvable::Mutation.new
 
