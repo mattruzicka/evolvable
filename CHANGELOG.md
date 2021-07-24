@@ -7,10 +7,10 @@ Features
 * Add the following delegation methods to Evolvable::Population ffb9998b09f02fa6759322c324b2f448fd3af223
 * Keep previous generation parents for generating instances for the current generation whenever 856ac3a778106d34221ce8ce8ae14b963877dc76
 * Add Evolvable::Population.new_instance and methods to Evolvable Selection, Crossover, and Mutation for acting on instances 856ac3a778106d34221ce8ce8ae14b963877dc76
-# Add EvolvablePopulation#reset_instances b61cccbee8ac8cc9f00496e5461131bb796af974
-# Improve gene class lookup. Suppose you have an evolvable Dog class with a Dog::TailGene class. Now you can just pass 'TailGene' as the 'type' in your gene space definition 079dcef000e57553db8c6e5b89207d2d8e5c9890
-# Allow Evolvable.search_space to return a hash, array (when only one gene type), or array of arrays be56c9cc73c7202abc4588cb20c340d1e49498ed
-# Add Evolvable.search_spaces method which can be defined instead of or in addition to Evolvable.search_space, as an array of search space definitions (configs or Evolvable::SearchSpace objects) a3c3896d8b1799b7fac6143812a5ef630f716d85
+* Add EvolvablePopulation*reset_instances b61cccbee8ac8cc9f00496e5461131bb796af974
+* Improve gene class lookup. Suppose you have an evolvable Dog class with a Dog::TailGene class. Now you can just pass 'TailGene' as the 'type' in your gene space definition 079dcef000e57553db8c6e5b89207d2d8e5c9890
+* Allow Evolvable.search_space to return a hash, array (when only one gene type), or array of arrays be56c9cc73c7202abc4588cb20c340d1e49498ed
+* Add Evolvable.search_spaces method which can be defined instead of or in addition to Evolvable.search_space, as an array of search space definitions (configs or Evolvable::SearchSpace objects) a3c3896d8b1799b7fac6143812a5ef630f716d85
 
 ```
 selection_size
@@ -28,7 +28,7 @@ Changes
 * Evolvable::Population.new_instance new uses the previous generation's parents to generate a new instance, if there is one. Otherwise, it continues to randomly intitialize the instances from the defined gene space.
 * Renamed Evolvable::GeneSpace to Evolvable::SearchSpace. Using Evolvable::GeneSpace and Evolvable.gene_space is deprecated and support will be removed in version 2.0 837322a66c87d6b3fdf992c1b6c7e1b2fb920fe7
 * Renamed Evolution#crossover to Evolution#combination. Using Evolution#crossover is deprecated and support will be removed in version 2.0 7fad505a6dbc679412d5c0565d64791a6edad6b7
-# Renamed Population#crossover, crossover= to combination d2190c5b32584a95e25c40a30b685e634a1b6b7f
+* Renamed Population#crossover, crossover= to combination d2190c5b32584a95e25c40a30b685e634a1b6b7f
 * Renamed Gene.crossover to Gene.combine. Gene.crossover is deprecated and support will be removedin version 2.0 ed2190c5b32584a95e25c40a30b685e634a1b6b7f
 
 
