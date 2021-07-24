@@ -15,11 +15,14 @@ module Evolvable
         @key
       end
 
-      def crossover(gene_a, gene_b)
+      def combine(gene_a, gene_b)
         genes = [gene_a, gene_b]
         genes.compact!
         genes.sample
       end
+
+      # Deprecated. Will be removed in 2.0. Use combine
+      alias crossover combine
     end
 
     attr_accessor :instance

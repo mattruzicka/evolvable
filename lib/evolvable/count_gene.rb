@@ -5,17 +5,17 @@ module Evolvable
     include Gene
 
     class << self
-      def crossover(gene_a, gene_b)
+      def combine(gene_a, gene_b)
         min = gene_a.min_count
         max = gene_a.max_count
-        count = crossover_lambda.call(gene_a, gene_b).clamp(min, max)
+        count = combination.call(gene_a, gene_b).clamp(min, max)
         new(range: gene_a.range, count: count)
       end
 
       LAMBDAS = [->(a, b) { [a, b].sample.count + rand(-1..1) },
                  ->(a, b) { a.count + b.count / 2 }].freeze
 
-      def crossover_lambda
+      def combination
         LAMBDAS.sample
       end
     end

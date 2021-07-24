@@ -4,7 +4,7 @@ module Evolvable
   class RigidCountGene
     include Gene
 
-    def self.crossover(gene_a, _gene_b)
+    def self.combine(gene_a, _gene_b)
       gene_a
     end
 

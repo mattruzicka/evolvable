@@ -52,8 +52,8 @@ module Evolvable
     def_delegators :evolution,
                    :selection,
                    :selection=,
-                   :crossover,
-                   :crossover=,
+                   :combination,
+                   :combination=,
                    :mutation,
                    :mutation=
 
@@ -155,7 +155,7 @@ module Evolvable
     end
 
     def generate_instances(count)
-      instances = crossover.new_instances(self, count)
+      instances = combination.new_instances(self, count)
       mutation.mutate_instances(instances)
       instances
     end
