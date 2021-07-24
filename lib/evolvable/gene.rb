@@ -3,15 +3,19 @@
 module Evolvable
   module Gene
     def self.included(base)
-      def base.key=(val)
+      base.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def key=(val)
         @key = val
       end
 
-      def base.key
+      def key
         @key
       end
 
-      def base.crossover(gene_a, gene_b)
+      def crossover(gene_a, gene_b)
         genes = [gene_a, gene_b]
         genes.compact!
         genes.sample

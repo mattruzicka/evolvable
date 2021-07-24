@@ -26,14 +26,18 @@ module Evolvable
   extend Forwardable
 
   def self.included(base)
-    def base.new_population(keyword_args = {})
+    base.extend(ClassMethods)
+  end
+
+  module ClassMethods
+    def new_population(keyword_args = {})
       keyword_args[:evolvable_type] = self
       Population.new(**keyword_args)
     end
 
-    def base.new_instance(population: nil,
-                          genome: Genome.new,
-                          generation_index: nil)
+    def new_instance(population: nil,
+                     genome: Genome.new,
+                     generation_index: nil)
       evolvable = initialize_instance
       evolvable.population = population
       evolvable.genome = genome
@@ -42,36 +46,36 @@ module Evolvable
       evolvable
     end
 
-    def base.initialize_instance
+    def initialize_instance
       new
     end
 
-    def base.new_search_space
+    def new_search_space
       space_config = search_space.empty? ? gene_space : search_space
       search_space = SearchSpace.build(space_config, self)
       search_spaces.each { |space| search_space.merge_search_space!(space) }
       search_space
     end
 
-    def base.search_space
+    def search_space
       {}
     end
 
-    def base.search_spaces
+    def search_spaces
       []
     end
 
     # Deprecated. Will be removed in 2.0
     # use Evolvable::EqualizeGoal instead
-    def base.gene_space
+    def gene_space
       {}
     end
 
-    def base.before_evaluation(population); end
+    def before_evaluation(population); end
 
-    def base.before_evolution(population); end
+    def before_evolution(population); end
 
-    def base.after_evolution(population); end
+    def after_evolution(population); end
   end
 
   def initialize_instance; end
