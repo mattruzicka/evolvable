@@ -1,5 +1,8 @@
 # Evolvable
 
+⚠️ See https://github.com/mattruzicka/evolvable/pull/8 for the latest developments! Lots of changes and new features coming very soon! 
+
+
 [![Gem Version](https://badge.fury.io/rb/evolvable.svg)](https://badge.fury.io/rb/evolvable) [![Maintainability](https://api.codeclimate.com/v1/badges/7faf84a6d467718b33c0/maintainability)](https://codeclimate.com/github/mattruzicka/evolvable/maintainability)
 
 An [evolutionary computation](https://en.wikipedia.org/wiki/Evolutionary_computation) framework for building programs that use processes such as natural selection, crossover, and mutation to generate relatively simple solutions to complex problems. If you've studied biological evolution or genetic algorithms, then you're already familiar with the idea.
