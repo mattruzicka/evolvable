@@ -35,18 +35,18 @@ module Evolvable
       Population.new(**keyword_args)
     end
 
-    def new_instance(population: nil,
-                     genome: Genome.new,
-                     generation_index: nil)
-      evolvable = initialize_instance
+    def new_evolvable(population: nil,
+                      genome: Genome.new,
+                      generation_index: nil)
+      evolvable = initialize_evolvable
       evolvable.population = population
       evolvable.genome = genome
       evolvable.generation_index = generation_index
-      evolvable.initialize_instance
+      evolvable.initialize_evolvable
       evolvable
     end
 
-    def initialize_instance
+    def initialize_evolvable
       new
     end
 
@@ -78,7 +78,7 @@ module Evolvable
     def after_evolution(population); end
   end
 
-  def initialize_instance; end
+  def initialize_evolvable; end
 
   attr_accessor :id,
                 :population,

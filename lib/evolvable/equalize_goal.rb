@@ -6,12 +6,12 @@ module Evolvable
       @value ||= 0
     end
 
-    def evaluate(instance)
-      -(instance.value - value).abs
+    def evaluate(evolvable)
+      -(evolvable.value - value).abs
     end
 
-    def met?(instance)
-      instance.value == value
+    def met?(evolvable)
+      evolvable.value == value
     end
   end
 

@@ -25,7 +25,7 @@ module Evolvable
       alias crossover combine
     end
 
-    attr_accessor :instance
+    attr_accessor :evolvable
 
     def key
       self.class.key

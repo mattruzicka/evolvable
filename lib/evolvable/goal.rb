@@ -8,11 +8,11 @@ module Evolvable
 
     attr_accessor :value
 
-    def evaluate(_instance)
+    def evaluate(_evolvable)
       raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
     end
 
-    def met?(_instance)
+    def met?(_evolvable)
       raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
     end
   end

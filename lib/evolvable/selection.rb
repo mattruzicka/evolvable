@@ -11,13 +11,13 @@ module Evolvable
     attr_accessor :size
 
     def call(population)
-      population.parent_instances = select_instances(population.instances)
-      population.instances = []
+      population.parent_evolvables = select_evolvables(population.evolvables)
+      population.evolvables = []
       population
     end
 
-    def select_instances(instances)
-      instances.last(@size)
+    def select_evolvables(evolvables)
+      evolvables.last(@size)
     end
   end
 end

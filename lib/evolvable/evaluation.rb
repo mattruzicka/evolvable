@@ -13,15 +13,15 @@ module Evolvable
     attr_accessor :goal
 
     def call(population)
-      population.instances.sort_by! { |instance| goal.evaluate(instance) }
+      population.evolvables.sort_by! { |evolvable| goal.evaluate(evolvable) }
     end
 
-    def best_instance(population)
-      population.instances.max_by { |instance| goal.evaluate(instance) }
+    def best_evolvable(population)
+      population.evolvables.max_by { |evolvable| goal.evaluate(evolvable) }
     end
 
     def met_goal?(population)
-      goal.met?(population.instances.last)
+      goal.met?(population.evolvables.last)
     end
 
     private

@@ -6,12 +6,12 @@ module Evolvable
       @value ||= Float::INFINITY
     end
 
-    def evaluate(instance)
-      instance.value
+    def evaluate(evolvable)
+      evolvable.value
     end
 
-    def met?(instance)
-      instance.value >= value
+    def met?(evolvable)
+      evolvable.value >= value
     end
   end
 

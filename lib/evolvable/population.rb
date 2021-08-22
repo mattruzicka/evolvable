@@ -19,8 +19,8 @@ module Evolvable
                    search_space: nil,
                    evolution: Evolution.new,
                    evaluation: Evaluation.new,
-                   parent_instances: [],
-                   instances: [])
+                   parent_evolvables: [],
+                   evolvables: [])
       @id = id
       @evolvable_type = evolvable_type || evolvable_class
       @name = name
@@ -29,8 +29,8 @@ module Evolvable
       @search_space = initialize_search_space(search_space || gene_space)
       @evolution = evolution
       @evaluation = evaluation || Evaluation.new
-      @parent_instances = parent_instances
-      @instances = new_instances(count: @size - instances.count, instances: instances)
+      @parent_evolvables = parent_evolvables
+      @evolvables = new_evolvables(count: @size - evolvables.count, evolvables: evolvables)
     end
 
     attr_accessor :id,
@@ -41,8 +41,8 @@ module Evolvable
                   :search_space,
                   :evolution,
                   :evaluation,
-                  :parent_instances,
-                  :instances
+                  :parent_evolvables,
+                  :evolvables
 
     def_delegators :evolvable_class,
                    :before_evaluation,
@@ -83,42 +83,42 @@ module Evolvable
       end
     end
 
-    def best_instance
-      evaluation.best_instance(self)
+    def best_evolvable
+      evaluation.best_evolvable(self)
     end
 
     def met_goal?
       evaluation.met_goal?(self)
     end
 
-    def new_instance(genome: nil)
-      return generate_instances(1).first unless genome || parent_instances.empty?
+    def new_evolvable(genome: nil)
+      return generate_evolvables(1).first unless genome || parent_evolvables.empty?
 
-      instance = evolvable_class.new_instance(population: self,
-                                              genome: genome || search_space.new_genome,
-                                              generation_index: @instances.count)
-      @instances << instance
-      instance
+      evolvable = evolvable_class.new_evolvable(population: self,
+                                                genome: genome || search_space.new_genome,
+                                                generation_index: @evolvables.count)
+      @evolvables << evolvable
+      evolvable
     end
 
-    def new_instances(count:, instances: nil)
-      instances ||= @instances || []
-      @instances = instances
+    def new_evolvables(count:, evolvables: nil)
+      evolvables ||= @evolvables || []
+      @evolvables = evolvables
 
-      if parent_instances.empty?
-        Array.new(count) { new_instance(genome: search_space.new_genome) }
+      if parent_evolvables.empty?
+        Array.new(count) { new_evolvable(genome: search_space.new_genome) }
       else
-        @instances = generate_instances(count)
+        @evolvables = generate_evolvables(count)
       end
     end
 
-    def reset_instances
-      self.instances = []
-      new_instances(count: size)
+    def reset_evolvables
+      self.evolvables = []
+      new_evolvables(count: size)
     end
 
     def new_parent_genome_cycle
-      parent_instances.map(&:genome).shuffle!.combination(2).cycle
+      parent_evolvables.map(&:genome).shuffle!.combination(2).cycle
     end
 
     def evolvable_class
@@ -154,10 +154,10 @@ module Evolvable
       evolvable_class.new_search_space
     end
 
-    def generate_instances(count)
-      instances = combination.new_instances(self, count)
-      mutation.mutate_instances(instances)
-      instances
+    def generate_evolvables(count)
+      evolvables = combination.new_evolvables(self, count)
+      mutation.mutate_evolvables(evolvables)
+      evolvables
     end
   end
 end

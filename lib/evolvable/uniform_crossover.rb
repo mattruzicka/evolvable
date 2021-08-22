@@ -3,15 +3,15 @@
 module Evolvable
   class UniformCrossover
     def call(population)
-      population.instances = new_instances(population, population.size)
+      population.evolvables = new_evolvables(population, population.size)
       population
     end
 
-    def new_instances(population, count)
+    def new_evolvables(population, count)
       parent_genome_cycle = population.new_parent_genome_cycle
       Array.new(count) do
         genome = build_genome(parent_genome_cycle.next)
-        population.new_instance(genome: genome)
+        population.new_evolvable(genome: genome)
       end
     end
 

@@ -31,24 +31,24 @@ class Stickman
     CLEAR_SEQUENCE = ("\e[1A\r\033[2K" * 8).freeze
 
     def before_evaluation(population)
-      population.instances.each do |instance|
-        puts "\n\n#{instance.draw}\n\n"
-        print green_text(" Rate Stickman #{population.evolutions_count}.#{instance.generation_index + 1}: ")
-        instance.value = gets.to_i
+      population.evolvables.each do |evolvable|
+        puts "\n\n#{evolvable.draw}\n\n"
+        print green_text(" Rate Stickman #{population.evolutions_count}.#{evolvable.generation_index + 1}: ")
+        evolvable.value = gets.to_i
         print CLEAR_SEQUENCE
       end
 
-      (@best_instances ||= []) << population.best_instance
-      animate_best_instances if @best_instances.count > 1
+      (@best_evolvables ||= []) << population.best_evolvable
+      animate_best_evolvables if @best_evolvables.count > 1
       print "\n\n\n\n\n\n\n #{green_text('Evolve next generation?');} Yes!" \
             "  #{green_text('...Use Ctrl-C to stop')}#{"\b" * 23}"
       gets
       print CLEAR_SEQUENCE
     end
 
-    def animate_best_instances
-      @best_instances.each_with_index do |instance, index|
-        puts "\n\n#{green_text(instance.draw)}\n\n"
+    def animate_best_evolvables
+      @best_evolvables.each_with_index do |evolvable, index|
+        puts "\n\n#{green_text(evolvable.draw)}\n\n"
         print green_text(" Generation: #{index}\r\n ")
         sleep 0.12
         print "#{CLEAR_SEQUENCE}"

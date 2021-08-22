@@ -9,7 +9,7 @@ class AsciiArt
     end
 
     def before_evaluation(population)
-      population.best_instance.to_terminal
+      population.best_evolvable.to_terminal
     end
   end
 

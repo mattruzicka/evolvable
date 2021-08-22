@@ -50,7 +50,7 @@ class HelloWorld
         HelloWorld.seek_target
         prepare_to_exit_loop && break if exit_loop?
 
-        population.reset_instances
+        population.reset_evolvables
         population.evolve
       end
     end
@@ -84,9 +84,9 @@ class HelloWorld
     end
 
     def before_evolution(population)
-      best_instance = population.best_instance
-      spacing = ' ' * (2 + MAX_STRING_LENGTH - best_instance.to_s.length)
-      puts " #{best_instance}#{spacing}#{green_text("Generation #{population.evolutions_count}")}"
+      best_evolvable = population.best_evolvable
+      spacing = ' ' * (2 + MAX_STRING_LENGTH - best_evolvable.to_s.length)
+      puts " #{best_evolvable}#{spacing}#{green_text("Generation #{population.evolutions_count}")}"
     end
 
     def green_text(text)
