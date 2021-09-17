@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
+  # @readme
+  #   Combination generates new evolvable instances by combining the genes of selected instances.
+  #   You can think of it as a mixing of parent genes from one generation to
+  #   produce the next generation.
+  #
+  # Custom crossover objects must implement the `#call` method which accepts
+  # the population as the first object.
+  # Enables gene types to define combination behaviors.
+  #
+  # Each gene class can implement a unique behavior for
+  # combination by overriding the following default implementation
+  # which mirrors the behavior of `Evolvable::UniformCrossover`
+  #
   class GeneCombination
     def call(population)
       new_evolvables(population, population.size)

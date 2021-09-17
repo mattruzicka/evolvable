@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
+  # Randomly chooses a gene from one of the parents for each gene position.
+  #
   class UniformCrossover
     def call(population)
       population.evolvables = new_evolvables(population, population.size)
