@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'evolvable'
+require 'byebug'
+
+Dir['./examples/*'].each { |f| require f }
+
+evaluation = Evolvable::Evaluation.new(equalize: 0)
+population = HelloWorld.new_population(size: 100, evaluation: evaluation)
+population.mutation_probability = 0.6
+population.evolve
+HelloWorld.start_loop(population)
+
+require 'irb'
+IRB.start(__FILE__)

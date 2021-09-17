@@ -4,14 +4,12 @@ class HelloWorld
   class CharGene
     include Evolvable::Gene
 
-    class << self
-      def chars
-        @chars ||= 32.upto(126).map(&:chr)
-      end
+    def self.chars
+      @chars ||= 32.upto(126).map(&:chr)
+    end
 
-      def ensure_chars(string)
-        @chars.concat(string.chars - chars)
-      end
+    def self.ensure_chars(string)
+      @chars.concat(string.chars - chars)
     end
 
     def to_s
@@ -19,79 +17,77 @@ class HelloWorld
     end
   end
 
-  class << self
-    MAX_STRING_LENGTH = 40
+  MAX_STRING_LENGTH = 40
 
-    # TODO: Extract the below comment into tests and documentation
+  # TODO: Extract the below comment into tests and documentation
 
-    # Gene Space Definition Options
-    # All of the below result in the same behavior for this particular
-    # program since it simply finds its name via the #genes method
+  # Gene Space Definition Options
+  # All of the below result in the same behavior for this particular
+  # program since it simply finds its name via the #genes method
 
-    # Hash definition
-    # { char_genes: { type: 'CharGene', count: 1..MAX_STRING_LENGTH } }
+  # Hash definition
+  # { char_genes: { type: 'CharGene', count: 1..MAX_STRING_LENGTH } }
 
-    # Array of arrays definition
-    # [[:char_genes, 'CharGene', 1..MAX_STRING_LENGTH]]
-    # [['char_genes', 'CharGene',  1..MAX_STRING_LENGTH]]
-    # [['CharGene', 1..MAX_STRING_LENGTH]]
+  # Array of arrays definition
+  # [[:char_genes, 'CharGene', 1..MAX_STRING_LENGTH]]
+  # [['char_genes', 'CharGene',  1..MAX_STRING_LENGTH]]
+  # [['CharGene', 1..MAX_STRING_LENGTH]]
 
-    # Single array for when there's only one type of gene
-    # ['CharGene', 1..MAX_STRING_LENGTH]
-    # [:char_genes, 'CharGene', 1..MAX_STRING_LENGTH]
-    # ['char_genes', 'CharGene', 1..MAX_STRING_LENGTH]
+  # Single array for when there's only one type of gene
+  # ['CharGene', 1..MAX_STRING_LENGTH]
+  # [:char_genes, 'CharGene', 1..MAX_STRING_LENGTH]
+  # ['char_genes', 'CharGene', 1..MAX_STRING_LENGTH]
 
-    def search_space
-      { char_genes: { type: 'CharGene', count: 1..MAX_STRING_LENGTH } }
+  def self.search_space
+    { char_genes: { type: 'CharGene', count: 1..MAX_STRING_LENGTH } }
+  end
+
+  def self.start_loop(population)
+    loop do
+      HelloWorld.seek_target
+      prepare_to_exit_loop && break if exit_loop?
+
+      population.reset_evolvables
+      population.evolve
     end
+  end
 
-    def start_loop(population)
-      loop do
-        HelloWorld.seek_target
-        prepare_to_exit_loop && break if exit_loop?
+  def self.exit_loop?
+    ['"exit"', 'exit'].include?(target)
+  end
 
-        population.reset_evolvables
-        population.evolve
-      end
-    end
+  def self.prepare_to_exit_loop
+    print "\n\n\n\n\n #{green_text('Goodbye!')}\n\n\n"
+    true
+  end
 
-    def exit_loop?
-      ['"exit"', 'exit'].include?(target)
-    end
+  def self.seek_target
+    print "\n\n\n\n\n #{green_text('Use "exit" to stop')} \e[1A\e[1A\e[1A\r" \
+    " #{green_text('Enter a string to evolve: ')}"
+    self.target = gets.strip!
+  end
 
-    def prepare_to_exit_loop
-      print "\n\n\n\n\n #{green_text('Goodbye!')}\n\n\n"
-      true
-    end
+  def self.target=(val)
+    @target = if val.empty?
+                'I chose this string :)'
+              else
+                CharGene.ensure_chars(val)
+                val.slice(0...MAX_STRING_LENGTH)
+              end
+  end
 
-    def seek_target
-      print "\n\n\n\n\n #{green_text('Use "exit" to stop')} \e[1A\e[1A\e[1A\r" \
-      " #{green_text('Enter a string to evolve: ')}"
-      self.target = gets.strip!
-    end
+  def self.target
+    @target ||= 'Hello World!'
+  end
 
-    def target=(val)
-      @target = if val.empty?
-                  'I chose this string :)'
-                else
-                  CharGene.ensure_chars(val)
-                  val.slice!(0...MAX_STRING_LENGTH)
-                end
-    end
+  def self.before_evolution(population)
+    best_evolvable = population.best_evolvable
+    spacing = ' ' * (2 + MAX_STRING_LENGTH - best_evolvable.to_s.length)
+    puts " #{best_evolvable}#{spacing}#{green_text("Generation #{population.evolutions_count}")}"
+  end
 
-    def target
-      @target ||= 'Hello Evolvable World!'
-    end
-
-    def before_evolution(population)
-      best_evolvable = population.best_evolvable
-      spacing = ' ' * (2 + MAX_STRING_LENGTH - best_evolvable.to_s.length)
-      puts " #{best_evolvable}#{spacing}#{green_text("Generation #{population.evolutions_count}")}"
-    end
-
-    def green_text(text)
-      "\e[32m#{text}\e[0m"
-    end
+  def self.green_text(text)
+    "\e[32m#{text}\e[0m"
   end
 
   def to_s

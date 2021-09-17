@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
+  # Prioritizes instances with greater values. This is the default.
+  #
+  # The default goal value is `Float::INFINITY`, but it can be reassigned
+  # to any numeric value.
+  #
   class MaximizeGoal < Goal
     def value
       @value ||= Float::INFINITY
@@ -15,7 +21,10 @@ module Evolvable
     end
   end
 
-  # Deprecated. Will be removed in 2.0
-  # use Evolvable::MaximizeGoal instead
+  #
+  # @deprecated
+  #   Will be removed in 2.0.
+  #   Use {MaximizeGoal} instead
+  #
   class Goal::Maximize < MaximizeGoal; end
 end

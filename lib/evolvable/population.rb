@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
+  # @readme
+  #   Population objects are responsible for generating and evolving instances.
+  #   They orchestrate all the other Evolvable objects to do so.
+  #
+  #   Populations can be initialized and re-initialized with a number of useful
+  #   parameters.
+  #
   class Population
     extend Forwardable
 
@@ -9,6 +17,30 @@ module Evolvable
       new(**dump_attrs)
     end
 
+    # Initializes an Evolvable::Population.
+    # Keyword arguments:
+    # #### evolvable_class
+    # Required. Implicitly specified when using EvolvableClass.new_population.
+    # #### id, name
+    # Both default to `nil`. Not used by Evolvable, but convenient when working
+    # with multiple populations.
+    # #### size
+    # Defaults to `40`. Specifies the number of instances in the population.
+    # #### evolutions_count
+    # Defaults to `0`. Useful when re-initializing a saved population with instances.
+    # #### search_space
+    # Defaults to `evolvable_class.new_search_space` which uses the
+    # [EvolvableClass.search_space](#evolvableclasssearch_space) method
+    # #### evolution
+    # Defaults to `Evolvable::Evolution.new`. See [evolution](#evolution-1)
+    # #### evaluation
+    # Defaults to `Evolvable::Evaluation.new`, with a goal of maximizing
+    # towards Float::INFINITY. See [evaluation](#evaluation-1)
+    # #### instances
+    # Defaults to initializing a `size` number of `evolvable_class`
+    # instances using the `search_space` object. Any given instances
+    # are assigned, but if given less than `size`, more will be initialized.
+    #
     def initialize(evolvable_type: nil,
                    evolvable_class: nil, # Deprecated
                    id: nil,
@@ -28,7 +60,7 @@ module Evolvable
       @evolutions_count = evolutions_count
       @search_space = initialize_search_space(search_space || gene_space)
       @evolution = evolution
-      @evaluation = evaluation || Evaluation.new
+      @evaluation = evaluation.is_a?(Evaluation) ? evaluation : Evaluation.new(evaluation)
       @parent_evolvables = parent_evolvables
       @evolvables = new_evolvables(count: @size - evolvables.count, evolvables: evolvables)
     end
@@ -69,6 +101,36 @@ module Evolvable
                    :goal,
                    :goal=
 
+    #
+    #  Keyword arguments:
+    #
+    #  #### count
+    #  The number of evolutions to run. Expects a positive integer
+    #  and Defaults to Float::INFINITY and will therefore run indefinitely
+    #  unless a `goal_value` is specified.
+    #  #### goal_value
+    #  Assigns the goal object's value. Will continue running until any
+    #  instance's value reaches it. See [evaluation](#evaluation-1)
+    #
+    #  ### Evolvable::Population#best_instance
+    #  Returns an instance with the value that is nearest to the goal value.
+    #
+    #  ### Evolvable::Population#met_goal?
+    #  Returns true if any instance's value matches the goal value, otherwise false.
+    #
+    #  ### Evolvable::Population#new_instance
+    #  Initializes an instance for the population. Note that this method does not
+    #  add the new instance to its array of instances.
+    #
+    #  Keyword arguments:
+    #
+    #  #### genes
+    #  An array of initialized gene objects. Defaults to `[]`
+    #  #### population_index
+    #  Defaults to `nil` and expects an integer.
+    #
+    # See (EvolvableClass#population_index)[#evolvableclasspopulation_index-population_index]
+    #
     def evolve(count: Float::INFINITY, goal_value: nil)
       goal.value = goal_value if goal_value
       1.upto(count) do
@@ -129,14 +191,14 @@ module Evolvable
       Serializer.dump(dump_attrs(only: only, except: except))
     end
 
-    DUMP_METHODS = [:evolvable_type,
-                    :id,
-                    :name,
-                    :size,
-                    :evolutions_count,
-                    :search_space,
-                    :evolution,
-                    :evaluation].freeze
+    DUMP_METHODS = %i[evolvable_type
+                      id
+                      name
+                      size
+                      evolutions_count
+                      search_space
+                      evolution
+                      evaluation].freeze
 
     def dump_attrs(only: nil, except: nil)
       attrs = {}

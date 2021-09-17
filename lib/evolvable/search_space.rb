@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
+  # @readme
+  #   The Search Space encapsulates the range of possible genes
+  #   for a particular evolvable. It is configured via the
+  #   [EvolvableClass.search_space](#evolvableclasssearch_space) method
+  #   and used by populations to initialize new instances.
+  #
   class SearchSpace
     class << self
       def build(config, evolvable_class = nil)
@@ -135,7 +142,10 @@ module Evolvable
     end
   end
 
-  # Deprecated. Will be removed in 2.0
-  # use Evolvable::EqualizeGoal instead
+  #
+  # @deprecated
+  #   Will be removed in 2.0
+  #   use {SearchSpace} instead
+  #
   class GeneSpace < SearchSpace; end
 end

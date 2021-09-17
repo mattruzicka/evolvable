@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
+  # Supports single and multi-point crossover. The default is single-point
+  # crossover via a `points_count` of 1 which can be changed on an existing population
+  # (`population.crossover.points_count = 5`) or during initialization
+  # (`Evolvable::PointCrossover.new(5)`)
+  #
   class PointCrossover
     def initialize(points_count: 1)
       @points_count = points_count
