@@ -7,9 +7,9 @@ module Evolvable
   #   a way to compare evolvables. In the genetic algorithm, this is often
   #   referred to as the "fitness function".
   #
-  #   The Evaluation object expects instances to define a `#value` method which returns
-  #   some numeric value. Values are used to evaluate instances relative to each
-  #   other and with regards to a specified goal. Out of the box, the goal can be
+  #   The Evaluation object expects evolvable instances to define a `#value` method that
+  #   returns some numeric value. Values are used to evaluate instances relative to each
+  #   other and with regards to some goal. Out of the box, the goal can be
   #   to maximize, minimize, or equalize some numeric value.
   #
   # A population's goal value can be most easily assigned via  an argument to

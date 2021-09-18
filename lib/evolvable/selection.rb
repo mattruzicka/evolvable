@@ -8,7 +8,7 @@ module Evolvable
   #   undergo combination and thereby produce the next generation of evolvables.
   #
   #   Only two evolvables are selected as parents for each generation by default.
-  #   This number can be configured.
+  #   The selection `size` is configurable.
   #
   class Selection
     extend Forwardable

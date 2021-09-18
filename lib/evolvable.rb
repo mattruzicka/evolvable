@@ -44,7 +44,7 @@ module Evolvable
   module ClassMethods
     #
     # @readme
-    #   Initializes a population using defaults that can be configured and optimized.
+    #   Initializes a population using configurable defaults that can be configured and optimized.
     #   Accepts the same named parameters as
     #   [Population#initialize](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population#initialize).
     #

@@ -8,7 +8,7 @@ module Evolvable
   #   initialized ones. In effect, a gene mutation invokes a new random outcome
   #   from the genetic search space.
   #
-  #   Mutation frequency can be configured using the `probability` and `rate`
+  #   Mutation frequency is configurable using the `probability` and `rate`
   #   parameters.
   #
   class Mutation
