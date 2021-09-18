@@ -1,9 +1,14 @@
 # Evolvable 🧬
 
-⚠️ See https://github.com/mattruzicka/evolvable/pull/8 for the latest developments! Lots of changes and new features coming very soon! 
-
-
 [![Gem Version](https://badge.fury.io/rb/evolvable.svg)](https://badge.fury.io/rb/evolvable) [![Maintainability](https://api.codeclimate.com/v1/badges/7faf84a6d467718b33c0/maintainability)](https://codeclimate.com/github/mattruzicka/evolvable/maintainability)
+
+---
+
+⚠️ **This README is for a not-yet-released version of Evolvable, likely 1.1.0**
+
+Please use this `main` branch and give me feedback as I work on polishing things up and cutting the next release!
+
+---
 
 
 An evolutionary framework for writing programs that use operations such as selection, crossover, and mutation. Explore ideas generatively in any domain, discover novel solutions to complex problems, and build intuitions about intelligence, complexity, and the natural world.
