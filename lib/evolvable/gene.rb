@@ -1,22 +1,48 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
+  # @readme
+  #   For evolution to be effective, an evolvable's genes must be able to influence
+  #   its behavior. Evolvable instances are composed of genes which can be used
+  #   to implement simple functions or orchestrate complex interactions.
+  #
+  #   Defining gene classes requires encapsulating some "sample space" and returning
+  #   a sample outcome when a gene attribute is accessed. For evolution to proceed
+  #   in a non-random way, the same sample outcome should be returned every time
+  #   a particular gene is accessed with a particular set of parameters.
+  #   Memoization is a useful technique for doing just this. Check out the
+  #   [memo_wise](https://github.com/panorama-ed/memo_wise) gem.
+  #
   module Gene
     def self.included(base)
-      def base.key=(val)
+      base.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def key=(val)
         @key = val
       end
 
-      def base.key
+      def key
         @key
       end
 
-      def base.crossover(gene_a, gene_b)
-        [gene_a, gene_b].sample
+      def combine(gene_a, gene_b)
+        genes = [gene_a, gene_b]
+        genes.compact!
+        genes.sample
       end
+
+      #
+      # @deprecated
+      #   Will be removed in 2.0
+      #   Use {#combine}
+      #
+      alias crossover combine
     end
 
-    attr_accessor :instance
+    attr_accessor :evolvable
 
     def key
       self.class.key

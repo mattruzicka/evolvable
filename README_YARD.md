@@ -1,9 +1,14 @@
 # Evolvable 🧬
 
-⚠️ See https://github.com/mattruzicka/evolvable/pull/8 for the latest developments! Lots of changes and new features coming very soon! 
-
-
 [![Gem Version](https://badge.fury.io/rb/evolvable.svg)](https://badge.fury.io/rb/evolvable) [![Maintainability](https://api.codeclimate.com/v1/badges/7faf84a6d467718b33c0/maintainability)](https://codeclimate.com/github/mattruzicka/evolvable/maintainability)
+
+---
+
+⚠️ **This README is for a not-yet-released version of Evolvable, likely 1.1.0**
+
+Please use this `main` branch and give me feedback as I work on polishing things up and cutting the next release!
+
+---
 
 
 An evolutionary framework for writing programs that use operations such as selection, crossover, and mutation. Explore ideas generatively in any domain, discover novel solutions to complex problems, and build intuitions about intelligence, complexity, and the natural world.
@@ -25,16 +30,7 @@ Subscribe to the [Evolvable Newsletter](https://www.evolvable.site/newsletter) t
 
 ## Getting Started
 
-The `Evolvable` module makes it possible to implement evolutionary behaviors for
-any class by defining a `.search_space` class method and `#value` instance method.
-To evolve instances, initialize a population with `.new_population` and use the
-`Evolvable::Population#evolve` instance method.
-
-1. [Include the `Evolvable` module in the class you want to evolve.](https://rubydoc.info/github/mattruzicka/Evolvable)
-2. [Define `.search_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/Evolvable/SearchSpace)
-3. [Define `#value`.](https://rubydoc.info/github/mattruzicka/Evolvable/Evaluation)
-4. [Initialize a population with `.new_population` and use `#evolve`.](https://rubydoc.info/github/mattruzicka/Evolvable/Population)
-
+{@readme Evolvable}
 
 ### Hello World
 
@@ -116,12 +112,9 @@ Luckily, it's easy to dynamically change configurations by defining the followin
 
 ### Evolvable Population Hooks
 
-1. `.before_evaluation` - Runs before evaluation.
-
-2. `.before_evolution`- Runs after evaluation and before evolution.
-
-3. `.after_evolution` - Runs after evolution.
-
+1. `.before_evaluation` - {@readme Evolvable::ClassMethods#before_evaluation}
+2. `.before_evolution`- {@readme Evolvable::ClassMethods#before_evolution}
+3. `.after_evolution` - {@readme Evolvable::ClassMethods#after_evolution}
 
 This program uses `.before_evolution` to print the best value for each generation.
 
@@ -157,89 +150,42 @@ population.evolve
 The Evolvable framework is designed with extensibility in mind. The core objects used such as [evaluation](#evaluation), [evolution](#evolution), [selection](#selection), [combination](#combination), and [mutation](#mutation) can be extended and swapped.
 
 ## Genes
-For evolution to be effective, an evolvable's genes must be able to influence
-its behavior. Evolvable instances are composed of genes which can be used
-to implement simple functions or orchestrate complex interactions.
-
-Defining gene classes requires encapsulating some "sample space" and returning
-a sample outcome when a gene attribute is accessed. For evolution to proceed
-in a non-random way, the same sample outcome should be returned every time
-a particular gene is accessed with a particular set of parameters.
-Memoization is a useful technique for doing just this. Check out the
-[memo_wise](https://github.com/panorama-ed/memo_wise) gem.
-
+{@readme Evolvable::Gene}
 
 [Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Gene)
 
 ## Populations
-Population objects are responsible for generating and evolving instances.
-They orchestrate all the other Evolvable objects to do so.
-
-Populations can be initialized and re-initialized with a number of useful
-parameters.
-
+{@readme Evolvable::Population}
 
 [Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Population)
 
 ## Evaluation
-For selection to be effective in the context of evolution, there needs to be
-a way to compare evolvables. In the genetic algorithm, this is often
-referred to as the "fitness function".
-
-The Evaluation object expects evolvable instances to define a `#value` method that
-returns some numeric value. Values are used to evaluate instances relative to each
-other and with regards to some goal. Out of the box, the goal can be
-to maximize, minimize, or equalize some numeric value.
-
+{@readme Evolvable::Evaluation}
 
 [Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Evaluation)
 
 ## Evolution
-After a population's instances are evaluated, they undergo evolution.
-The default evolution object is composed of selection,
-crossover, and mutation objects and applies them as operations to
-a population's evolvables in that order.
-
+{@readme Evolvable::Evolution}
 
 [Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Evolution)
 
 ## Selection
-The selection object assumes that a population's evolvables have already
-been sorted by the evaluation object. It selects "parent" evolvables to
-undergo combination and thereby produce the next generation of evolvables.
-
-Only two evolvables are selected as parents for each generation by default.
-The selection `size` is configurable.
-
+{@readme Evolvable::Selection}
 
 [Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Selection)
 
 ## Combination
-Combination generates new evolvable instances by combining the genes of selected instances.
-You can think of it as a mixing of parent genes from one generation to
-produce the next generation.
-
+{@readme Evolvable::GeneCombination}
 
 [Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Combination)
 
 ## Mutation
-Mutation serves the role of increasing genetic variation. When an evolvable
-undergoes a mutation, one or more of its genes are replaced by newly
-initialized ones. In effect, a gene mutation invokes a new random outcome
-from the genetic search space.
-
-Mutation frequency is configurable using the `probability` and `rate`
-parameters.
-
+{@readme Evolvable::Mutation}
 
 [Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Mutation)
 
 ## Search Space
-The Search Space encapsulates the range of possible genes
-for a particular evolvable. It is configured via the
-[EvolvableClass.search_space](#evolvableclasssearch_space) method
-and used by populations to initialize new instances.
-
+{@readme Evolvable::SearchSpace}
 
 Evolvable provides flexibility in how you define your search space. The following examples implementations for `.search_space` produce the exact same search space for the [Hello World](#hello-world) demo program. The different styles arguably vary in suitability for different contexts, perhaps depending on how programs are loaded and the number of different gene types.
 

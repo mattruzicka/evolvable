@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
+  # Supports single and multi-point crossover. The default is single-point
+  # crossover via a `points_count` of 1 which can be changed on an existing population
+  # (`population.crossover.points_count = 5`) or during initialization
+  # (`Evolvable::PointCrossover.new(5)`)
+  #
   class PointCrossover
     def initialize(points_count: 1)
       @points_count = points_count
@@ -9,35 +15,43 @@ module Evolvable
     attr_accessor :points_count
 
     def call(population)
-      population.instances = initialize_offspring(population)
+      population.evolvables = new_evolvables(population, population.size)
       population
     end
 
-    private
-
-    def initialize_offspring(population)
-      parent_genes = population.instances.map!(&:genes)
-      parent_gene_couples = parent_genes.combination(2).cycle
-      offspring = []
-      population_index = 0
+    def new_evolvables(population, count)
+      parent_genome_cycle = population.new_parent_genome_cycle
+      evolvables = []
       loop do
-        genes_1, genes_2 = parent_gene_couples.next
-        crossover_genes(genes_1, genes_2).each do |genes|
-          offspring << population.new_instance(genes: genes, population_index: population_index)
-          population_index += 1
-          return offspring if population_index == population.size
+        genome_1, genome_2 = parent_genome_cycle.next
+        crossover_genomes(genome_1, genome_2).each do |genome|
+          evolvable = population.new_evolvable(genome: genome)
+          evolvables << evolvable
+          return evolvables if evolvable.generation_index == count
         end
       end
     end
 
-    def crossover_genes(genes_1, genes_2)
-      offspring_genes = [[], []]
-      generate_ranges(genes_1.length).each do |range|
-        offspring_genes.reverse!
-        offspring_genes[0][range] = genes_1[range]
-        offspring_genes[1][range] = genes_2[range]
+    private
+
+    def crossover_genomes(genome_1, genome_2)
+      genome_1 = genome_1.dup
+      genome_2 = genome_2.dup
+      genome_1.each do |gene_key, gene_config_1|
+        gene_config_2 = genome_2.config[gene_key]
+        genes_1 = gene_config_1[:genes]
+        genes_2 = gene_config_2[:genes]
+        crossover_genes!(genes_1, genes_2)
       end
-      offspring_genes
+      [genome_1, genome_2]
+    end
+
+    def crossover_genes!(genes_1, genes_2)
+      generate_ranges(genes_1.length).each do |range|
+        genes_2_range_values = genes_2[range]
+        genes_2[range] = genes_1[range]
+        genes_1[range] = genes_2_range_values
+      end
     end
 
     def generate_ranges(genes_count)

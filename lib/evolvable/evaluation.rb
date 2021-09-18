@@ -1,27 +1,43 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
+  # @readme
+  #   For selection to be effective in the context of evolution, there needs to be
+  #   a way to compare evolvables. In the genetic algorithm, this is often
+  #   referred to as the "fitness function".
+  #
+  #   The Evaluation object expects evolvable instances to define a `#value` method that
+  #   returns some numeric value. Values are used to evaluate instances relative to each
+  #   other and with regards to some goal. Out of the box, the goal can be
+  #   to maximize, minimize, or equalize some numeric value.
+  #
+  # A population's goal value can be most easily assigned via  an argument to
+  # `Evolvable::Population#evolve` like this: population.evolve(goal_value: 1000).
+  #
   class Evaluation
     GOALS = { maximize: Evolvable::Goal::Maximize.new,
               minimize: Evolvable::Goal::Minimize.new,
               equalize: Evolvable::Goal::Equalize.new }.freeze
 
-    def initialize(goal = :maximize)
+    DEFAULT_GOAL_TYPE = :maximize
+
+    def initialize(goal = DEFAULT_GOAL_TYPE)
       @goal = normalize_goal(goal)
     end
 
     attr_accessor :goal
 
     def call(population)
-      population.instances.sort_by! { |instance| goal.evaluate(instance) }
+      population.evolvables.sort_by! { |evolvable| goal.evaluate(evolvable) }
     end
 
-    def best_instance(population)
-      population.instances.max_by { |instance| goal.evaluate(instance) }
+    def best_evolvable(population)
+      population.evolvables.max_by { |evolvable| goal.evaluate(evolvable) }
     end
 
     def met_goal?(population)
-      goal.met?(population.instances.last)
+      goal.met?(population.evolvables.last)
     end
 
     private
@@ -33,8 +49,12 @@ module Evolvable
       when Hash
         goal_from_hash(goal_arg)
       else
-        goal_arg
+        goal_arg || default_goal
       end
+    end
+
+    def default_goal
+      GOALS[DEFAULT_GOAL_TYPE]
     end
 
     def goal_from_symbol(goal_arg)

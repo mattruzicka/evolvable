@@ -1,0 +1,4 @@
+--plugin readme
+--markup markdown
+
+lib/**/*.rb
