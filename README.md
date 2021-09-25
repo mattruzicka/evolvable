@@ -155,11 +155,11 @@ population.evolve
 
 ## Concepts
 
-[ Insert Concept Map Here ]
-
 [Populations](#populations) are composed of evolvables. Evolvables are instances of classes that include the `Evolvable` module and are composed of [genes](#genes) that include the `Evolvable::Gene` module. Genes constitute the [search space](#search-space). Evolvables delegate to gene objects to orchestrate behaviors. [Evaluation](#evaluation) and [evolution](#evolution) objects are used to evolve populations. By default, evolution is composed of [selection](#selection), [combination](#combination), and [mutation](#mutation).
 
 The Evolvable framework is designed with extensibility in mind. The core objects used such as [evaluation](#evaluation), [evolution](#evolution), [selection](#selection), [combination](#combination), and [mutation](#mutation) can be extended and swapped.
+
+![Concept Map](https://github.com/mattruzicka/evolvable/raw/main/examples/images/concept-map.png)
 
 ## Genes
 For evolution to be effective, an evolvable's genes must be able to influence
