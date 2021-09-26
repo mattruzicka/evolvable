@@ -147,7 +147,7 @@ population.evolve
 
 The Evolvable framework is designed with extensibility in mind. The core objects used such as [evaluation](#evaluation), [evolution](#evolution), [selection](#selection), [combination](#combination), and [mutation](#mutation) can be extended and swapped.
 
-![Concept Map](https://github.com/mattruzicka/evolvable/raw/main/examples/images/concepts.png)
+![Concept Map](https://github.com/mattruzicka/evolvable/raw/main/examples/images/diagram.png)
 
 ## Genes
 {@readme Evolvable::Gene}
