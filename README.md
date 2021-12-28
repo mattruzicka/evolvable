@@ -80,7 +80,7 @@ Next we **define the `.search_space`** class method with the types of [genes](#g
 ```ruby
 class HelloWorld
   include Evolvable
-.
+
   def self.search_space
     ["CharGene", 1..40]
   end
@@ -125,9 +125,9 @@ population = HelloWorld.new_population(size: 100, evaluation: evaluation)
 population.mutation_probability = 0.6
 ```
 
-For this application, a large `mutation_probability` can shortens the time it takes to evolve matches to short strings, but lengthens it longer ones. This is demonstrated in the example output above by how many generations it took to go from "Hello World!" to "Hello Evolvable World".
+For this example, a large `mutation_probability` tends to decrease the time it takes to evolve matches with short strings and the opposite for long strings. This is demonstrated in the example output above by how many generations it took to go from "Hello World!" to "Hello Evolvable World".
 
-Luckily, it's easy to dynamically change configurations such as the `mutation_probability`  by hooking into the following methods.  the following  defining the following class method hooks whcih accept `population` as an argument.
+Luckily, we can dynamically change the `mutation_probability` by hooking into one of the population hooks detailed below. In this way, the Hello World demo could be optimized by experimenting with population parameters such as `size`, `goal`, `selection_size`, `mutation_rate`, and `mutation_probability`. Doing so is currently beyond the scope of this tutorial, but [pull requests are welcome](Contributing).
 
 ### Evolvable Population Hooks
 
@@ -140,7 +140,7 @@ The following class methods can be implemented on your Evolvable class to hook i
 3. `.after_evolution(population)` - Runs after evolution.
 
 
-This program uses `.before_evolution` to print the best value for each generation.
+Let's define `.before_evolution` to print the best value for each generation. We'll also define `#to_s` which is implicitly invoked during string interpolation.
 
 ```ruby
 class HelloWorld
@@ -153,10 +153,14 @@ class HelloWorld
   end
 
   # ...
+
+  def to_s
+    @to_s ||= genes.join
+  end
+
+  # ...
 end
 ```
-
-In this way, this HelloWorld demo can be optimized by experimenting with population parameters such as `size`, `goal`, `selection_size`, `mutation_rate`, `mutation_probability`. [Pull Requests are welcome](Contributing)
 
 Finally we can **evolve the population with the `Evolvable::Population#evolve` instance method**.
 
@@ -164,20 +168,19 @@ Finally we can **evolve the population with the `Evolvable::Population#evolve` i
 population.evolve
 ```
 
-We've now completed our walk through the fundamental steps to building evolvable programs of endless complexity in any domain.
+You now know the fundamental steps to building evolvable programs of endless complexity in any domain! 🐸
 
 The exact implementation used by the command line demo can be found in [examples/hello_world.rb](https://github.com/mattruzicka/evolvable/blob/main/examples/hello_world.rb).
 
-
 ## Concepts
 
-[Populations](#populations) are composed of evolvables which are composed of genes. Evolvables orchestrate behaviors by delegating to gene objects. Collections of genes are organized as genomes and constitute the [search space](#search-space). [Evaluation](#evaluation) and [evolution](#evolution) objects are used to evolve populations. By default, evolution is composed of [selection](#selection), [combination](#combination), and [mutation](#mutation).
+[Populations](#populations) are composed of evolvables which are composed of genes. Evolvables orchestrate behaviors by delegating to gene objects. Collections of genes are organized into genomes and constitute the [search space](#search-space). [Evaluation](#evaluation) and [evolution](#evolution) objects are used to evolve populations. By default, evolution is composed of [selection](#selection), [combination](#combination), and [mutation](#mutation).
 
 The following concept map depicts how genes flow through populations.
 
 ![Concept Map](https://github.com/mattruzicka/evolvable/raw/main/examples/images/diagram.png)
 
-Evolvable is designed with extensibility in mind. Evolvable objects used such as [evaluation](#evaluation), [evolution](#evolution), [selection](#selection), [combination](#combination), and [mutation](#mutation) can be extended and swapped, potentially in a way that differs from the above graph.
+Evolvable is designed with extensibility in mind. Evolvable objects used such as [evaluation](#evaluation), [evolution](#evolution), [selection](#selection), [combination](#combination), and [mutation](#mutation) can be extended and swapped, potentially in a way that contrasts from the above graph.
 
 ## Genes
 For evolution to be effective, an evolvable's genes must be able to influence
