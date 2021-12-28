@@ -34,17 +34,17 @@ any class by defining a `.search_space` class method and `#value` instance metho
 To evolve instances, initialize a population with `.new_population` and use the
 `Evolvable::Population#evolve` instance method.
 
-1. [Include the `Evolvable` module in the class you want to evolve.](https://rubydoc.info/github/mattruzicka/Evolvable)
-2. [Define `.search_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/Evolvable/SearchSpace)
-3. [Define `#value`.](https://rubydoc.info/github/mattruzicka/Evolvable/Evaluation)
-4. [Initialize a population with `.new_population` and use `#evolve`.](https://rubydoc.info/github/mattruzicka/Evolvable/Population)
+1. [Include the `Evolvable` module in the class you want to evolve.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable)
+2. [Define `.search_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/SearchSpace)
+3. [Define `#value`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evaluation)
+4. [Initialize a population with `.new_population` and use `#evolve`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population)
 
 
 To demonstrate these steps, we'll highlight the [Hello World](#) example program.
 
 ### Hello World
 
-Try running `evolvable hello` at the command line. The goal is to evolve a population of arbitrary strings to be more like any given one.
+The goal is to evolve a population of arbitrary strings to be more like any given one. Try running `evolvable hello` at the command line to see this in action.
 
 Below is example output from evolving a population of random initialized string objects to match "Hello World!", then "Hello Evolvable World".
 
@@ -192,7 +192,7 @@ Memoization is a useful technique for doing just this. Check out the
 [memo_wise](https://github.com/panorama-ed/memo_wise) gem.
 
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Gene)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Gene)
 
 ## Populations
 Population objects are responsible for generating and evolving instances.
@@ -202,7 +202,7 @@ Populations can be initialized and re-initialized with a number of useful
 parameters.
 
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Population)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population)
 
 ## Evaluation
 For selection to be effective in the context of evolution, there needs to be
@@ -215,7 +215,7 @@ other and with regards to some goal. Out of the box, the goal can be
 to maximize, minimize, or equalize some numeric value.
 
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Evaluation)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evaluation)
 
 ## Evolution
 After a population's instances are evaluated, they undergo evolution.
@@ -224,7 +224,7 @@ crossover, and mutation objects and applies them as operations to
 a population's evolvables in that order.
 
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Evolution)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evolution)
 
 ## Selection
 The selection object assumes that a population's evolvables have already
@@ -235,7 +235,7 @@ Only two evolvables are selected as parents for each generation by default.
 The selection `size` is configurable.
 
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Selection)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Selection)
 
 ## Combination
 Combination generates new evolvable instances by combining the genes of selected instances.
@@ -243,7 +243,7 @@ You can think of it as a mixing of parent genes from one generation to
 produce the next generation.
 
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Combination)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Combination)
 
 ## Mutation
 Mutation serves the role of increasing genetic variation. When an evolvable
@@ -255,7 +255,7 @@ Mutation frequency is configurable using the `probability` and `rate`
 parameters.
 
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Mutation)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Mutation)
 
 ## Search Space
 The Search Space encapsulates the range of possible genes
@@ -302,7 +302,7 @@ Evolvable provides flexibility in how you define your search space. The followin
 ['chars', 'CharGene', 1..100]
 ```
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/SearchSpace)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/SearchSpace)
 
 ## Contributing
 

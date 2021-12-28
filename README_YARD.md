@@ -35,7 +35,7 @@ To demonstrate these steps, we'll highlight the [Hello World](#) example program
 
 ### Hello World
 
-Try running `evolvable hello` at the command line. The goal is to evolve a population of arbitrary strings to be more like any given one.
+The goal is to evolve a population of arbitrary strings to be more like any given one. Try running `evolvable hello` at the command line to see this in action.
 
 Below is example output from evolving a population of random initialized string objects to match "Hello World!", then "Hello Evolvable World".
 
@@ -170,37 +170,37 @@ Evolvable is designed with extensibility in mind. Evolvable objects used such as
 ## Genes
 {@readme Evolvable::Gene}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Gene)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Gene)
 
 ## Populations
 {@readme Evolvable::Population}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Population)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population)
 
 ## Evaluation
 {@readme Evolvable::Evaluation}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Evaluation)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evaluation)
 
 ## Evolution
 {@readme Evolvable::Evolution}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Evolution)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evolution)
 
 ## Selection
 {@readme Evolvable::Selection}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Selection)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Selection)
 
 ## Combination
 {@readme Evolvable::GeneCombination}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Combination)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Combination)
 
 ## Mutation
 {@readme Evolvable::Mutation}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/Mutation)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Mutation)
 
 ## Search Space
 {@readme Evolvable::SearchSpace}
@@ -243,7 +243,7 @@ Evolvable provides flexibility in how you define your search space. The followin
 ['chars', 'CharGene', 1..100]
 ```
 
-[Documentation](https://rubydoc.info/github/mattruzicka/Evolvable/SearchSpace)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/SearchSpace)
 
 ## Contributing
 

@@ -29,10 +29,10 @@ require 'evolvable/serializer'
 #   To evolve instances, initialize a population with `.new_population` and use the
 #   `Evolvable::Population#evolve` instance method.
 #
-#   1. [Include the `Evolvable` module in the class you want to evolve.](https://rubydoc.info/github/mattruzicka/Evolvable)
-#   2. [Define `.search_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/Evolvable/SearchSpace)
-#   3. [Define `#value`.](https://rubydoc.info/github/mattruzicka/Evolvable/Evaluation)
-#   4. [Initialize a population with `.new_population` and use `#evolve`.](https://rubydoc.info/github/mattruzicka/Evolvable/Population)
+#   1. [Include the `Evolvable` module in the class you want to evolve.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable)
+#   2. [Define `.search_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/SearchSpace)
+#   3. [Define `#value`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evaluation)
+#   4. [Initialize a population with `.new_population` and use `#evolve`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population)
 #
 module Evolvable
   extend Forwardable
