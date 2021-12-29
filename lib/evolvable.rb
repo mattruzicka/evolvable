@@ -41,6 +41,10 @@ module Evolvable
     base.extend(ClassMethods)
   end
 
+  def self.new_object(old_val, new_val, default_class)
+    new_val.is_a?(Hash) ? (old_val&.class || default_class).new(**new_val) : new_val
+  end
+
   module ClassMethods
     #
     # @readme
@@ -73,8 +77,6 @@ module Evolvable
       evolvable.after_initialize
       evolvable
     end
-
-
 
     def initialize_evolvable
       new

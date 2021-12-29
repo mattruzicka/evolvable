@@ -49,9 +49,12 @@ module Evolvable
                    evolutions_count: 0,
                    gene_space: nil, # Deprecated
                    search_space: nil,
-                   evolution: Evolution.new,
-                   evaluation: Evaluation.new,
                    parent_evolvables: [],
+                   evaluation: Evaluation.new,
+                   evolution: Evolution.new,
+                   selection: nil,
+                   combination: nil,
+                   mutation: nil,
                    evolvables: [])
       @id = id
       @evolvable_type = evolvable_type || evolvable_class
@@ -59,9 +62,12 @@ module Evolvable
       @size = size
       @evolutions_count = evolutions_count
       @search_space = initialize_search_space(search_space || gene_space)
-      @evolution = evolution
-      @evaluation = evaluation.is_a?(Evaluation) ? evaluation : Evaluation.new(evaluation)
       @parent_evolvables = parent_evolvables
+      self.evaluation = evaluation
+      @evolution = evolution
+      self.selection = selection if selection
+      self.combination = combination if combination
+      self.mutation = mutation if mutation
       @evolvables = new_evolvables(count: @size - evolvables.count, evolvables: evolvables)
     end
 
@@ -72,7 +78,6 @@ module Evolvable
                   :evolutions_count,
                   :search_space,
                   :evolution,
-                  :evaluation,
                   :parent_evolvables,
                   :evolvables
 
@@ -96,6 +101,12 @@ module Evolvable
     def_delegator :mutation, :rate=, :mutation_rate=
     def_delegator :mutation, :probability, :mutation_probability
     def_delegator :mutation, :probability=, :mutation_probability=
+
+    attr_reader :evaluation
+
+    def evaluation=(val)
+      @evaluation = Evolvable.new_object(@evaluation, val, Evaluation)
+    end
 
     def_delegators :evaluation,
                    :goal,

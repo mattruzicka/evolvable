@@ -32,9 +32,21 @@ module Evolvable
       @mutation = mutation
     end
 
-    attr_accessor :selection,
-                  :combination,
-                  :mutation
+    attr_reader :selection,
+                :combination,
+                :mutation
+
+    def selection=(val)
+      @selection = Evolvable.new_object(@selection, val, Selection)
+    end
+
+    def combination=(val)
+      @combination = Evolvable.new_object(@combination, val, GeneCombination)
+    end
+
+    def mutation=(val)
+      @mutation = Evolvable.new_object(@mutation, val, Mutation)
+    end
 
     def call(population)
       selection.call(population)
