@@ -4,24 +4,23 @@ require 'bundler/setup'
 require 'evolvable'
 require 'byebug'
 
-Dir['./examples/*'].each { |f| require f }
+Dir['./examples/*.rb'].each { |f| require f }
 
-# HelloWorld
-evaluation = Evolvable::Evaluation.new(equalize: 0)
-population = HelloWorld.new_population(size: 100, evaluation: evaluation)
-population.mutation_probability = 0.6
-population.evolve
-HelloWorld.start_loop(population)
+## HelloWorld
+# population = HelloWorld.new_population(size: 100,
+#                                        evaluation: { equalize: 0 },
+#                                        mutation: { probability: 0.6 })
+# population.evolve
+# HelloWorld.start_loop(population)
 
-# Stickman
-# population = Stickman.new_population(size: 5)
-# population.mutation_probability = 0.3
+## Stickman
+# population = Stickman.new_population(size: 5,
+#                                      mutation: { probability: 0.3 })
 # population.evolve
 
-# AsciiArt
-# ascii_art = AsciiArt.new_population(size: 8)
-# ascii_art.mutation_probability = 0.3
-# ascii_art.mutation_rate = 0.02
+## AsciiArt
+# ascii_art = AsciiArt.new_population(size: 8,
+#                                     mutation: { probability: 0.3, rate: 0.02 })
 # ascii_art.evolve
 
 require 'irb'
