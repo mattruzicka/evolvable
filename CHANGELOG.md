@@ -1,17 +1,18 @@
 ## Unreleased
 
 Features
-* Make documentation a first class citizen. An evolvable of its own, if you will.
+* Updated documentation.
 * Genome abstraction for genes. 69afd7c957cbf89cc03b4f3f0ba967bf571c34c5
 * Built-in support for count genes. 69afd7c957cbf89cc03b4f3f0ba967bf571c34c5
 * Add serializer for dumping and loading for population and genogenome objects 9d2a42a29103e1525b3c5471578ee97baeb6e8c6
-* Add the following delegation methods to Evolvable::Population ffb9998b09f02fa6759322c324b2f448fd3af223
 * Keep previous generation parents for generating evolvables for the current generation whenever 856ac3a778106d34221ce8ce8ae14b963877dc76
 * Add #new_evolvables methods to Evolvable Selection, Crossover, and Mutation for acting on evolvables 856ac3a778106d34221ce8ce8ae14b963877dc76
-* Add EvolvablePopulation*reset_evolvables b61cccbee8ac8cc9f00496e5461131bb796af974
+* Add EvolvablePopulation#reset_evolvables b61cccbee8ac8cc9f00496e5461131bb796af974
 * Improve gene class lookup. Suppose you have an evolvable Dog class with a Dog::TailGene class. Now you can just pass 'TailGene' as the 'type' in your gene space definition 079dcef000e57553db8c6e5b89207d2d8e5c9890
 * Allow Evolvable.search_space to return a hash, array (when only one gene type), or array of arrays be56c9cc73c7202abc4588cb20c340d1e49498ed
 * Add Evolvable.search_spaces method which can be defined instead of or in addition to Evolvable.search_space, as an array of search space definitions (configs or Evolvable::SearchSpace objects) a3c3896d8b1799b7fac6143812a5ef630f716d85
+* Add ability to inititalize evaluation, selection, combination, and mutation objects with a hash of parameters or object. 7c8fd586ec882f35e5ce35c5bc6a28982e4d0640
+* Add the following delegated methods to Evolvable::Population to change the default evolutionary parameters ffb9998b09f02fa6759322c324b2f448fd3af223
 
 ```
 selection_size
@@ -21,6 +22,7 @@ mutation_rate=
 mutation_probability
 mutation_probability=
 ```
+
 
 Changes
 * Renamed Goal classes. The old, namespaced goal classes will be removed in version 2.0 a3fb1915230cc297e545d873a80f0324bca5833d
