@@ -7,6 +7,9 @@ module Evolvable
   #   You can think of it as a mixing of parent genes from one generation to
   #   produce the next generation.
   #
+  #   You may choose from a selection of combination objects or implement your own.
+  #   The default combination object is `Evolvable::GeneCombination`.
+  #
   # Custom crossover objects must implement the `#call` method which accepts
   # the population as the first object.
   # Enables gene types to define combination behaviors.

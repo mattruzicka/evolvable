@@ -26,8 +26,10 @@ require 'evolvable/serializer'
 # @readme
 #   The `Evolvable` module makes it possible to implement evolutionary behaviors for
 #   any class by defining a `.search_space` class method and `#value` instance method.
-#   To evolve instances, initialize a population with `.new_population` and use the
-#   `Evolvable::Population#evolve` instance method.
+#   Then to evolve instances, initialize a population with `.new_population` and invoke
+#   the `#evolve` method on the resulting population object.
+#
+#   ### Implementation Steps
 #
 #   1. [Include the `Evolvable` module in the class you want to evolve.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable)
 #   2. [Define `.search_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/SearchSpace)

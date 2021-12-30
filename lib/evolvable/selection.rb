@@ -8,7 +8,10 @@ module Evolvable
   #   undergo combination and thereby produce the next generation of evolvables.
   #
   #   Only two evolvables are selected as parents for each generation by default.
-  #   The selection `size` is configurable.
+  #   The selection size is configurable.
+  #
+  # @example
+  #  # TODO: Show how to add/change population's selection object
   #
   class Selection
     extend Forwardable

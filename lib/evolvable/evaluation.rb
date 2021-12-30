@@ -7,13 +7,16 @@ module Evolvable
   #   a way to compare evolvables. In the genetic algorithm, this is often
   #   referred to as the "fitness function".
   #
-  #   The Evaluation object expects evolvable instances to define a `#value` method that
+  #   The `Evolvable::Evaluation` object expects evolvable instances to define a `#value` method that
   #   returns some numeric value. Values are used to evaluate instances relative to each
-  #   other and with regards to some goal. Out of the box, the goal can be
-  #   to maximize, minimize, or equalize some numeric value.
+  #   other and with regards to some goal. Out of the box, the goal can be set
+  #   to maximize, minimize, or equalize numeric values.
   #
-  # A population's goal value can be most easily assigned via  an argument to
-  # `Evolvable::Population#evolve` like this: population.evolve(goal_value: 1000).
+  # @example
+  #   # TODO: Show how to add/change population's evaluation object
+  #
+  #   # The goal value can also be assigned via as argument to `Evolvable::Population#evolve`
+  #   population.evolve(goal_value: 1000)
   #
   class Evaluation
     GOALS = { maximize: Evolvable::Goal::Maximize.new,

@@ -3,11 +3,41 @@
 module Evolvable
   #
   # @readme
-  #   The Search Space encapsulates the range of possible genes
-  #   for a particular evolvable. It is configured via the
-  #   [EvolvableClass.search_space](#evolvableclasssearch_space) method
-  #   and used by populations to initialize new instances.
+  #   The search space encapsulates the range of possible genes
+  #   for a particular evolvable. You can think of it as the boundaries of
+  #   genetic variation. It is configured via the
+  #   [.search_space](#evolvableclasssearch_space) method that you define
+  #   on your evolvable class. It's used by populations to initialize
+  #   new evolvables.
   #
+  #   Evolvable provides flexibility in how you define your search space.
+  #   The below example implementations for `.search_space` produce the
+  #   exact same search space for the
+  #   [Hello World](https://github.com/mattruzicka/evolvable#hello-world)
+  #   demo program. The different styles arguably vary in suitability for
+  #   different contexts, perhaps depending on how programs are loaded and
+  #   the number of different gene types.
+  #
+  # @example
+  #   # All 9 of these example definitions are equivalent
+  #
+  #   # Hash syntax
+  #   { chars: { type: 'CharGene', max_count: 100 } }
+  #   { chars: { type: 'CharGene', min_count: 1, max_count: 100 } }
+  #   { chars: { type: 'CharGene', count: 1..100 } }
+  #
+  #   # Array of arrays syntax
+  #   [[:chars, 'CharGene', 1..100]]
+  #   [['chars', 'CharGene',  1..100]]
+  #   [['CharGene', 1..100]]
+  #
+  #   # A single array works when there's only one type of gene
+  #   ['CharGene', 1..100]
+  #   [:chars, 'CharGene', 1..100]
+  #   ['chars', 'CharGene', 1..100]
+  #
+  #
+
   class SearchSpace
     class << self
       def build(config, evolvable_class = nil)

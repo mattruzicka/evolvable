@@ -11,6 +11,9 @@ module Evolvable
   #   Mutation frequency is configurable using the `probability` and `rate`
   #   parameters.
   #
+  # @example
+  #   # Show how to initialize/assign population with a specific mutation object
+  #
   class Mutation
     extend Forwardable
 

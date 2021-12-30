@@ -9,6 +9,8 @@ module Evolvable
   #   Populations can be initialized and re-initialized with a number of useful
   #   parameters.
   #
+  # @example
+  #   # TODO: initialize a population with all supported parameters
   class Population
     extend Forwardable
 
