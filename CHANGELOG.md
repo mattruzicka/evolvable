@@ -1,4 +1,4 @@
-## Unreleased
+## 1.1.0 - 2021-12-30
 
 Features
 * Updated documentation.
