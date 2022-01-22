@@ -45,9 +45,7 @@ module Evolvable
       end
 
       def combine(gene_a, gene_b)
-        genes = [gene_a, gene_b]
-        genes.compact!
-        genes.sample
+        [gene_a, gene_b].sample
       end
 
       #

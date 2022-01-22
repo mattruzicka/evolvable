@@ -62,7 +62,11 @@ module Evolvable
       Array.new(count) do |index|
         gene_a = genes_1[index]
         gene_b = genes_2[index]
-        gene_class.combine(gene_a, gene_b) || gene_class.new
+        if gene_a && gene_b
+          gene_class.combine(gene_a, gene_b)
+        else
+          gene_a || gene_b || gene_class.new
+        end
       end
     end
   end
