@@ -8,8 +8,8 @@ module Evolvable
   class Genome
     extend Forwardable
 
-    def self.load(data)
-      new(config: Serializer.load(data))
+    def self.load(data, serializer: Serializer)
+      new(config: serializer.load(data))
     end
 
     def initialize(config: {})
@@ -79,8 +79,8 @@ module Evolvable
       self.class.name
     end
 
-    def dump
-      Serializer.dump @config
+    def dump(serializer: Serializer)
+      serializer.dump @config
     end
   end
 end

@@ -230,4 +230,12 @@ module Evolvable
                  :find_genes,
                  :find_genes_count,
                  :genes
+
+  def dump_genome(serializer: Serializer)
+    @genome.dump(serializer: serializer)
+  end
+
+  def load_genome(data, serializer: Serializer)
+    @genome = Genome.load(data, serializer: serializer)
+  end
 end
