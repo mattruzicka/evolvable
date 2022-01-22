@@ -1,3 +1,9 @@
+## 1.2.0 - 2022-1-22
+
+* Make it easier to dump and load genomes and use custom serializers. [69afd7c](https://github.com/mattruzicka/evolvable/commit/69afd7c957cbf89cc03b4f3f0ba967bf571c34c5)
+* Avoid needing Gene#combine implementations to deal with nil args. Technically this could be a breaking change if you have custom combination logic for when two evolvables have different numbers of the same kind of gene and you do something other than just return the gene that isn't nil, but that this is the case seems unlikely, especially considering I'm not even aware of anyone else using this gem in the wild. If you do, please reach out! I'd love to hear from you, even if you're angry about this! [7ae1087](https://github.com/mattruzicka/evolvable/commit/7ae108762505230d81afc79b2f6c3e679fadc1a4)
+
+
 ## 1.1.0 - 2021-12-30
 
 Features
