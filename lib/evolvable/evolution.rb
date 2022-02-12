@@ -5,7 +5,7 @@ module Evolvable
   # @readme
   #   After a population's instances are evaluated, they undergo evolution.
   #   The default evolution object is composed of selection,
-  #   crossover, and mutation objects and applies them as operations to
+  #   combination, and mutation objects and applies them as operations to
   #   a population's evolvables in that order.
   #
   class Evolution
