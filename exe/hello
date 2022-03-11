@@ -2,7 +2,6 @@
 
 require 'bundler/setup'
 require 'evolvable'
-require 'byebug'
 
 Dir['./examples/*.rb'].each { |f| require f }
 
