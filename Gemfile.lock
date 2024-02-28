@@ -31,7 +31,7 @@ GEM
     tty-screen (0.8.1)
     unicode-display_width (2.1.0)
     unicode_utils (1.4.0)
-    yard (0.9.26)
+    yard (0.9.35)
     yard-readme (0.3.0)
       yard (~> 0.9.26)
 
