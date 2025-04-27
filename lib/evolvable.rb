@@ -222,4 +222,13 @@ module Evolvable
   def load_genome(data, serializer: Serializer)
     @genome = Genome.load(data, serializer: serializer)
   end
+
+  def load_and_merge_genome!(data, serializer: Serializer)
+    genome = Genome.load(data, serializer: serializer)
+    merge_genome!(genome)
+  end
+
+  def merge_genome!(other_genome)
+    @genome.merge!(other_genome)
+  end
 end
