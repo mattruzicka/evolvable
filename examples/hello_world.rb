@@ -19,9 +19,7 @@ class HelloWorld
 
   MAX_STRING_LENGTH = 40
 
-  def self.search_space
-    { char_genes: { type: 'CharGene', count: 1..MAX_STRING_LENGTH } }
-  end
+  gene :char_genes, type: 'CharGene', count: 1..MAX_STRING_LENGTH
 
   def self.start_loop(population)
     loop do
@@ -75,13 +73,13 @@ class HelloWorld
     @to_s ||= genes.join
   end
 
-  def value
-    @value ||= compute_value
+  def fitness
+    @fitness ||= compute_fitness
   end
 
   private
 
-  def compute_value
+  def compute_fitness
     string = to_s
     target = self.class.target
     target_length = target.length
