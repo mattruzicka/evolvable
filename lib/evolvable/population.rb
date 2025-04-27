@@ -168,7 +168,7 @@ module Evolvable
       return generate_evolvables(1).first unless genome || parent_evolvables.empty?
 
       evolvable = evolvable_type.new_evolvable(population: self,
-                                               genome: genome || gene_space.new_genome,
+                                               genome: genome || new_genome,
                                                generation_index: @evolvables.count)
       @evolvables << evolvable
       evolvable
@@ -179,10 +179,14 @@ module Evolvable
       @evolvables = evolvables
 
       if parent_evolvables.empty?
-        Array.new(count) { new_evolvable(genome: gene_space.new_genome) }
+        Array.new(count) { new_evolvable(genome: new_genome) }
       else
         @evolvables = generate_evolvables(count)
       end
+    end
+
+    def new_genome
+      gene_space.new_genome
     end
 
     def reset_evolvables

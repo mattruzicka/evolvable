@@ -27,16 +27,14 @@ module Evolvable
     def new_evolvables(population, count)
       parent_genome_cycle = population.new_parent_genome_cycle
       Array.new(count) do
-        genome = build_genome(parent_genome_cycle.next)
+        genome_1, genome_2 = parent_genome_cycle.next
+        genome = combine_genomes(genome_1, genome_2)
         population.new_evolvable(genome: genome)
       end
     end
 
-    private
-
-    def build_genome(genome_pair)
+    def combine_genomes(genome_1, genome_2)
       new_config = {}
-      genome_1, genome_2 = genome_pair.shuffle!
       genome_1.each do |gene_key, gene_config_1|
         gene_config_2 = genome_2.config[gene_key]
         count_gene = combine_count_genes(gene_config_1, gene_config_2)
@@ -45,6 +43,8 @@ module Evolvable
       end
       Genome.new(config: new_config)
     end
+
+    private
 
     def combine_count_genes(gene_config_1, gene_config_2)
       count_gene_1 = gene_config_1[:count_gene]
