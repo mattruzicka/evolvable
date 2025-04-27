@@ -70,14 +70,10 @@ module Evolvable
     # initialized you can override either of the following two "initialize_instance"
     # methods.
     #
-    def new_evolvable(population: nil,
-                      genome: Genome.new,
-                      generation_index: nil)
+    def new_evolvable(population: nil, genome: nil, generation_index: nil)
       evolvable = initialize_evolvable
-      evolvable.population = population
-      evolvable.genome = genome
-      evolvable.generation_index = generation_index
-      evolvable.after_initialize
+      evolvable.make_evolvable(population: population, genome: genome, generation_index: generation_index)
+      evolvable.after_initialize_evolvable
       evolvable
     end
 
@@ -185,8 +181,15 @@ module Evolvable
     def after_evolution(population); end
   end
 
-  # Runs an evolvable is initialized. Ueful for implementing custom initialization logic.
-  def after_initialize; end
+  def make_evolvable(population: nil, genome: nil, generation_index: nil)
+    self.population = population
+    self.genome = genome || population&.new_genome || Genome.new
+    self.generation_index = generation_index
+    self
+  end
+
+  # Runs when an evolvable is initialized. Ueful for implementing custom initialization logic.
+  def after_initialize_evolvable; end
 
   #
   # @!method fitness
