@@ -19,11 +19,4 @@ module Evolvable
       evolvable.value <= value
     end
   end
-
-  #
-  # @deprecated
-  #   Will be removed in 2.0.
-  #   Use {MinimizeGoal} instead
-  #
-  class Goal::Minimize < MinimizeGoal; end
 end

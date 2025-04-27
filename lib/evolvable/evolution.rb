@@ -18,17 +18,16 @@ module Evolvable
     #
     # #### selection
     # The default is `Selection.new`
-    # #### crossover - deprecated
+    # #### combination
     # The default is `GeneCrossover.new`
     # #### mutation
     # The default is `Mutation.new`
     #
     def initialize(selection: Selection.new,
                    combination: GeneCombination.new,
-                   crossover: nil, # deprecated
                    mutation: Mutation.new)
       @selection = selection
-      @combination = crossover || combination
+      @combination = combination
       @mutation = mutation
     end
 

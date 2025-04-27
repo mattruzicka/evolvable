@@ -19,11 +19,4 @@ module Evolvable
       evolvable.value == value
     end
   end
-
-  #
-  # @deprecated
-  #   Will be removed in 2.0.
-  #   Use {EqualizeGoal} instead
-  #
-  class Goal::Equalize < EqualizeGoal; end
 end

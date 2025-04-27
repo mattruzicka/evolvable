@@ -3,16 +3,16 @@
 module Evolvable
   #
   # @readme
-  #   The search space encapsulates the range of possible genes
-  #   for a particular evolvable. You can think of it as the boundaries of
-  #   genetic variation. It is configured via the
-  #   [.search_space](#evolvableclasssearch_space) method that you define
+  #   The gene space encapsulates the range of possible genes
+  #   for a particular evolvable. You can think of it as the search space
+  #   for genes or the boundaries of genetic variation. It is configured via the
+  #   [.gene_space](#evolvableclassgene_space) method that you define
   #   on your evolvable class. It's used by populations to initialize
   #   new evolvables.
   #
-  #   Evolvable provides flexibility in how you define your search space.
-  #   The below example implementations for `.search_space` produce the
-  #   exact same search space for the
+  #   Evolvable provides flexibility in how you define your gene space.
+  #   The below example implementations for `.gene_space` produce the
+  #   exact same gene space for the
   #   [Hello World](https://github.com/mattruzicka/evolvable#hello-world)
   #   demo program. The different styles arguably vary in suitability for
   #   different contexts, perhaps depending on how programs are loaded and
@@ -38,10 +38,10 @@ module Evolvable
   #
   #
 
-  class SearchSpace
+  class GeneSpace
     class << self
       def build(config, evolvable_class = nil)
-        if config.is_a?(SearchSpace)
+        if config.is_a?(GeneSpace)
           config.evolvable_class = evolvable_class if evolvable_class
           config
         else
@@ -61,12 +61,12 @@ module Evolvable
       Genome.new(config: new_genome_config)
     end
 
-    def merge_search_space(val)
+    def merge_gene_space(val)
       val = val.config if val.is_a?(self.class)
       @config.merge normalize_config(val)
     end
 
-    def merge_search_space!(val)
+    def merge_gene_space!(val)
       val = val.config if val.is_a?(self.class)
       @config.merge! normalize_config(val)
     end
@@ -171,11 +171,4 @@ module Evolvable
       CountGene.new(range: min..max)
     end
   end
-
-  #
-  # @deprecated
-  #   Will be removed in 2.0
-  #   use {SearchSpace} instead
-  #
-  class GeneSpace < SearchSpace; end
 end

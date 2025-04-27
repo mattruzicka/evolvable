@@ -21,7 +21,7 @@ module Evolvable
 
     # Initializes an Evolvable::Population.
     # Keyword arguments:
-    # #### evolvable_class
+    # #### evolvable_type
     # Required. Implicitly specified when using EvolvableClass.new_population.
     # #### id, name
     # Both default to `nil`. Not used by Evolvable, but convenient when working
@@ -30,27 +30,25 @@ module Evolvable
     # Defaults to `40`. Specifies the number of instances in the population.
     # #### evolutions_count
     # Defaults to `0`. Useful when re-initializing a saved population with instances.
-    # #### search_space
-    # Defaults to `evolvable_class.new_search_space` which uses the
-    # [EvolvableClass.search_space](#evolvableclasssearch_space) method
+    # #### gene_space
+    # Defaults to `evolvable_type.new_gene_space` which uses the
+    # [EvolvableClass.gene_space](#evolvableclassgene_space) method
     # #### evolution
     # Defaults to `Evolvable::Evolution.new`. See [evolution](#evolution-1)
     # #### evaluation
     # Defaults to `Evolvable::Evaluation.new`, with a goal of maximizing
     # towards Float::INFINITY. See [evaluation](#evaluation-1)
     # #### instances
-    # Defaults to initializing a `size` number of `evolvable_class`
-    # instances using the `search_space` object. Any given instances
+    # Defaults to initializing a `size` number of `evolvable_type`
+    # instances using the `gene_space` object. Any given instances
     # are assigned, but if given less than `size`, more will be initialized.
     #
-    def initialize(evolvable_type: nil,
-                   evolvable_class: nil, # Deprecated
+    def initialize(evolvable_type:,
                    id: nil,
                    name: nil,
                    size: 40,
                    evolutions_count: 0,
-                   gene_space: nil, # Deprecated
-                   search_space: nil,
+                   gene_space: nil,
                    parent_evolvables: [],
                    evaluation: Evaluation.new,
                    evolution: Evolution.new,
@@ -59,11 +57,11 @@ module Evolvable
                    mutation: nil,
                    evolvables: [])
       @id = id
-      @evolvable_type = evolvable_type || evolvable_class
+      @evolvable_type = evolvable_type.is_a?(Class) ? evolvable_type : Object.const_get(evolvable_type)
       @name = name
       @size = size
       @evolutions_count = evolutions_count
-      @search_space = initialize_search_space(search_space || gene_space)
+      @gene_space = initialize_gene_space(gene_space || gene_space)
       @parent_evolvables = parent_evolvables
       self.evaluation = evaluation
       @evolution = evolution
@@ -78,12 +76,12 @@ module Evolvable
                   :name,
                   :size,
                   :evolutions_count,
-                  :search_space,
+                  :gene_space,
                   :evolution,
                   :parent_evolvables,
                   :evolvables
 
-    def_delegators :evolvable_class,
+    def_delegators :evolvable_type,
                    :before_evaluation,
                    :before_evolution,
                    :after_evolution
@@ -169,9 +167,9 @@ module Evolvable
     def new_evolvable(genome: nil)
       return generate_evolvables(1).first unless genome || parent_evolvables.empty?
 
-      evolvable = evolvable_class.new_evolvable(population: self,
-                                                genome: genome || search_space.new_genome,
-                                                generation_index: @evolvables.count)
+      evolvable = evolvable_type.new_evolvable(population: self,
+                                               genome: genome || gene_space.new_genome,
+                                               generation_index: @evolvables.count)
       @evolvables << evolvable
       evolvable
     end
@@ -181,7 +179,7 @@ module Evolvable
       @evolvables = evolvables
 
       if parent_evolvables.empty?
-        Array.new(count) { new_evolvable(genome: search_space.new_genome) }
+        Array.new(count) { new_evolvable(genome: gene_space.new_genome) }
       else
         @evolvables = generate_evolvables(count)
       end
@@ -196,10 +194,6 @@ module Evolvable
       parent_evolvables.map(&:genome).shuffle!.combination(2).cycle
     end
 
-    def evolvable_class
-      @evolvable_class ||= evolvable_type.is_a?(Class) ? evolvable_type : Object.const_get(evolvable_type)
-    end
-
     def dump(only: nil, except: nil)
       Serializer.dump(dump_attrs(only: only, except: except))
     end
@@ -209,7 +203,7 @@ module Evolvable
                       name
                       size
                       evolutions_count
-                      search_space
+                      gene_space
                       evolution
                       evaluation].freeze
 
@@ -223,10 +217,10 @@ module Evolvable
 
     private
 
-    def initialize_search_space(search_space)
-      return SearchSpace.build(search_space, evolvable_class) if search_space
+    def initialize_gene_space(gene_space)
+      return GeneSpace.build(gene_space, evolvable_type) if gene_space
 
-      evolvable_class.new_search_space
+      evolvable_type.new_gene_space
     end
 
     def generate_evolvables(count)

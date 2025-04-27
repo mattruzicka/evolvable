@@ -6,7 +6,7 @@ module Evolvable
   #   Mutation serves the role of increasing genetic variation. When an evolvable
   #   undergoes a mutation, one or more of its genes are replaced by newly
   #   initialized ones. In effect, a gene mutation invokes a new random outcome
-  #   from the genetic search space.
+  #   from the genetic search space or "gene space".
   #
   #   Mutation frequency is configurable using the `probability` and `rate`
   #   parameters.

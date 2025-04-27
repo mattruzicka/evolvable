@@ -4,7 +4,7 @@ require 'forwardable'
 require 'evolvable/version'
 require 'evolvable/error/undefined_method'
 require 'evolvable/gene'
-require 'evolvable/search_space'
+require 'evolvable/gene_space'
 require 'evolvable/genome'
 require 'evolvable/goal'
 require 'evolvable/equalize_goal'
@@ -25,14 +25,14 @@ require 'evolvable/serializer'
 #
 # @readme
 #   The `Evolvable` module makes it possible to implement evolutionary behaviors for
-#   any class by defining a `.search_space` class method and `#value` instance method.
+#   any class by defining a `.gene_space` class method and `#value` instance method.
 #   Then to evolve instances, initialize a population with `.new_population` and invoke
 #   the `#evolve` method on the resulting population object.
 #
 #   ### Implementation Steps
 #
 #   1. [Include the `Evolvable` module in the class you want to evolve.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable)
-#   2. [Define `.search_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/SearchSpace)
+#   2. [Define `.gene_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/GeneSpace)
 #   3. [Define `#value`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evaluation)
 #   4. [Initialize a population with `.new_population` and use `#evolve`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population)
 #
@@ -84,11 +84,10 @@ module Evolvable
       new
     end
 
-    def new_search_space
-      space_config = search_space.empty? ? gene_space : search_space
-      search_space = SearchSpace.build(space_config, self)
-      search_spaces.each { |space| search_space.merge_search_space!(space) }
-      search_space
+    def new_gene_space
+      gene_space = GeneSpace.build(search_space, self)
+      search_spaces.each { |space| gene_space.merge_gene_space!(space) }
+      gene_space
     end
 
     #
@@ -100,7 +99,7 @@ module Evolvable
     # of being used and searched by evolvable objects.
     #
     # Override this method with a search space config for initializing
-    # SearchSpace objects. The config can be a hash, array of arrays,
+    # GeneSpace objects. The config can be a hash, array of arrays,
     # or single array when there's only one type of gene.
     #
     # The below example definitions could conceivably be used to generate evolvable music.
@@ -154,14 +153,6 @@ module Evolvable
       []
     end
 
-    # @deprecated
-    #   Will be removed in version 2.0.
-    #   Use {#search_space} instead.
-    def gene_space
-      {}
-    end
-
-
     #
     # @readme
     #   Runs before evaluation.
@@ -205,15 +196,6 @@ module Evolvable
                 :genome,
                 :generation_index,
                 :value
-
-  #
-  # @deprecated
-  #   Will be removed in version 2.0.
-  #   Use {#generation_index} instead.
-  #
-  def population_index
-    generation_index
-  end
 
   #
   # @!method find_gene

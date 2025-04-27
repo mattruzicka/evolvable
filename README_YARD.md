@@ -18,7 +18,7 @@ Subscribe to the [Evolvable Newsletter](https://www.evolvable.site/newsletter) t
 * [Selection](#selection)
 * [Combination](#combination)
 * [Mutation](#mutation)
-* [Search Space](#search-space)
+* [Gene Space](#gene-space)
 
 
 ## Installation
@@ -68,25 +68,25 @@ end
 
 ### Step 2
 
-Now we can **define the `.search_space`** class method with the types of [genes](#genes) that we want our our evolvable "hello world" instances to be able to have. We'll use `CharGene` instances to represent single characters within strings. So an instance with the string value of "Hello" would be composed of five `CharGene` instances.
+Now we can **define the `.gene_space`** class method with the types of [genes](#genes) that we want our our evolvable "hello world" instances to be able to have. We'll use `CharGene` instances to represent single characters within strings. So an instance with the string value of "Hello" would be composed of five `CharGene` instances.
 
 ```ruby
 class HelloWorld
   include Evolvable
 
-  def self.search_space
+  def self.gene_space
     ["CharGene", 1..40]
   end
 end
 ```
 
-The [Search Space](#search-space) can be defined in a variety of ways. The above is shorthand that's useful for when there's only one type of gene. This method can also return an array of arrays or hash.
+The [Gene Space](#gene-space) can be defined in a variety of ways. The above is shorthand that's useful for when there's only one type of gene. This method can also return an array of arrays or hash.
 
 The `1..40` specifies the range of possible genes for a particular HelloWorld instance. Evolvable translates this range or integer value into a `Evolvable::CountGene` object.
 
 By specifying a range, an `Evolvable::CountGene` instance can change the number of genes that are present in an evovlable instance. Count genes undergo evolutionary operations like any other gene. Their effects can be seen in the letter changes from Generation 165 to 168 in the above example output.
 
-To finish step 2, we'll **define the gene class** that we referenced in the above `.search_space` method. Gene classes should include the `Evolvable::Gene` module.
+To finish step 2, we'll **define the gene class** that we referenced in the above `.gene_space` method. Gene classes should include the `Evolvable::Gene` module.
 
 ```ruby
 class CharGene
@@ -104,7 +104,7 @@ end
 
 It's important that, once accessed, the data for a particular gene never change. When the `#to_s` method first runs, Ruby's `||=` operator memoizes the result of randomly picking a char, enabling this method to sample a char only once per gene.
 
-After defining the search space, we can now initialize `HelloWorld` instances with random genes, but to actually evolve them, we need to **define the `#value` instance method**. It provides the basis for comparing different evolvable instances.
+After defining the gene space, we can now initialize `HelloWorld` instances with random genes, but to actually evolve them, we need to **define the `#value` instance method**. It provides the basis for comparing different evolvable instances.
 
 ### Step 3
 
@@ -169,7 +169,7 @@ population.evolve
 
 ## Concepts
 
-[Populations](#populations) are composed of evolvables which are composed of genes. Evolvables orchestrate behaviors by delegating to gene objects. Collections of genes are organized into genomes and constitute the [search space](#search-space). [Evaluation](#evaluation) and [evolution](#evolution) objects are used to evolve populations. By default, evolution is composed of [selection](#selection), [combination](#combination), and [mutation](#mutation).
+[Populations](#populations) are composed of evolvables which are composed of genes. Evolvables orchestrate behaviors by delegating to gene objects. Collections of genes are organized into genomes and constitute the [gene space](#gene-space). [Evaluation](#evaluation) and [evolution](#evolution) objects are used to evolve populations. By default, evolution is composed of [selection](#selection), [combination](#combination), and [mutation](#mutation).
 
 The following concept map depicts how genes flow through populations.
 
@@ -223,12 +223,12 @@ Evolvable is designed with extensibility in mind. Evolvable objects such as [eva
 
 [Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Mutation)
 
-## Search Space
-{@readme Evolvable::SearchSpace}
+## Gene Space
+{@readme Evolvable::GeneSpace}
 
-{@example Evolvable::SearchSpace}
+{@example Evolvable::GeneSpace}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/SearchSpace)
+[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/GeneSpace)
 
 ## Contributing
 

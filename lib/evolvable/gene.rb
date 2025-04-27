@@ -47,13 +47,6 @@ module Evolvable
       def combine(gene_a, gene_b)
         [gene_a, gene_b].sample
       end
-
-      #
-      # @deprecated
-      #   Will be removed in 2.0
-      #   Use {#combine}
-      #
-      alias crossover combine
     end
 
     attr_accessor :evolvable

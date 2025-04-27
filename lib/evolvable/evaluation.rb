@@ -19,9 +19,9 @@ module Evolvable
   #   population.evolve(goal_value: 1000)
   #
   class Evaluation
-    GOALS = { maximize: Evolvable::Goal::Maximize.new,
-              minimize: Evolvable::Goal::Minimize.new,
-              equalize: Evolvable::Goal::Equalize.new }.freeze
+    GOALS = { maximize: Evolvable::MaximizeGoal.new,
+              minimize: Evolvable::MinimizeGoal.new,
+              equalize: Evolvable::EqualizeGoal.new }.freeze
 
     DEFAULT_GOAL_TYPE = :maximize
 
