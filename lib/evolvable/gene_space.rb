@@ -6,36 +6,31 @@ module Evolvable
   #   The gene space encapsulates the range of possible genes
   #   for a particular evolvable. You can think of it as the search space
   #   for genes or the boundaries of genetic variation. It is configured via the
-  #   [.gene_space](#evolvableclassgene_space) method that you define
-  #   on your evolvable class. It's used by populations to initialize
-  #   new evolvables.
+  #   `.gene` macro-style method that you use to define genetic attributes on
+  #   your evolvable class. These gene definitions are used by populations
+  #   to initialize new evolvables.
   #
-  #   Evolvable provides flexibility in how you define your gene space.
-  #   The below example implementations for `.gene_space` produce the
-  #   exact same gene space for the
-  #   [Hello World](https://github.com/mattruzicka/evolvable#hello-world)
-  #   demo program. The different styles arguably vary in suitability for
-  #   different contexts, perhaps depending on how programs are loaded and
-  #   the number of different gene types.
+  #   Evolvable provides a clean, declarative approach to defining your genetic model
+  #   structure. Here's how you might define genes for a music evolution program:
   #
   # @example
-  #   # All 9 of these example definitions are equivalent
+  #   class Melody
+  #     include Evolvable
   #
-  #   # Hash syntax
-  #   { chars: { type: 'CharGene', max_count: 100 } }
-  #   { chars: { type: 'CharGene', min_count: 1, max_count: 100 } }
-  #   { chars: { type: 'CharGene', count: 1..100 } }
+  #     gene :notes, type: NoteGene, count: 4..16
+  #     gene :instrument, type: InstrumentGene, count: 1
+  #     gene :tempo, type: TempoGene, count: 1
   #
-  #   # Array of arrays syntax
-  #   [[:chars, 'CharGene', 1..100]]
-  #   [['chars', 'CharGene',  1..100]]
-  #   [['CharGene', 1..100]]
+  #     # Define audio effects as a cluster of related genes
+  #     gene :reverb, type: ReverbGene, count: 0..1, cluster: :effects
+  #     gene :delay, type: DelayGene, count: 0..1, cluster: :effects
+  #     gene :distortion, type: DistortionGene, count: 0..1, cluster: :effects
+  #     gene :chorus_effect, type: ChorusEffectGene, count: 0..1, cluster: :effects
   #
-  #   # A single array works when there's only one type of gene
-  #   ['CharGene', 1..100]
-  #   [:chars, 'CharGene', 1..100]
-  #   ['chars', 'CharGene', 1..100]
-  #
+  #     def play
+  #       # Access genes directly or through their clusters
+  #       instrument.play(notes, tempo, effects)
+  #     end
   #
 
   class GeneSpace
@@ -74,16 +69,7 @@ module Evolvable
     private
 
     def normalize_config(config)
-      case config
-      when Hash
-        normalize_hash_config(config)
-      when Array
-        if config.first.is_a?(Array)
-          build_config_from_2d_array(config)
-        else
-          merge_config_with_array({}, config)
-        end
-      end
+      normalize_hash_config(config)
     end
 
     def normalize_hash_config(config)
@@ -94,36 +80,6 @@ module Evolvable
         gene_class.key = gene_key
         gene_config[:class] = gene_class
       end
-    end
-
-    def build_config_from_2d_array(array_config)
-      config = {}
-      array_config.each { |array| merge_config_with_array(config, array) }
-      config
-    end
-
-    def merge_config_with_array(config, gene_array)
-      gene_key, gene_class, count = extract_array_configs(gene_array)
-      gene_class.key = gene_key
-      config[gene_key] = { class: gene_class, count: count }
-      config
-    end
-
-    def extract_array_configs(gene_array)
-      first_item = gene_array.first
-      return extract_array_with_key_configs(gene_array) if first_item.is_a?(Symbol)
-
-      gene_class = lookup_gene_class(first_item)
-      _type, count = gene_array
-      [gene_class, gene_class, count]
-    rescue NameError
-      extract_array_with_key_configs(gene_array)
-    end
-
-    def extract_array_with_key_configs(gene_array)
-      gene_key, type, count = gene_array
-      gene_class = lookup_gene_class(type)
-      [gene_key, gene_class, count]
     end
 
     def lookup_gene_class(class_name)
@@ -159,7 +115,7 @@ module Evolvable
       when Range
         CountGene.new(range: count)
       when String
-        Kernel.const_get(gene_config[:count]).new
+        Object.const_get(gene_config[:count]).new
       when Class
         gene_config[:count].new
       end

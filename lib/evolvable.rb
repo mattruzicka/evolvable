@@ -26,21 +26,31 @@ require 'evolvable/community'
 #
 # @readme
 #   The `Evolvable` module makes it possible to implement evolutionary behaviors for
-#   any class by defining a `.gene_space` class method and `#value` instance method.
-#   Then to evolve instances, initialize a population with `.new_population` and invoke
+#   any class. This is done through macro-style method calls that define the genetic
+#   structure of your models and their fitness evaluation criteria.
+#
+#   By including the `Evolvable` module, using the `.gene` macro to declare genetic
+#   attributes, and implementing a `#fitness` instance method, you can enable any Ruby
+#   object to participate in evolutionary processes.
+#
+#   To evolve instances, initialize a population with `.new_population` and invoke
 #   the `#evolve` method on the resulting population object.
 #
 #   ### Implementation Steps
 #
 #   1. [Include the `Evolvable` module in the class you want to evolve.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable)
-#   2. [Define `.gene_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/GeneSpace)
-#   3. [Define `#value`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evaluation)
+#   2. [Define gene with the `.gene` method.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/GeneSpace)
+#   3. [Define `#fitness`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evaluation)
 #   4. [Initialize a population with `.new_population` and use `#evolve`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population)
 #
 module Evolvable
   extend Forwardable
 
+  class Error < StandardError; end
+
   def self.included(base)
+    base.instance_variable_set(:@gene_config, {})
+    base.instance_variable_set(:@cluster_config, {})
     base.extend(ClassMethods)
   end
 
@@ -51,8 +61,7 @@ module Evolvable
   module ClassMethods
     #
     # @readme
-    #   Initializes a population using configurable defaults that can be configured and optimized.
-    #   Accepts the same named parameters as
+    #   Initializes a population with defaults that can be change dusing the same named parameters as
     #   [Population#initialize](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population#initialize).
     #
     def new_population(keyword_args = {})
@@ -81,73 +90,96 @@ module Evolvable
       new
     end
 
+    #
+    # @readme
+    #   A macro-style method that defines a gene for the evolving class. This creates the gene space entry
+    #   and defines a getter method for accessing gene values.
+    #
+    # @param name [Symbol] The name of the gene
+    # @param type [String, Class] The gene type or class name
+    # @param count [Integer, Range] The number or range of genes to create
+    # @param cluster [Symbol, nil] Optional cluster name to group related genes
+    #
+    # @example
+    #   class Melody
+    #     include Evolvable
+    #
+    #     gene :notes, type: NoteGene, count: 4..16
+    #     gene :instrument, type: InstrumentGene, count: 1
+    #
+    #     def play
+    #       instrument.play(notes)
+    #     end
+    #   end
+    #
+    # @readme
+    #   A macro-style method that defines a gene for the evolving class. This creates
+    #   the gene space entry and defines a getter method for accessing gene values.
+    #
+    #   These gene macros form the genetic structure of your evolutionary models,
+    #   similar to how Active Record's association macros define relationships between models.
+    #
+    # @param name [Symbol] The name of the gene
+    # @param type [String, Class] The gene type or class name
+    # @param count [Integer, Range] The number or range of genes to create
+    # @param cluster [Symbol, nil] Optional cluster name to group related genes
+    #
+    # @example
+    #   class Melody
+    #     include Evolvable
+    #
+    #     gene :notes, type: NoteGene, count: 4..16
+    #     gene :instrument, type: InstrumentGene, count: 1
+    #
+    #     def play
+    #       instrument.play(notes)
+    #     end
+    #   end
+    #
+    def gene(name, type:, count: 1, cluster: nil)
+      raise Error, "Gene name '#{name}' is already defined" if @gene_config.key?(name)
+
+      @gene_config[name] = { type: type, count: count }
+
+      if (count.is_a?(Range) ? count.last : count) > 1
+        define_method(name) { find_genes(name) }
+      else
+        define_method(name) { find_gene(name) }
+      end
+
+      if cluster
+        raise Error, "Cluster name '#{cluster}' conflicts with an existing gene name" if @gene_config.key?(cluster)
+
+        if @cluster_config[cluster]
+          @cluster_config[cluster] << name
+        else
+          @cluster_config[cluster] = [name]
+          define_method(cluster) { find_gene_cluster(cluster) }
+        end
+      end
+    end
+
+    def cluster(cluster_name, type:, **opts)
+      recipe = type.is_a?(String) ? Object.const_get(type) : type
+      unless recipe.respond_to?(:apply_cluster)
+        raise ArgumentError, "#{recipe} cannot apply a gene cluster"
+      end
+
+      recipe.apply_cluster(self, cluster_name, **opts)
+
+      define_method(cluster_name) { find_gene_cluster(cluster_name) }
+    end
+
+    attr_reader :gene_config, :cluster_config
+
     def new_gene_space
-      gene_space = GeneSpace.build(search_space, self)
-      search_spaces.each { |space| gene_space.merge_gene_space!(space) }
-      gene_space
+      GeneSpace.build(@gene_config, self)
     end
 
-    #
-    # @abstract
-    #
-    # This method is responsible for configuring the available gene types
-    # of evolvable instances. In effect, it provides the
-    # blueprint for constructing a hyperdimensional genetic space that's capable
-    # of being used and searched by evolvable objects.
-    #
-    # Override this method with a search space config for initializing
-    # GeneSpace objects. The config can be a hash, array of arrays,
-    # or single array when there's only one type of gene.
-    #
-    # The below example definitions could conceivably be used to generate evolvable music.
-    #
-    # @todo
-    #   Define gene config attributes - name, type, count
-    #
-    # @example Hash config
-    #   def search_space
-    #     { instrument: { type: InstrumentGene, count: 1..4 },
-    #       notes: { type: NoteGene, count: 16 } }
-    #   end
-    # @example Array of arrays config
-    #   # With explicit gene names
-    #   def search_space
-    #     [[:instrument, InstrumentGene, 1..4],
-    #      [:notes, NoteGene, 16]]
-    #   end
-    #
-    #   # Without explicit gene names
-    #   def search_space
-    #     [[SynthGene, 0..4], [RhythmGene, 0..8]]
-    #   end
-    # @example Array config
-    #   # Available when when just one type of gene
-    #   def search_space
-    #     [NoteGene, 1..100]
-    #   end
-    #
-    #   # With explicit gene type name.
-    #   def search_space
-    #     ['notes', 'NoteGene', 1..100]
-    #   end
-    #
-    # @return [Hash, Array]
-    #
-    # @see https://github.com/mattruzicka/evolvable#search_space
-    #
-    def search_space
-      {}
-    end
-
-    #
-    # @abstract Override this method to define multiple search spaces
-    #
-    # @return [Array]
-    #
-    # @see https://github.com/mattruzicka/evolvable#search_space
-    #
-    def search_spaces
-      []
+    def inherited(subclass)
+      super
+      subclass.instance_variable_set(:@gene_config, @gene_config.dup)
+      subclass.instance_variable_set(:@cluster_config, @cluster_config.dup)
     end
 
     #
@@ -214,6 +246,10 @@ module Evolvable
                  :find_genes,
                  :find_genes_count,
                  :genes
+
+  def find_gene_cluster(cluster)
+    find_genes(*self.class.cluster_config[cluster])
+  end
 
   def dump_genome(serializer: Serializer)
     @genome.dump(serializer: serializer)

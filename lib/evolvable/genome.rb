@@ -32,7 +32,7 @@ module Evolvable
     end
 
     #
-    # Returns an array of genes that have the given key. Gene keys are defined in the [EvolvableClass.gene_space](#evolvableclassgene_space) method. In the Melody example above, the key for the note genes would be `:notes`. The following would return an array of them: `note_genes = melody.find_genes(:notes)`
+    # Returns an array of genes that have the given key. Gene keys are defined using the [EvolvableClass.gene](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/ClassMethods#gene-instance_method) macro method. In the Melody example above, the key for the note genes would be `:notes`. The following would return an array of them: `note_genes = melody.find_genes(:notes)`
     #
     # @param [<Type>] *keys <description>
     #

@@ -32,7 +32,7 @@ module Evolvable
     # Defaults to `0`. Useful when re-initializing a saved population with instances.
     # #### gene_space
     # Defaults to `evolvable_type.new_gene_space` which uses the
-    # [EvolvableClass.gene_space](#evolvableclassgene_space) method
+    # `.gene` macro-style methods defined on the evolvable class
     # #### evolution
     # Defaults to `Evolvable::Evolution.new`. See [evolution](#evolution-1)
     # #### evaluation
