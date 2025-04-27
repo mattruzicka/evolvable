@@ -42,11 +42,11 @@ module Evolvable
     attr_accessor :value
 
     def evaluate(_evolvable)
-      raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
+      raise Error, "Undefined method: #{self.class.name}##{__method__}"
     end
 
     def met?(_evolvable)
-      raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
+      raise Error, "Undefined method: #{self.class.name}##{__method__}"
     end
   end
 end
