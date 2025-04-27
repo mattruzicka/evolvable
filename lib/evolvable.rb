@@ -160,6 +160,43 @@ module Evolvable
       end
     end
 
+    #
+    # @readme
+    #   Applies a predefined gene cluster to the evolving class. Gene clusters allow you
+    #   to organize related genes into reusable, modular components.
+    #
+    # @param cluster_name [Symbol] The name for accessing the cluster in the evolvable class
+    # @param type [Class, String] The gene cluster class to apply
+    # @param opts [Hash] Additional options to pass to the cluster
+    #
+    # @example
+    #   # Define a gene cluster for UI styling properties
+    #   class ColorSchemeCluster
+    #     include Evolvable::GeneCluster
+    #
+    #     gene :background_color, type: 'ColorGene', count: 1
+    #     gene :text_color, type: 'ColorGene', count: 1
+    #     gene :accent_color, type: 'ColorGene', count: 0..1
+    #   end
+    #
+    #   # Use the cluster in an evolvable UI component
+    #   class Button
+    #     include Evolvable
+    #
+    #     # Apply the color scheme cluster
+    #     cluster :colors, type: ColorSchemeCluster
+    #
+    #     # Other genes for the button
+    #     gene :corner_radius, type: RadiusGene, count: 1
+    #     gene :padding, type: PaddingGene, count: 1
+    #
+    #     def render
+    #       # Access all colors as a group
+    #       puts "Button with #{colors.count} colors"
+    #       puts "Background: #{colors.background_color.hex_code}"
+    #     end
+    #   end
+    #
     def cluster(cluster_name, type:, **opts)
       recipe = type.is_a?(String) ? Object.const_get(type) : type
       unless recipe.respond_to?(:apply_cluster)

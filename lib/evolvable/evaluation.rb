@@ -7,8 +7,8 @@ module Evolvable
   #   a way to compare evolvables. In the genetic algorithm, this is often
   #   referred to as the "fitness function".
   #
-  #   The `Evolvable::Evaluation` object expects evolvable instances to define a `#value` method that
-  #   returns some numeric value. Values are used to evaluate instances relative to each
+  #   The `Evolvable::Evaluation` object expects evolvable instances to define a `#fitness` method that
+  #   returns some numeric value. Fitness scores are used to evaluate instances relative to each
   #   other and with regards to some goal. Out of the box, the goal can be set
   #   to maximize, minimize, or equalize numeric values.
   #

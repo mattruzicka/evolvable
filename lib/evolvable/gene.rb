@@ -12,9 +12,7 @@ module Evolvable
   #   a sample outcome when a gene attribute is accessed. For evolution to proceed
   #   in a non-random way, the same sample outcome should be returned every time
   #   a particular gene is accessed with a particular set of parameters.
-  #   Memoization is a useful technique for doing just this. The
-  #   [memo_wise](https://github.com/panorama-ed/memo_wise) gem may be useful for
-  #   more complex memoizations.
+  #   Memoization is a useful technique for doing just this.
   #
   # @example
   #   # This gene generates a random hexidecimal color code for use by evolvables.
