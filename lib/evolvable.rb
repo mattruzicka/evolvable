@@ -21,6 +21,7 @@ require 'evolvable/population'
 require 'evolvable/count_gene'
 require 'evolvable/rigid_count_gene'
 require 'evolvable/serializer'
+require 'evolvable/community'
 
 #
 # @readme
