@@ -191,8 +191,7 @@ module Evolvable
   # @!method value
   #   Implementing this method is required for evaluation and selection.
   #
-  attr_accessor :id,
-                :population,
+  attr_accessor :population,
                 :genome,
                 :generation_index,
                 :value
