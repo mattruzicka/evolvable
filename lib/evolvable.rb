@@ -188,14 +188,13 @@ module Evolvable
   def after_initialize; end
 
   #
-  # @!method value
+  # @!method fitness
   #   Implementing this method is required for evaluation and selection.
   #
   attr_accessor :population,
                 :genome,
                 :generation_index,
-                :value
-
+                :fitness
   #
   # @!method find_gene
   #   @see Genome#find_gene

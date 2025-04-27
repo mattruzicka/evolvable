@@ -12,11 +12,11 @@ module Evolvable
     end
 
     def evaluate(evolvable)
-      -(evolvable.value - value).abs
+      -(evolvable.fitness - value).abs
     end
 
     def met?(evolvable)
-      evolvable.value == value
+      evolvable.fitness == value
     end
   end
 end
