@@ -1,20 +1,40 @@
 PATH
   remote: .
   specs:
-    evolvable (1.2.0)
+    evolvable (2.0.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    date (3.4.1)
+    debug (1.10.0)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
+    io-console (0.8.0)
+    irb (1.15.2)
+      pp (>= 0.6.0)
+      rdoc (>= 4.0.0)
+      reline (>= 0.4.2)
     kramdown (2.3.1)
       rexml
     pastel (0.8.0)
       tty-color (~> 0.5)
+    pp (0.6.2)
+      prettyprint
+    prettyprint (0.2.0)
+    psych (5.2.3)
+      date
+      stringio
+    rdoc (6.13.1)
+      psych (>= 4.0.0)
     readme_yard (0.2.0)
       tty-markdown (~> 0.7)
       yard-readme (~> 0.3)
+    reline (0.6.1)
+      io-console (~> 0.5)
     rexml (3.2.5)
     rouge (3.27.0)
+    stringio (3.1.7)
     strings (0.2.1)
       strings-ansi (~> 0.2)
       unicode-display_width (>= 1.5, < 3.0)
@@ -41,9 +61,11 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.0)
+  debug
   evolvable!
+  irb
   readme_yard
   yard
 
 BUNDLED WITH
-   2.2.15
+   2.6.8
