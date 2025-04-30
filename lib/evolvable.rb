@@ -2,7 +2,6 @@
 
 require 'forwardable'
 require 'evolvable/version'
-require 'evolvable/error/undefined_method'
 require 'evolvable/gene'
 require 'evolvable/gene_cluster'
 require 'evolvable/gene_space'
