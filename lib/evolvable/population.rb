@@ -50,6 +50,7 @@ module Evolvable
                    evolutions_count: 0,
                    gene_space: nil,
                    parent_evolvables: [],
+                   selected_evolvables: [],
                    evaluation: Evaluation.new,
                    evolution: Evolution.new,
                    selection: nil,
@@ -63,6 +64,7 @@ module Evolvable
       @evolutions_count = evolutions_count
       @gene_space = initialize_gene_space(gene_space || gene_space)
       @parent_evolvables = parent_evolvables
+      @selected_evolvables = selected_evolvables
       self.evaluation = evaluation
       @evolution = evolution
       self.selection = selection if selection
@@ -79,6 +81,7 @@ module Evolvable
                   :gene_space,
                   :evolution,
                   :parent_evolvables,
+                  :selected_evolvables,
                   :evolvables
 
     def_delegators :evolvable_type,
@@ -154,6 +157,14 @@ module Evolvable
         self.evolutions_count += 1
         after_evolution(self)
       end
+    end
+
+    def evolve_selected(selected_evolvables)
+      self.selected_evolvables = selected_evolvables
+      before_evolution(self)
+      evolution.call(self)
+      self.evolutions_count += 1
+      after_evolution(self)
     end
 
     def best_evolvable

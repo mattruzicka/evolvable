@@ -33,7 +33,8 @@ module Evolvable
     attr_accessor :size
 
     def call(population)
-      population.parent_evolvables = select_evolvables(population.evolvables)
+      population.parent_evolvables = population.selected_evolvables.empty? ? select_evolvables(population.evolvables) : population.selected_evolvables
+      population.selected_evolvables = []
       population.evolvables = []
       population
     end
