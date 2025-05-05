@@ -22,18 +22,19 @@ GEM
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
-    psych (5.2.3)
+    psych (5.2.4)
       date
       stringio
     rdoc (6.13.1)
       psych (>= 4.0.0)
-    readme_yard (0.2.0)
+    readme_yard (0.3.0)
       tty-markdown (~> 0.7)
-      yard-readme (~> 0.3)
+      yard (~> 0.9)
+      yard-readme (~> 0.5)
     reline (0.6.1)
       io-console (~> 0.5)
     rexml (3.4.1)
-    rouge (4.5.1)
+    rouge (4.5.2)
     stringio (3.1.7)
     strings (0.2.1)
       strings-ansi (~> 0.2)
@@ -52,20 +53,17 @@ GEM
     unicode-display_width (2.6.0)
     unicode_utils (1.4.0)
     yard (0.9.37)
-    yard-readme (0.3.0)
-      yard (~> 0.9.26)
+    yard-readme (0.6.0)
 
 PLATFORMS
   ruby
   x86_64-darwin-18
 
 DEPENDENCIES
-  bundler (~> 2.0)
   debug
   evolvable!
-  irb
-  readme_yard
-  yard
+  irb (>= 1.0)
+  readme_yard (>= 0.3)
 
 BUNDLED WITH
    2.6.8
