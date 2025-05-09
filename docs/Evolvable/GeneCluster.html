@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::GeneCluster";
   relpath = '../';
@@ -88,18 +90,27 @@
     <p>Gene clusters group related genes into reusable components that can be applied
 to multiple evolvable classes.</p>
 
-<p>When applied, genes are automatically namespaced with the cluster name:
-- Access as a group: <code>evolvable.styling</code> (returns all styling genes)
-- Access individually: <code>evolvable.find_gene("styling-color")</code></p>
+<p>When applied, genes are automatically namespaced with the cluster name:</p>
 
-<p>This provides:
-- Clean organization of related genes (styling, physics, etc.)
-- Prevention of name conflicts
-- Simplified access to gene groups</p>
+<ul>
+<li>Access as a group: <code>evolvable.styling</code> (returns all styling genes)</li>
+<li>Access individually: <code>evolvable.find_gene(&quot;styling-color&quot;)</code></li>
+</ul>
 
-<p>Related sections:
-- See <a href="#genes">Genes</a> for defining individual gene classes
-- See <a href="#gene-space">Gene Space</a> for how clusters integrate with the gene space</p>
+<p>This provides:</p>
+
+<ul>
+<li>Clean organization of related genes (styling, physics, etc.)</li>
+<li>Prevention of name conflicts</li>
+<li>Simplified access to gene groups</li>
+</ul>
+
+<p>Related sections:</p>
+
+<ul>
+<li>See <a href="#genes">Genes</a> for defining individual gene classes</li>
+<li>See <a href="#gene-space">Gene Space</a> for how clusters integrate with the gene space</li>
+</ul>
 
 
   </div>
@@ -258,7 +269,7 @@ the GeneCluster module in your class.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

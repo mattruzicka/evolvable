@@ -1,5 +1,6 @@
 --plugin readme
 --markup markdown
+--markup-provider redcarpet
 --output-dir docs
 
 lib/**/*.rb

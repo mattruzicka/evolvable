@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::Evaluation";
   relpath = '../';
@@ -107,21 +109,24 @@ mechanisms to specify evolutionary goals (maximize, minimize, or equalize).</p>
 <p><strong>How It Works</strong></p>
 
 <ol>
-  <li>Your evolvable class defines a <code>#fitness</code> method that returns a numeric score</li>
-  <li>The evaluation’s goal determines how this score is interpreted:
-    <ul>
-      <li><code>maximize</code>: Higher values are better (default)</li>
-      <li><code>minimize</code>: Lower values are better</li>
-      <li><code>equalize</code>: Values closer to target are better</li>
-    </ul>
-  </li>
-  <li>During evolution, evolvables are sorted based on the goal’s interpretation</li>
-  <li>Evolution can stop when an evolvable reaches a specified goal value</li>
+<li>Your evolvable class defines a <code>#fitness</code> method that returns a numeric score</li>
+<li>The evaluation&#39;s goal determines how this score is interpreted:
+
+<ul>
+<li><code>maximize</code>: Higher values are better (default)</li>
+<li><code>minimize</code>: Lower values are better</li>
+<li><code>equalize</code>: Values closer to target are better</li>
+</ul></li>
+<li>During evolution, evolvables are sorted based on the goal&#39;s interpretation</li>
+<li>Evolution can stop when an evolvable reaches a specified goal value</li>
 </ol>
 
-<p><strong>Related Sections</strong>
-- See <a href="#populations">Population</a> for how evaluation fits into evolution
-- See <a href="#selection">Selection</a> for how evaluated individuals are chosen</p>
+<p><strong>Related Sections</strong></p>
+
+<ul>
+<li>See <a href="#populations">Population</a> for how evaluation fits into evolution</li>
+<li>See <a href="#selection">Selection</a> for how evaluated individuals are chosen</li>
+</ul>
 
 
   </div>
@@ -755,7 +760,7 @@ a hash specifying goal type and value, or a custom goal object</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

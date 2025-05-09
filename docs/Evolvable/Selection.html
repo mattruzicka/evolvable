@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::Selection";
   relpath = '../';
@@ -106,30 +108,28 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>The selection object assumes that a population’s evolvables have already
-been sorted by the evaluation object. It selects “parent” evolvables to
+    <p>The selection object assumes that a population&#39;s evolvables have already
+been sorted by the evaluation object. It selects &quot;parent&quot; evolvables to
 undergo combination and thereby produce the next generation of evolvables.</p>
 
 <p>Only two evolvables are selected as parents for each generation by default.
 The selection size is configurable.</p>
 
-<p><code>ruby
-# Configure selection size
-population = MyEvolvable.new_population(
-  selection: { size: 3 }  # Select top 3 performers
-)
-</code></p>
+<pre class="code ruby"><code class="ruby"><span class='comment'># Configure selection size
+</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
+  <span class='label'>selection:</span> <span class='lbrace'>{</span> <span class='label'>size:</span> <span class='int'>3</span> <span class='rbrace'>}</span>  <span class='comment'># Select top 3 performers
+</span><span class='rparen'>)</span>
+</code></pre>
 
 <p>You can also assign selected evolvables:</p>
 
-<p><code>ruby
-population.selected_evolvables = [evolvable1, evolvable2]
-</code>
-or skip to evolving them:</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_selected_evolvables'>selected_evolvables</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_evolvable1'>evolvable1</span><span class='comma'>,</span> <span class='id identifier rubyid_evolvable2'>evolvable2</span><span class='rbracket'>]</span>
+</code></pre>
 
-<p><code>ruby
-population.evolve_selected([evolvable1, evolvable2])
-</code></p>
+<p>or skip to evolving them:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolve_selected'>evolve_selected</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_evolvable1'>evolvable1</span><span class='comma'>,</span> <span class='id identifier rubyid_evolvable2'>evolvable2</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
 
 <p>This allows for custom selection strategies beyond the built-in methods.</p>
 
@@ -296,7 +296,7 @@ population.evolve_selected([evolvable1, evolvable2])
       
         &mdash;
         <div class='inline'><p>The number of instances to select from each generation
-to perform crossover and generate or “breed” the next generation.
+to perform crossover and generate or &quot;breed&quot; the next generation.
 The default is 2.</p>
 </div>
       
@@ -583,7 +583,7 @@ such as tournament selection or roulette wheel selection.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

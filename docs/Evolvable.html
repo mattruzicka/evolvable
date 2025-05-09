@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable";
   relpath = '';
@@ -92,55 +94,60 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>The evolutionary process works through these components:
-  1. <strong>Populations</strong>: Groups of the “evolvable” instances you define
-  2. <strong>Genes</strong>: Ruby objects that cache data for evolvables
-  3. <strong>Evaluation</strong>: Sorts evolvables by fitness
-  4. <strong>Evolution</strong>: Selection, combination, and mutation to generate new evolvables</p>
+    <p>The evolutionary process works through these components:</p>
 
-<p>Quick start:
-  1. Include <code>Evolvable</code> in your Ruby class
-  2. Define genes with the macro-style <code>gene</code> method
-  3. Have the <code>#fitness</code> method return a numeric value
-  4. Initialize a population and evolve it</p>
+<ol>
+<li><strong>Populations</strong>: Groups of the &quot;evolvable&quot; instances you define</li>
+<li><strong>Genes</strong>: Ruby objects that cache data for evolvables</li>
+<li><strong>Evaluation</strong>: Sorts evolvables by fitness</li>
+<li><strong>Evolution</strong>: Selection, combination, and mutation to generate new evolvables</li>
+</ol>
 
-<p>Example population of “shirts” with various colors, buttons, and collars.</p>
+<p>Quick start:</p>
 
-<p>```ruby
-  # Step 1
-  class Shirt
-    include Evolvable</p>
+<ol>
+<li>Include <code>Evolvable</code> in your Ruby class</li>
+<li>Define genes with the macro-style <code>gene</code> method</li>
+<li>Have the <code>#fitness</code> method return a numeric value</li>
+<li>Initialize a population and evolve it</li>
+</ol>
 
-<pre class="code ruby"><code class="ruby"># Step 2
-gene :color, type: ColorGene # count: 1 default
-gene :buttons, type: ButtonGene, count: 0..10 # Builds an array of genes that can vary in size
-gene :collar, type: CollarGene, count: 0..1 # Collar optional
+<p>Example population of &quot;shirts&quot; with various colors, buttons, and collars.</p>
 
-# Step 3
-attr_accessor :fitness   end
+<pre class="code ruby"><code class="ruby">  <span class='comment'># Step 1
+</span>  <span class='kw'>class</span> <span class='const'>Shirt</span>
+    <span class='id identifier rubyid_include'>include</span> <span class='const'>Evolvable</span>
+
+    <span class='comment'># Step 2
+</span>    <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorGene</span> <span class='comment'># count: 1 default
+</span>    <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:buttons</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ButtonGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>10</span> <span class='comment'># Builds an array of genes that can vary in size
+</span>    <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:collar</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>CollarGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>1</span> <span class='comment'># Collar optional
+</span>
+    <span class='comment'># Step 3
+</span>    <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:fitness</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Step 4
+</span>  <span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>Shirt</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>size:</span> <span class='int'>10</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_shirt'>shirt</span><span class='op'>|</span> <span class='id identifier rubyid_shirt'>shirt</span><span class='period'>.</span><span class='id identifier rubyid_fitness'>fitness</span> <span class='op'>=</span> <span class='id identifier rubyid_tried_it_on_score'>tried_it_on_score</span> <span class='rbrace'>}</span>
 </code></pre>
 
-<p># Step 4
-  population = Shirt.new_population(size: 10)
-  population.evolvables.each { |shirt| shirt.fitness = tried_it_on_score }
-  ```</p>
-
-<p>You are free to tailor the genes to your needs and “try it on” yourself.</p>
+<p>You are free to tailor the genes to your needs and &quot;try it on&quot; yourself.</p>
 
 <p>The <code>ColorGene</code> could be as simple as this:</p>
 
-<p>```ruby
-  class ColorGene
-    include Evolvable::Gene</p>
+<pre class="code ruby"><code class="ruby">  <span class='kw'>class</span> <span class='const'>ColorGene</span>
+    <span class='id identifier rubyid_include'>include</span> <span class='const'>Evolvable</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Evolvable/Gene.html" title="Evolvable::Gene (module)">Gene</a></span></span>
 
-<pre class="code ruby"><code class="ruby">def to_s
-  @to_s ||= %w[red green blue].sample
-end   end   ```
+    <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
+      <span class='ivar'>@to_s</span> <span class='op'>||=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>red</span><span class='words_sep'> </span><span class='tstring_content'>green</span><span class='words_sep'> </span><span class='tstring_content'>blue</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
 </code></pre>
 
 <p>Not into shirts?</p>
 
-<p>Here’s a <a href="https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world">Hello World</a> command line demo.</p>
+<p>Here&#39;s a <a href="https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world">Hello World</a> command line demo.</p>
 
 
   </div>
@@ -348,8 +355,7 @@ end   end   ```
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -394,8 +400,7 @@ end   end   ```
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -440,8 +445,7 @@ end   end   ```
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -463,8 +467,7 @@ end   end   ```
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -555,7 +558,7 @@ end   end   ```
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Merges another genome into this evolvable’s genome.</p>
+    <span class="summary_desc"><div class='inline'><p>Merges another genome into this evolvable&#39;s genome.</p>
 </div></span>
   
 </li>
@@ -1486,7 +1489,7 @@ This is called internally by the class method <code>new_evolvable</code>.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Merges another genome into this evolvable’s genome.
+    <p>Merges another genome into this evolvable&#39;s genome.
 Useful for combining genetic traits from different evolvables.</p>
 
 
@@ -1557,7 +1560,7 @@ Useful for combining genetic traits from different evolvables.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:34 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

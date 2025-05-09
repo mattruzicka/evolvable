@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::Population";
   relpath = '../';
@@ -109,37 +111,36 @@
     <p>Populations orchestrate the evolutionary process through four key components:</p>
 
 <ol>
-  <li><strong>Evaluation</strong>: Ranks instances by fitness</li>
-  <li><strong>Selection</strong>: Chooses parents for combination</li>
-  <li><strong>Combination</strong>: Creates offspring from parents</li>
-  <li><strong>Mutation</strong>: Adds genetic diversity</li>
+<li><strong>Evaluation</strong>: Ranks instances by fitness</li>
+<li><strong>Selection</strong>: Chooses parents for combination</li>
+<li><strong>Combination</strong>: Creates offspring from parents</li>
+<li><strong>Mutation</strong>: Adds genetic diversity</li>
 </ol>
 
 <p><strong>Features</strong></p>
 
 <ul>
-  <li>Easy configuration via parameters</li>
-  <li>Lifecycle hooks (<code>before_evaluation</code>, <code>before_evolution</code>, <code>after_evolution</code>)</li>
-  <li>Progress tracking with <code>best_evolvable</code></li>
-  <li>Goal-based or generation-count evolution</li>
-  <li>Serialization for saving/restoring</li>
+<li>Easy configuration via parameters</li>
+<li>Lifecycle hooks (<code>before_evaluation</code>, <code>before_evolution</code>, <code>after_evolution</code>)</li>
+<li>Progress tracking with <code>best_evolvable</code></li>
+<li>Goal-based or generation-count evolution</li>
+<li>Serialization for saving/restoring</li>
 </ul>
 
 <p><strong>Configuration</strong></p>
 
-<p>```ruby
-population = MyEvolvable.new_population(
-  size: 50,                            # Population size
-  evaluation: { maximize: true },      # Fitness goal
-  selection: { size: 10 },             # Parent selection count
-  mutation: { probability: 0.2 }       # Mutation rate
-)</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
+  <span class='label'>size:</span> <span class='int'>50</span><span class='comma'>,</span>                            <span class='comment'># Population size
+</span>  <span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>maximize:</span> <span class='kw'>true</span> <span class='rbrace'>}</span><span class='comma'>,</span>      <span class='comment'># Fitness goal
+</span>  <span class='label'>selection:</span> <span class='lbrace'>{</span> <span class='label'>size:</span> <span class='int'>10</span> <span class='rbrace'>}</span><span class='comma'>,</span>             <span class='comment'># Parent selection count
+</span>  <span class='label'>mutation:</span> <span class='lbrace'>{</span> <span class='label'>probability:</span> <span class='float'>0.2</span> <span class='rbrace'>}</span>       <span class='comment'># Mutation rate
+</span><span class='rparen'>)</span>
 
-<h1 id="run-evolution">Run evolution</h1>
-<p>population.evolve(count: 20)           # For 20 generations
-# or
-population.evolve(goal_value: 100)     # Until fitness goal reached
-```</p>
+<span class='comment'># Run evolution
+</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>count:</span> <span class='int'>20</span><span class='rparen'>)</span>           <span class='comment'># For 20 generations
+</span><span class='comment'># or
+</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='int'>100</span><span class='rparen'>)</span>     <span class='comment'># Until fitness goal reached
+</span></code></pre>
 
 
   </div>
@@ -2636,7 +2637,7 @@ Shuffles parent genomes and creates combinations of two.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

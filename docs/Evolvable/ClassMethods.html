@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::ClassMethods";
   relpath = '../';
@@ -625,11 +627,14 @@
   <div class="discussion">
     <p>The <code>.cluster</code> macro applies a pre-defined group of related genes.</p>
 
-<p>Clusters promote code organization through:
-  - Modularity: Define related genes once, reuse them
-  - Organization: Group genes by function
-  - Maintenance: Update in one place
-  - Accessibility: Access via a single accessor</p>
+<p>Clusters promote code organization through:</p>
+
+<ul>
+<li>Modularity: Define related genes once, reuse them</li>
+<li>Organization: Group genes by function</li>
+<li>Maintenance: Update in one place</li>
+<li>Accessibility: Access via a single accessor</li>
+</ul>
 
 
   </div>
@@ -766,10 +771,13 @@
     <p>The <code>.gene</code> macro defines traits that can mutate and evolve over time.
 Syntactically similar to ActiveRecord-style macros, it sets up the genetic structure of your model.</p>
 
-<p>Key features:
-- Fixed or variable gene counts
-- Automatic accessor methods
-- Optional clustering for related genes</p>
+<p>Key features:</p>
+
+<ul>
+<li>Fixed or variable gene counts</li>
+<li>Automatic accessor methods</li>
+<li>Optional clustering for related genes</li>
+</ul>
 
 
   </div>
@@ -1070,12 +1078,12 @@ By default, simply calls new with no arguments.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Initializes a new instance. Accepts a population object, an array of gene objects,
-and the instance’s population index. This method is useful for re-initializing
+and the instance&#39;s population index. This method is useful for re-initializing
 instances and populations that have been saved.</p>
 
 <p><em>It is not recommended that you override this method</em> as it is used by
 Evolvable internals. If you need to customize how your instances are
-initialized you can override either of the following two “initialize_instance”
+initialized you can override either of the following two &quot;initialize_instance&quot;
 methods.</p>
 
 
@@ -1217,7 +1225,7 @@ Used internally when initializing populations.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:34 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

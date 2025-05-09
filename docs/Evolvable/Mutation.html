@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::Mutation";
   relpath = '../';
@@ -109,13 +111,19 @@
     <p>Mutation introduces genetic diversity by replacing genes with newly initialized ones.
 This is crucial for exploring the solution space and preventing premature convergence.</p>
 
-<p>Two key parameters control mutation:
-- <code>probability</code>: Chance of an individual being mutated (0.0-1.0)
-- <code>rate</code>: Portion of genes to mutate in affected individuals (0.0-1.0)</p>
+<p>Two key parameters control mutation:</p>
 
-<p>Common strategies:
-- Higher rates early (exploration phase)
-- Lower rates later (exploitation/refinement phase)</p>
+<ul>
+<li><code>probability</code>: Chance of an individual being mutated (0.0-1.0)</li>
+<li><code>rate</code>: Portion of genes to mutate in affected individuals (0.0-1.0)</li>
+</ul>
+
+<p>Common strategies:</p>
+
+<ul>
+<li>Higher rates early (exploration phase)</li>
+<li>Lower rates later (exploitation/refinement phase)</li>
+</ul>
 
 
   </div>
@@ -254,7 +262,7 @@ This is used when no probability is specified.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Applies mutations to the population’s evolvables based on the configured probability and rate.</p>
+    <span class="summary_desc"><div class='inline'><p>Applies mutations to the population&#39;s evolvables based on the configured probability and rate.</p>
 </div></span>
   
 </li>
@@ -328,7 +336,7 @@ This is used when no probability is specified.</p>
   <div class="discussion">
     <p>Initializes a new mutation object.</p>
 
-<p>When rate is specified but probability isn’t, probability defaults to 1.0.
+<p>When rate is specified but probability isn&#39;t, probability defaults to 1.0.
 When rate is 0 or not specified, only one gene is mutated per affected instance.</p>
 
 
@@ -563,7 +571,7 @@ When nil, exactly one random gene is mutated per instance.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Applies mutations to the population’s evolvables based on the
+    <p>Applies mutations to the population&#39;s evolvables based on the
 configured probability and rate.</p>
 
 
@@ -721,7 +729,7 @@ probability and rate.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

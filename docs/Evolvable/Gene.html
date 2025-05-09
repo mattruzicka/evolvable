@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::Gene";
   relpath = '../';
@@ -92,41 +94,47 @@
   <div class="discussion">
     <p>Genes are the building blocks of evolvable objects, encapsulating individual characteristics
 that can be combined and mutated during evolution. Each gene represents a trait or behavior
-that can influence an evolvable’s performance.</p>
+that can influence an evolvable&#39;s performance.</p>
 
 <p><strong>Creating Gene Classes</strong></p>
 
-<p>When defining gene classes, you need to:
-1. Include the Evolvable::Gene module
-2. Define how the gene’s value is determined
-3. Optionally override the combine method for custom combination behavior</p>
+<p>When defining gene classes, you need to:</p>
+
+<ol>
+<li>Include the Evolvable::Gene module</li>
+<li>Define how the gene&#39;s value is determined</li>
+<li>Optionally override the combine method for custom combination behavior</li>
+</ol>
 
 <p><strong>Design Patterns</strong></p>
 
 <p>Effective gene design follows several patterns:</p>
 
 <ul>
-  <li><strong>Immutability</strong>: Gene values should be initialized once and cached. Use <code>@value ||= compute_value</code>
+<li><strong>Immutability</strong>: Gene values should be initialized once and cached. Use <code>@value ||= compute_value</code>
 pattern to ensure consistency</li>
-  <li><strong>Self-Contained</strong>: Genes should encapsulate their own logic and data</li>
-  <li><strong>Composable</strong>: Complex genes can be built from combinations of other genes</li>
-  <li><strong>Domain-Specific</strong>: Genes should directly represent the domain</li>
+<li><strong>Self-Contained</strong>: Genes should encapsulate their own logic and data</li>
+<li><strong>Composable</strong>: Complex genes can be built from combinations of other genes</li>
+<li><strong>Domain-Specific</strong>: Genes should directly represent the domain</li>
 </ul>
 
 <p><strong>Common Gene Types</strong></p>
 
 <ul>
-  <li><strong>Numeric Genes</strong>: Represent quantities, measurements, or probabilities</li>
-  <li><strong>Selection Genes</strong>: Choose from a fixed set of options</li>
-  <li><strong>Boolean Genes</strong>: Represent binary choices</li>
-  <li><strong>Structural Genes</strong>: Control the structure or architecture of a solution</li>
-  <li><strong>Parameter Genes</strong>: Configure parameters for algorithms or processes</li>
+<li><strong>Numeric Genes</strong>: Represent quantities, measurements, or probabilities</li>
+<li><strong>Selection Genes</strong>: Choose from a fixed set of options</li>
+<li><strong>Boolean Genes</strong>: Represent binary choices</li>
+<li><strong>Structural Genes</strong>: Control the structure or architecture of a solution</li>
+<li><strong>Parameter Genes</strong>: Configure parameters for algorithms or processes</li>
 </ul>
 
-<p>Related sections:
-- See <a href="#gene-space">Gene Space</a> for how genes are organized
-- See <a href="#gene-clusters">Gene Clusters</a> for grouping related genes
-- See <a href="#combination">Combination</a> for how genes are combined</p>
+<p>Related sections:</p>
+
+<ul>
+<li>See <a href="#gene-space">Gene Space</a> for how genes are organized</li>
+<li>See <a href="#gene-clusters">Gene Clusters</a> for grouping related genes</li>
+<li>See <a href="#combination">Combination</a> for how genes are combined</li>
+</ul>
 
 
   </div>
@@ -508,7 +516,7 @@ Delegates to the class-level key.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

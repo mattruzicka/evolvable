@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::GeneSpace";
   relpath = '../';
@@ -107,33 +109,32 @@ for creating and managing genes.</p>
 <p><strong>Two Key Gene Count Types</strong></p>
 
 <ol>
-  <li>
-    <p><strong>Fixed Count</strong>: When you specify a single number or default
-<code>ruby
-gene :color, type: ColorGene  # Default count: 1
-</code></p>
-  </li>
-  <li>
-    <p><strong>Variable Count</strong>: When you specify a range
-<code>ruby
-gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
-</code></p>
-  </li>
+<li><p><strong>Fixed Count</strong>: When you specify a single number or default</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorGene</span>  <span class='comment'># Default count: 1
+</span></code></pre></li>
+<li><p><strong>Variable Count</strong>: When you specify a range</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:skills</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>SkillGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span><span class='op'>..</span><span class='int'>5</span>  <span class='comment'># Can evolve between 1-5 skills
+</span></code></pre></li>
 </ol>
 
 <p><strong>Benefits</strong></p>
 
 <ul>
-  <li>Declarative model definition</li>
-  <li>Automatic gene management</li>
-  <li>Self-evolving structure (with ranges)</li>
-  <li>Consistent instance initialization</li>
+<li>Declarative model definition</li>
+<li>Automatic gene management</li>
+<li>Self-evolving structure (with ranges)</li>
+<li>Consistent instance initialization</li>
 </ul>
 
-<p>Related sections:
-- See <a href="#genes">Genes</a> for defining individual gene classes
-- See <a href="#gene-clusters">Gene Clusters</a> for organizing related genes
-- See <a href="#populations">Population</a> for using gene spaces in populations</p>
+<p>Related sections:</p>
+
+<ul>
+<li>See <a href="#genes">Genes</a> for defining individual gene classes</li>
+<li>See <a href="#gene-clusters">Gene Clusters</a> for organizing related genes</li>
+<li>See <a href="#populations">Population</a> for using gene spaces in populations</li>
+</ul>
 
 
   </div>
@@ -271,8 +272,7 @@ gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -328,8 +328,7 @@ gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -351,8 +350,7 @@ gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -374,8 +372,7 @@ gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -669,7 +666,7 @@ gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

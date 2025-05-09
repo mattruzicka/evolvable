@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::Serializer";
   relpath = '../';
@@ -102,34 +104,36 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p>The Serializer provides a way to save and restore the state of populations
-and evolvable instances. By default, it uses Ruby’s built-in Marshal class
+and evolvable instances. By default, it uses Ruby&#39;s built-in Marshal class
 to serialize data.</p>
 
-<p>Serialization is useful for:
-- Saving the progress of a long-running evolution
-- Storing champion solutions for later use
-- Transferring evolved populations between systems
-- Creating checkpoints to revert to if needed</p>
+<p>Serialization is useful for:</p>
+
+<ul>
+<li>Saving the progress of a long-running evolution</li>
+<li>Storing champion solutions for later use</li>
+<li>Transferring evolved populations between systems</li>
+<li>Creating checkpoints to revert to if needed</li>
+</ul>
 
 <p>Evolvable provides serialization methods on both Population and individual
 evolvable instances, all of which use this Serializer internally.</p>
 
-<p>```ruby
-# Save a population to a file
-population = MyEvolvable.new_population
-population.evolve(count: 100)</p>
+<pre class="code ruby"><code class="ruby"><span class='comment'># Save a population to a file
+</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span>
+<span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>count:</span> <span class='int'>100</span><span class='rparen'>)</span>
 
-<h1 id="save-state">Save state</h1>
-<p>serialized_data = population.dump
-File.write(‘evolved_population.dat’, serialized_data)</p>
+<span class='comment'># Save state
+</span><span class='id identifier rubyid_serialized_data'>serialized_data</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span>
+<span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>evolved_population.dat</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_serialized_data'>serialized_data</span><span class='rparen'>)</span>
 
-<h1 id="later-load-the-state">Later, load the state</h1>
-<p>data = File.read(‘evolved_population.dat’)
-restored_population = Population.load(data)</p>
+<span class='comment'># Later, load the state
+</span><span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>evolved_population.dat</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_restored_population'>restored_population</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Population.html" title="Evolvable::Population (class)">Population</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load'><span class='object_link'><a href="Population.html#load-class_method" title="Evolvable::Population.load (method)">load</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
 
-<h1 id="continue-evolution-from-saved-point">Continue evolution from saved point</h1>
-<p>restored_population.evolve(count: 100)
-```</p>
+<span class='comment'># Continue evolution from saved point
+</span><span class='id identifier rubyid_restored_population'>restored_population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>count:</span> <span class='int'>100</span><span class='rparen'>)</span>
+</code></pre>
 
 
   </div>
@@ -169,8 +173,7 @@ restored_population = Population.load(data)</p>
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -192,8 +195,7 @@ restored_population = Population.load(data)</p>
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -272,7 +274,7 @@ restored_population = Population.load(data)</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

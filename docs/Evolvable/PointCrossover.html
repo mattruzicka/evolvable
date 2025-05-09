@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::PointCrossover";
   relpath = '../';
@@ -109,20 +111,23 @@ and exchanging genetic material between those points.</p>
 beyond that point are swapped between parents. In multi-point crossover, multiple
 positions are chosen, and segments between consecutive points are alternately swapped.</p>
 
-<p>This strategy:
-- Preserves segments of good solutions
-- Enables exploration of different combinations of traits
-- Is particularly effective when related genes are close together</p>
+<p>This strategy:</p>
 
-<p>Configuration:
-```ruby
-population = MyEvolvable.new_population(
-  combination: Evolvable::PointCrossover.new(points_count: 2)  # Two-point crossover
-)</p>
+<ul>
+<li>Preserves segments of good solutions</li>
+<li>Enables exploration of different combinations of traits</li>
+<li>Is particularly effective when related genes are close together</li>
+</ul>
 
-<h1 id="or-modify-an-existing-population">Or modify an existing population</h1>
-<p>population.combination = Evolvable::PointCrossover.new(points_count: 3)
-```</p>
+<p>Configuration:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
+  <span class='label'>combination:</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>PointCrossover</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Evolvable::PointCrossover#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>points_count:</span> <span class='int'>2</span><span class='rparen'>)</span>  <span class='comment'># Two-point crossover
+</span><span class='rparen'>)</span>
+
+<span class='comment'># Or modify an existing population
+</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_combination'>combination</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>PointCrossover</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Evolvable::PointCrossover#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>points_count:</span> <span class='int'>3</span><span class='rparen'>)</span>
+</code></pre>
 
 
   </div>
@@ -193,8 +198,7 @@ population = MyEvolvable.new_population(
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -241,8 +245,7 @@ population = MyEvolvable.new_population(
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -432,7 +435,7 @@ population = MyEvolvable.new_population(
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

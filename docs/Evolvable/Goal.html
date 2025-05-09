@@ -14,6 +14,8 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+
 <script type="text/javascript">
   pathId = "Evolvable::Goal";
   relpath = '../';
@@ -102,24 +104,33 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p>Goals define the success criteria for evolution. They allow you to specify what your
-population is evolving toward, whether it’s maximizing a value, minimizing a value,
+population is evolving toward, whether it&#39;s maximizing a value, minimizing a value,
 or reaching a specific target value.</p>
 
-<p>Evolvable provides three built-in goal types:
-- <strong>MaximizeGoal</strong>: Higher fitness values are better (e.g., scoring more points)
-- <strong>MinimizeGoal</strong>: Lower fitness values are better (e.g., reducing errors)
-- <strong>EqualizeGoal</strong>: Values closer to a target are better (e.g., matching a pattern)</p>
+<p>Evolvable provides three built-in goal types:</p>
 
-<p>Each goal type influences:
-1. How evolvables are ranked during evaluation
-2. Which evolvables are selected as parents
-3. When to stop evolving if a goal value is reached</p>
+<ul>
+<li><strong>MaximizeGoal</strong>: Higher fitness values are better (e.g., scoring more points)</li>
+<li><strong>MinimizeGoal</strong>: Lower fitness values are better (e.g., reducing errors)</li>
+<li><strong>EqualizeGoal</strong>: Values closer to a target are better (e.g., matching a pattern)</li>
+</ul>
+
+<p>Each goal type influences:</p>
+
+<ol>
+<li>How evolvables are ranked during evaluation</li>
+<li>Which evolvables are selected as parents</li>
+<li>When to stop evolving if a goal value is reached</li>
+</ol>
 
 <p><strong>Custom Goals</strong></p>
 
-<p>You can create custom goals by subclassing Goal and implementing:
-- <code>evaluate(evolvable)</code>: Returns a value used to rank evolvables
-- <code>met?(evolvable)</code>: Returns true when the goal is reached</p>
+<p>You can create custom goals by subclassing Goal and implementing:</p>
+
+<ul>
+<li><code>evaluate(evolvable)</code>: Returns a value used to rank evolvables</li>
+<li><code>met?(evolvable)</code>: Returns true when the goal is reached</li>
+</ul>
 
 
   </div>
@@ -260,8 +271,7 @@ or reaching a specific target value.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -308,8 +318,7 @@ or reaching a specific target value.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -427,7 +436,6 @@ or reaching a specific target value.</p>
   <div class="discussion">
     
 
-
   </div>
 </div>
 <div class="tags">
@@ -479,7 +487,6 @@ or reaching a specific target value.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-
 
   </div>
 </div>
@@ -538,7 +545,7 @@ or reaching a specific target value.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu May  8 23:57:27 2025 by
+  Generated on Fri May  9 00:09:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>
