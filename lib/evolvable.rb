@@ -299,19 +299,14 @@ module Evolvable
 
   def after_initialize_evolvable; end
 
+  attr_accessor :fitness
+
   def find_gene(name)
-    return nil if @genome.nil?
-
-    genes = @genome[name]&.dig(:genes)
-    return nil if genes.nil? || genes.empty?
-
-    genes.first
+    @genome&.find_gene(name)
   end
 
   def find_genes(name)
-    return [] if @genome.nil?
-
-    @genome[name]&.dig(:genes) || []
+    @genome&.find_genes(name) || []
   end
 
   attr_reader :population,
