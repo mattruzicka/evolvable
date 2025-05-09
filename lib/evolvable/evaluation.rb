@@ -3,52 +3,56 @@
 module Evolvable
   #
   # @readme
-  #   Evaluation determines how evolvables are ranked based on their fitness scores and provides
-  #   mechanisms to specify evolutionary goals (maximize, minimize, or equalize).
+  #   Evaluation sorts evolvables based on their fitness and provides mechanisms to
+  #   change the goal type and value (fitness goal). Goals define the success criteria
+  #   for evolution. They allow you to specify what your population is evolving toward,
+  #   whether it's maximizing a value, minimizing a value, or seeking a specific value.
   #
   #   **How It Works**
   #
-  #   1. Your evolvable class defines a `#fitness` method that returns a numeric score
-  #   2. The evaluation's goal determines how this score is interpreted:
-  #      - `maximize`: Higher values are better (default)
-  #      - `minimize`: Lower values are better
-  #      - `equalize`: Values closer to target are better
-  #   3. During evolution, evolvables are sorted based on the goal's interpretation
-  #   4. Evolution can stop when an evolvable reaches a specified goal value
+  #   1. Your evolvable class defines a `#fitness` method that returns a
+  #   [Comparable](https://docs.ruby-lang.org/en//3.4/Comparable.html) object.
+  #      - Preferably a numeric value like an integer or float.
+  #
+  #   2. During evolution, evolvables are sorted by your goal's fitness interpretation
+  #      - The default goal type is `:maximize`, see goal types below for other options
+  #
+  #   3. If a goal value is specified, evolution will stop when it is met
+  #
+  #   **Goal Types**
+  #
+  #   - Maximize (higher is better)
+  #
+  #   ```ruby
+  #   robots = Robot.new_population(evaluation: :maximize) # Defaults to infinity
+  #   robots.evolve(goal_value: 100) # Evolve until fitness reaches 100+
+  #
+  #   # Same as above
+  #   Robot.new_population(evaluation: { maximize: 100 }).evolve
+  #   ```
+  #
+  #   - Minimize (lower is better)
+  #
+  #   ```ruby
+  #   errors = ErrorModel.new_population(evaluation: :minimize) # Defaults to -infinity
+  #   errors.evolve(goal_value: 0.01)  # Evolve until error rate reaches 0.01 or less
+  #
+  #   # Same as above
+  #   ErrorModel.new_population(evaluation: { minimize: 0.01 }).evolve
+  #   ```
+  #
+  #   - Equalize (closer to target is better)
+  #
+  #   ```ruby
+  #   targets = TargetMatcher.new_population(evaluation: :equalize) # Defaults to 0
+  #   targets.evolve(goal_value: 42)  # Evolve until we match the target value
+  #
+  #   # Same as above
+  #   TargetMatcher.new_population(evaluation: { equalize: 42 }).evolve
+  #   ```
   #
   # @see Evolvable::Population
   # @see Evolvable::Selection
-  #
-  # @example
-  #   # Define an evolvable with a fitness function
-  #   class Robot
-  #     include Evolvable
-  #
-  #     gene :speed, type: SpeedGene, count: 1
-  #     gene :sensors, type: SensorGene, count: 1..5
-  #
-  #     def fitness
-  #       # Calculate fitness based on speed and sensor quality
-  #       score = speed.value * 10
-  #       score += sensors.sum(&:accuracy) * 5
-  #       score -= sensors.size > 3 ? (sensors.size - 3) * 10 : 0 # Penalty for too many sensors
-  #       score
-  #     end
-  #   end
-  #
-  #   # Different goal types
-  #
-  #   # 1. Maximize (higher is better)
-  #   robots = Robot.new_population(evaluation: { maximize: true })
-  #   robots.evolve(goal_value: 100)  # Until fitness reaches 100+
-  #
-  #   # 2. Minimize (lower is better)
-  #   errors = ErrorModel.new_population(evaluation: { minimize: true })
-  #   errors.evolve(goal_value: 0.01)  # Until error rate reaches 0.01 or less
-  #
-  #   # 3. Equalize (closer to target is better)
-  #   targets = TargetMatcher.new_population(evaluation: { equalize: 42 })
-  #   targets.evolve(goal_value: 42)  # Until we match the target value
   #
   class Evaluation
     #
@@ -127,6 +131,8 @@ module Evolvable
         goal_from_symbol(goal_arg)
       when Hash
         goal_from_hash(goal_arg)
+      when String
+        goal_from_symbol(goal_arg.to_sym)
       else
         goal_arg || default_goal
       end

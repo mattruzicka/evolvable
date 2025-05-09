@@ -42,7 +42,6 @@ Creative applications of Evolvable include:
 * [Genes](#genes)
 * [Populations](#populations)
 * [Evaluation](#evaluation)
-* [Goals](#goals)
 * [Evolution](#evolution)
 * [Selection](#selection)
 * [Combination](#combination)
@@ -89,56 +88,21 @@ The framework offers built-in implementations while allowing domain-specific cus
 
 {@readme Evolvable::Population}
 
-**Example**
-{@example Evolvable::Population}
-
 [Population Documentation]({@string Evolvable::DOC_URL}/Evolvable/Population)
 
 ## Evaluation
 
 {@readme Evolvable::Evaluation}
 
-**Example**
-{@example Evolvable::Evaluation}
-
-[Evaluation Documentation]({@string Evolvable::DOC_URL}/Evolvable/Evaluation)
-
-## Goals
-
 {@readme Evolvable::Goal}
 
-**Example**
-```ruby
-# Using different goal types
-class RuleOptimizer
-  include Evolvable
+{@readme Evolvable::Evaluation}
 
-  gene :rules, type: RuleGene, count: 5..20
+Example goal implementation that prioritizes evolvables with fitness values within a specific range:
 
-  def fitness
-    # Calculate fitness based on rule effectiveness
-    accuracy = calculate_accuracy
-    complexity_penalty = rules.count * 0.5
-    accuracy - complexity_penalty
-  end
-end
+{@example Evolvable::Goal}
 
-# Configure populations with different goals
-max_population = RuleOptimizer.new_population(
-  evaluation: { maximize: true }  # Find most effective rules
-)
-
-min_population = RuleOptimizer.new_population(
-  evaluation: { minimize: 0.1 }   # Minimize error rate to 10%
-)
-
-equal_population = RuleOptimizer.new_population(
-  evaluation: { equalize: 50 }    # Reach exactly 50% performance
-)
-
-# Stopping evolution when goal is reached
-max_population.evolve(goal_value: 95)  # Evolve until 95% accuracy
-```
+[Evaluation Documentation]({@string Evolvable::DOC_URL}/Evolvable/Evaluation)
 
 [Goal Documentation]({@string Evolvable::DOC_URL}/Evolvable/Goal)
 

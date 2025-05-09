@@ -42,7 +42,6 @@ Creative applications of Evolvable include:
 * [Genes](#genes)
 * [Populations](#populations)
 * [Evaluation](#evaluation)
-* [Goals](#goals)
 * [Evolution](#evolution)
 * [Selection](#selection)
 * [Combination](#combination)
@@ -202,50 +201,80 @@ configuration settings.
 
 Populations orchestrate the evolutionary process through four key components:
 
-1. **Evaluation**: Ranks instances by fitness
+1. **Evaluation**: Sorts instances by fitness
 2. **Selection**: Chooses parents for combination
-3. **Combination**: Creates offspring from parents
+3. **Combination**: Creates new instances from parents
 4. **Mutation**: Adds genetic diversity
 
-**Features**
+**Features**:
 
-- Easy configuration via parameters
-- Lifecycle hooks (`before_evaluation`, `before_evolution`, `after_evolution`)
-- Progress tracking with `best_evolvable`
-- Goal-based or generation-count evolution
-- Serialization for saving/restoring
-
-**Configuration**
+Initialize your population with parameters
 
 ```ruby
-population = MyEvolvable.new_population(
-  size: 50,                            # Population size
-  evaluation: { maximize: true },      # Fitness goal
-  selection: { size: 10 },             # Parent selection count
-  mutation: { probability: 0.2 }       # Mutation rate
+population = YourEvolvable.new_population(
+  size: 50,                      # Population size (default is 0)
+  evaluation: :minimize,         # Set goal type (default is :maximize)
+  evaluation: { equalize: 0 },   # Supports setting an explicit goal (for fitness to equal 0)
+  selection: { size: 10 },       # Parent selection count (default is 2)
+  mutation: { probability: 0.2,  # Odds of instance undergoing mutation (default: 0.03)
+              rate: 0.02 }       # Odds of gene being mutated (1 gene is mutated by default)
 )
-
-# Run evolution
-population.evolve(count: 20)           # For 20 generations
-# or
-population.evolve(goal_value: 100)     # Until fitness goal reached
 ```
 
-
-**Example**
+Supports setting custom objects for the following components:
 ```ruby
-# Track evolution progress over generations
-population = Shape.new_population(size: 30)
+population = YourEvolvable.new_population(
+  gene_space: Your::GeneSpace.new,
+  evaluation: Your::Evaluation.new,
+  evolution: Your::Evolution.new,
+  selection: Your::Selection.new,
+  combination: Your::Combination.new,
+  mutation: Your::Mutation.new
+)
+```
 
-10.times do |i|
-  population.evolve(count: 1)
-  best = population.best_evolvable
-  puts "Generation #{i}: Best fitness = #{best.fitness}"
+Evolve your population with a certain number of generations and/or until a goal is met
+
+```ruby
+population.evolve(count: 20, goal_value: 100)
+```
+
+Initialize new evolvables with the evolution strategy defined by the population
+
+```ruby
+new_evolvable = population.new_evolvable
+ten_evolvables = population.new_evolvables(count: 10)
+```
+
+Initialize an evolvable with a custom genome
+
+```ruby
+outsider_genome = other_population.best_evolvable.genome
+outsider_evolvable = population.new_evolvable(genome: outsider_genome)
+```
+
+Hook into class methods that are called during evolution
+
+```ruby
+class YourEvolvable
+  include Evolvable
+
+  def self.before_evaluation(population); end
+  def self.before_evolution(population); end
+  def self.after_evolution(population); end
 end
+```
 
-# Get and use the best solution
-best_shape = population.best_evolvable
-puts "Final solution: #{best_shape}"
+Return the bsest evolvable
+
+```ruby
+best_evolvable = population.best_evolvable if population.met_goal?
+```
+
+Check if the population's goal has been met
+
+```ruby
+population.met_goal?
 ```
 
 
@@ -253,123 +282,147 @@ puts "Final solution: #{best_shape}"
 
 ## Evaluation
 
-Evaluation determines how evolvables are ranked based on their fitness scores and provides
-mechanisms to specify evolutionary goals (maximize, minimize, or equalize).
+Evaluation sorts evolvables based on their fitness and provides mechanisms to
+change the goal type and value (fitness goal). Goals define the success criteria
+for evolution. They allow you to specify what your population is evolving toward,
+whether it's maximizing a value, minimizing a value, or seeking a specific value.
 
 **How It Works**
 
-1. Your evolvable class defines a `#fitness` method that returns a numeric score
-2. The evaluation's goal determines how this score is interpreted:
-   - `maximize`: Higher values are better (default)
-   - `minimize`: Lower values are better
-   - `equalize`: Values closer to target are better
-3. During evolution, evolvables are sorted based on the goal's interpretation
-4. Evolution can stop when an evolvable reaches a specified goal value
+1. Your evolvable class defines a `#fitness` method that returns a
+[Comparable](https://docs.ruby-lang.org/en//3.4/Comparable.html) object.
+   - Preferably a numeric value like an integer or float.
 
+2. During evolution, evolvables are sorted by your goal's fitness interpretation
+   - The default goal type is `:maximize`, see goal types below for other options
 
-**Example**
+3. If a goal value is specified, evolution will stop when it is met
+
+**Goal Types**
+
+- Maximize (higher is better)
+
 ```ruby
-# Define an evolvable with a fitness function
-class Robot
-  include Evolvable
+robots = Robot.new_population(evaluation: :maximize) # Defaults to infinity
+robots.evolve(goal_value: 100) # Evolve until fitness reaches 100+
 
-  gene :speed, type: SpeedGene, count: 1
-  gene :sensors, type: SensorGene, count: 1..5
+# Same as above
+Robot.new_population(evaluation: { maximize: 100 }).evolve
+```
 
-  def fitness
-    # Calculate fitness based on speed and sensor quality
-    score = speed.value * 10
-    score += sensors.sum(&:accuracy) * 5
-    score -= sensors.size > 3 ? (sensors.size - 3) * 10 : 0 # Penalty for too many sensors
-    score
+- Minimize (lower is better)
+
+```ruby
+errors = ErrorModel.new_population(evaluation: :minimize) # Defaults to -infinity
+errors.evolve(goal_value: 0.01)  # Evolve until error rate reaches 0.01 or less
+
+# Same as above
+ErrorModel.new_population(evaluation: { minimize: 0.01 }).evolve
+```
+
+- Equalize (closer to target is better)
+
+```ruby
+targets = TargetMatcher.new_population(evaluation: :equalize) # Defaults to 0
+targets.evolve(goal_value: 42)  # Evolve until we match the target value
+
+# Same as above
+TargetMatcher.new_population(evaluation: { equalize: 42 }).evolve
+```
+
+
+**Custom Goals**
+
+You can create custom goals by subclassing `Evolvable::Goal`` and implementing:
+- `evaluate(evolvable)`: Return a value that for sorting evolvables
+- `met?(evolvable)`: Returns true when the goal value is reached
+
+
+Evaluation sorts evolvables based on their fitness and provides mechanisms to
+change the goal type and value (fitness goal). Goals define the success criteria
+for evolution. They allow you to specify what your population is evolving toward,
+whether it's maximizing a value, minimizing a value, or seeking a specific value.
+
+**How It Works**
+
+1. Your evolvable class defines a `#fitness` method that returns a
+[Comparable](https://docs.ruby-lang.org/en//3.4/Comparable.html) object.
+   - Preferably a numeric value like an integer or float.
+
+2. During evolution, evolvables are sorted by your goal's fitness interpretation
+   - The default goal type is `:maximize`, see goal types below for other options
+
+3. If a goal value is specified, evolution will stop when it is met
+
+**Goal Types**
+
+- Maximize (higher is better)
+
+```ruby
+robots = Robot.new_population(evaluation: :maximize) # Defaults to infinity
+robots.evolve(goal_value: 100) # Evolve until fitness reaches 100+
+
+# Same as above
+Robot.new_population(evaluation: { maximize: 100 }).evolve
+```
+
+- Minimize (lower is better)
+
+```ruby
+errors = ErrorModel.new_population(evaluation: :minimize) # Defaults to -infinity
+errors.evolve(goal_value: 0.01)  # Evolve until error rate reaches 0.01 or less
+
+# Same as above
+ErrorModel.new_population(evaluation: { minimize: 0.01 }).evolve
+```
+
+- Equalize (closer to target is better)
+
+```ruby
+targets = TargetMatcher.new_population(evaluation: :equalize) # Defaults to 0
+targets.evolve(goal_value: 42)  # Evolve until we match the target value
+
+# Same as above
+TargetMatcher.new_population(evaluation: { equalize: 42 }).evolve
+```
+
+
+Example goal implementation that prioritizes evolvables with fitness values within a specific range:
+
+```ruby
+class YourRangeGoal < Evolvable::Goal
+  def value
+    @value ||= 0..100
+   end
+
+  def evaluate(evolvable)
+    return 1 if value.include?(evolvable.fitness)
+
+    min, max = value.minmax
+    -[(min - evolvable.fitness).abs, (max - evolvable.fitness).abs].min
+  end
+
+  def met?(evolvable)
+    value.include?(evolvable.fitness)
   end
 end
-
-# Different goal types
-
-# 1. Maximize (higher is better)
-robots = Robot.new_population(evaluation: { maximize: true })
-robots.evolve(goal_value: 100)  # Until fitness reaches 100+
-
-# 2. Minimize (lower is better)
-errors = ErrorModel.new_population(evaluation: { minimize: true })
-errors.evolve(goal_value: 0.01)  # Until error rate reaches 0.01 or less
-
-# 3. Equalize (closer to target is better)
-targets = TargetMatcher.new_population(evaluation: { equalize: 42 })
-targets.evolve(goal_value: 42)  # Until we match the target value
 ```
 
 
 [Evaluation Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evaluation)
 
-## Goals
-
-Goals define the success criteria for evolution. They allow you to specify what your
-population is evolving toward, whether it's maximizing a value, minimizing a value,
-or reaching a specific target value.
-
-Evolvable provides three built-in goal types:
-- **MaximizeGoal**: Higher fitness values are better (e.g., scoring more points)
-- **MinimizeGoal**: Lower fitness values are better (e.g., reducing errors)
-- **EqualizeGoal**: Values closer to a target are better (e.g., matching a pattern)
-
-Each goal type influences:
-1. How evolvables are ranked during evaluation
-2. Which evolvables are selected as parents
-3. When to stop evolving if a goal value is reached
-
-**Custom Goals**
-
-You can create custom goals by subclassing Goal and implementing:
-- `evaluate(evolvable)`: Returns a value used to rank evolvables
-- `met?(evolvable)`: Returns true when the goal is reached
-
-
-**Example**
-```ruby
-# Using different goal types
-class RuleOptimizer
-  include Evolvable
-
-  gene :rules, type: RuleGene, count: 5..20
-
-  def fitness
-    # Calculate fitness based on rule effectiveness
-    accuracy = calculate_accuracy
-    complexity_penalty = rules.count * 0.5
-    accuracy - complexity_penalty
-  end
-end
-
-# Configure populations with different goals
-max_population = RuleOptimizer.new_population(
-  evaluation: { maximize: true }  # Find most effective rules
-)
-
-min_population = RuleOptimizer.new_population(
-  evaluation: { minimize: 0.1 }   # Minimize error rate to 10%
-)
-
-equal_population = RuleOptimizer.new_population(
-  evaluation: { equalize: 50 }    # Reach exactly 50% performance
-)
-
-# Stopping evolution when goal is reached
-max_population.evolve(goal_value: 95)  # Evolve until 95% accuracy
-```
-
 [Goal Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Goal)
 
 ## Evolution
 
-After a population's instances are evaluated, they undergo evolution.
-The default evolution object is composed of selection,
-combination, and mutation objects and applies them as operations to
-a population's evolvables in that order.
+**Evolution** moves a population from one generation to the next.
+It runs in three steps: selection, combination, and mutation.
+You can swap out any step with your own strategy.
 
-Each evolutionary operation can be customized individually, allowing you to
-fine-tune the evolutionary process to fit your specific problem domain.
+Default pipeline:
+1. **Selection** – keep the most fit evolvables
+2. **Combination** – create offspring by recombining genes
+3. **Mutation** – add random variation to preserve diversity
 
 
 [Evolution Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evolution)

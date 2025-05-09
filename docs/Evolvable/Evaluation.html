@@ -101,65 +101,68 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Evaluation determines how evolvables are ranked based on their fitness scores and provides
-mechanisms to specify evolutionary goals (maximize, minimize, or equalize).</p>
+    <p>Evaluation sorts evolvables based on their fitness and provides mechanisms to
+change the goal type and value (fitness goal). Goals define the success criteria
+for evolution. They allow you to specify what your population is evolving toward,
+whether it&#39;s maximizing a value, minimizing a value, or seeking a specific value.</p>
 
 <p><strong>How It Works</strong></p>
 
 <ol>
-<li>Your evolvable class defines a <code>#fitness</code> method that returns a numeric score</li>
-<li>The evaluation&#39;s goal determines how this score is interpreted:
+<li><p>Your evolvable class defines a <code>#fitness</code> method that returns a
+<a href="https://docs.ruby-lang.org/en//3.4/Comparable.html">Comparable</a> object.</p>
 
 <ul>
-<li><code>maximize</code>: Higher values are better (default)</li>
-<li><code>minimize</code>: Lower values are better</li>
-<li><code>equalize</code>: Values closer to target are better</li>
+<li>Preferably a numeric value like an integer or float.</li>
 </ul></li>
-<li>During evolution, evolvables are sorted based on the goal&#39;s interpretation</li>
-<li>Evolution can stop when an evolvable reaches a specified goal value</li>
+<li><p>During evolution, evolvables are sorted by your goal&#39;s fitness interpretation</p>
+
+<ul>
+<li>The default goal type is <code>:maximize</code>, see goal types below for other options</li>
+</ul></li>
+<li><p>If a goal value is specified, evolution will stop when it is met</p></li>
 </ol>
+
+<p><strong>Goal Types</strong></p>
+
+<ul>
+<li>Maximize (higher is better)</li>
+</ul>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_robots'>robots</span> <span class='op'>=</span> <span class='const'>Robot</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='symbol'>:maximize</span><span class='rparen'>)</span> <span class='comment'># Defaults to infinity
+</span><span class='id identifier rubyid_robots'>robots</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='int'>100</span><span class='rparen'>)</span> <span class='comment'># Evolve until fitness reaches 100+
+</span>
+<span class='comment'># Same as above
+</span><span class='const'>Robot</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>maximize:</span> <span class='int'>100</span> <span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span>
+</code></pre>
+
+<ul>
+<li>Minimize (lower is better)</li>
+</ul>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_errors'>errors</span> <span class='op'>=</span> <span class='const'>ErrorModel</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='symbol'>:minimize</span><span class='rparen'>)</span> <span class='comment'># Defaults to -infinity
+</span><span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='float'>0.01</span><span class='rparen'>)</span>  <span class='comment'># Evolve until error rate reaches 0.01 or less
+</span>
+<span class='comment'># Same as above
+</span><span class='const'>ErrorModel</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>minimize:</span> <span class='float'>0.01</span> <span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span>
+</code></pre>
+
+<ul>
+<li>Equalize (closer to target is better)</li>
+</ul>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_targets'>targets</span> <span class='op'>=</span> <span class='const'>TargetMatcher</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='symbol'>:equalize</span><span class='rparen'>)</span> <span class='comment'># Defaults to 0
+</span><span class='id identifier rubyid_targets'>targets</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='int'>42</span><span class='rparen'>)</span>  <span class='comment'># Evolve until we match the target value
+</span>
+<span class='comment'># Same as above
+</span><span class='const'>TargetMatcher</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>equalize:</span> <span class='int'>42</span> <span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span>
+</code></pre>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <h4 class="tag_title">Examples:</h4>
-    
-      
-      <pre class="example code"><code><span class='comment'># Define an evolvable with a fitness function
-</span><span class='kw'>class</span> <span class='const'>Robot</span>
-  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
-
-  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:speed</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>SpeedGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
-  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:sensors</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>SensorGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span><span class='op'>..</span><span class='int'>5</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_fitness'>fitness</span>
-    <span class='comment'># Calculate fitness based on speed and sensor quality
-</span>    <span class='id identifier rubyid_score'>score</span> <span class='op'>=</span> <span class='id identifier rubyid_speed'>speed</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>*</span> <span class='int'>10</span>
-    <span class='id identifier rubyid_score'>score</span> <span class='op'>+=</span> <span class='id identifier rubyid_sensors'>sensors</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:accuracy</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='int'>5</span>
-    <span class='id identifier rubyid_score'>score</span> <span class='op'>-=</span> <span class='id identifier rubyid_sensors'>sensors</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;</span> <span class='int'>3</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='id identifier rubyid_sensors'>sensors</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>3</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='int'>10</span> <span class='op'>:</span> <span class='int'>0</span> <span class='comment'># Penalty for too many sensors
-</span>    <span class='id identifier rubyid_score'>score</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span>
-
-<span class='comment'># Different goal types
-</span>
-<span class='comment'># 1. Maximize (higher is better)
-</span><span class='id identifier rubyid_robots'>robots</span> <span class='op'>=</span> <span class='const'>Robot</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>maximize:</span> <span class='kw'>true</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_robots'>robots</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='int'>100</span><span class='rparen'>)</span>  <span class='comment'># Until fitness reaches 100+
-</span>
-<span class='comment'># 2. Minimize (lower is better)
-</span><span class='id identifier rubyid_errors'>errors</span> <span class='op'>=</span> <span class='const'>ErrorModel</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>minimize:</span> <span class='kw'>true</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='float'>0.01</span><span class='rparen'>)</span>  <span class='comment'># Until error rate reaches 0.01 or less
-</span>
-<span class='comment'># 3. Equalize (closer to target is better)
-</span><span class='id identifier rubyid_targets'>targets</span> <span class='op'>=</span> <span class='const'>TargetMatcher</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>equalize:</span> <span class='int'>42</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_targets'>targets</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='int'>42</span><span class='rparen'>)</span>  <span class='comment'># Until we match the target value</span></code></pre>
-    
-  </div>
-
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
@@ -441,12 +444,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
-76
-77
-78</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_goal'>goal</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GOAL_TYPE-constant" title="Evolvable::Evaluation::DEFAULT_GOAL_TYPE (constant)">DEFAULT_GOAL_TYPE</a></span></span><span class='rparen'>)</span>
   <span class='ivar'>@goal</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_goal'>normalize_goal</span><span class='lparen'>(</span><span class='id identifier rubyid_goal'>goal</span><span class='rparen'>)</span>
@@ -505,12 +508,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
-84
-85
-86</pre>
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_goal'>goal</span>
   <span class='ivar'>@goal</span>
@@ -588,12 +591,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
-102
-103
-104</pre>
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_best_evolvable'>best_evolvable</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_max_by'>max_by</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='op'>|</span> <span class='id identifier rubyid_goal'>goal</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -664,12 +667,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
-92
-93
-94</pre>
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_sort_by!'>sort_by!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='op'>|</span> <span class='id identifier rubyid_goal'>goal</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -740,12 +743,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
-112
-113
-114</pre>
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_met_goal?'>met_goal?</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_goal'>goal</span><span class='period'>.</span><span class='id identifier rubyid_met?'>met?</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
@@ -760,7 +763,7 @@ a hash specifying goal type and value, or a custom goal object</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 10:32:37 2025 by
+  Generated on Fri May  9 16:06:43 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

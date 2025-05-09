@@ -5,48 +5,81 @@ module Evolvable
   # @readme
   #   Populations orchestrate the evolutionary process through four key components:
   #
-  #   1. **Evaluation**: Ranks instances by fitness
+  #   1. **Evaluation**: Sorts instances by fitness
   #   2. **Selection**: Chooses parents for combination
-  #   3. **Combination**: Creates offspring from parents
+  #   3. **Combination**: Creates new instances from parents
   #   4. **Mutation**: Adds genetic diversity
   #
-  #   **Features**
+  #   **Features**:
   #
-  #   - Easy configuration via parameters
-  #   - Lifecycle hooks (`before_evaluation`, `before_evolution`, `after_evolution`)
-  #   - Progress tracking with `best_evolvable`
-  #   - Goal-based or generation-count evolution
-  #   - Serialization for saving/restoring
-  #
-  #   **Configuration**
+  #   Initialize your population with parameters
   #
   #   ```ruby
-  #   population = MyEvolvable.new_population(
-  #     size: 50,                            # Population size
-  #     evaluation: { maximize: true },      # Fitness goal
-  #     selection: { size: 10 },             # Parent selection count
-  #     mutation: { probability: 0.2 }       # Mutation rate
+  #   population = YourEvolvable.new_population(
+  #     size: 50,                      # Population size (default is 0)
+  #     evaluation: :minimize,         # Set goal type (default is :maximize)
+  #     evaluation: { equalize: 0 },   # Supports setting an explicit goal (for fitness to equal 0)
+  #     selection: { size: 10 },       # Parent selection count (default is 2)
+  #     mutation: { probability: 0.2,  # Odds of instance undergoing mutation (default: 0.03)
+  #                 rate: 0.02 }       # Odds of gene being mutated (1 gene is mutated by default)
   #   )
-  #
-  #   # Run evolution
-  #   population.evolve(count: 20)           # For 20 generations
-  #   # or
-  #   population.evolve(goal_value: 100)     # Until fitness goal reached
   #   ```
   #
-  # @example
-  #   # Track evolution progress over generations
-  #   population = Shape.new_population(size: 30)
+  #   Supports setting custom objects for the following components:
+  #   ```ruby
+  #   population = YourEvolvable.new_population(
+  #     gene_space: Your::GeneSpace.new,
+  #     evaluation: Your::Evaluation.new,
+  #     evolution: Your::Evolution.new,
+  #     selection: Your::Selection.new,
+  #     combination: Your::Combination.new,
+  #     mutation: Your::Mutation.new
+  #   )
+  #   ```
   #
-  #   10.times do |i|
-  #     population.evolve(count: 1)
-  #     best = population.best_evolvable
-  #     puts "Generation #{i}: Best fitness = #{best.fitness}"
+  #   Evolve your population with a certain number of generations and/or until a goal is met
+  #
+  #   ```ruby
+  #   population.evolve(count: 20, goal_value: 100)
+  #   ```
+  #
+  #   Initialize new evolvables with the evolution strategy defined by the population
+  #
+  #   ```ruby
+  #   new_evolvable = population.new_evolvable
+  #   ten_evolvables = population.new_evolvables(count: 10)
+  #   ```
+  #
+  #   Initialize an evolvable with a custom genome
+  #
+  #   ```ruby
+  #   outsider_genome = other_population.best_evolvable.genome
+  #   outsider_evolvable = population.new_evolvable(genome: outsider_genome)
+  #   ```
+  #
+  #   Hook into class methods that are called during evolution
+  #
+  #   ```ruby
+  #   class YourEvolvable
+  #     include Evolvable
+  #
+  #     def self.before_evaluation(population); end
+  #     def self.before_evolution(population); end
+  #     def self.after_evolution(population); end
   #   end
+  #   ```
   #
-  #   # Get and use the best solution
-  #   best_shape = population.best_evolvable
-  #   puts "Final solution: #{best_shape}"
+  #   Return the bsest evolvable
+  #
+  #   ```ruby
+  #   best_evolvable = population.best_evolvable if population.met_goal?
+  #   ```
+  #
+  #   Check if the population's goal has been met
+  #
+  #   ```ruby
+  #   population.met_goal?
+  #   ```
   #
   class Population
     extend Forwardable

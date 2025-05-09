@@ -3,22 +3,14 @@
 module Evolvable
   #
   # @readme
-  #   After a population's instances are evaluated, they undergo evolution.
-  #   The default evolution object is composed of selection,
-  #   combination, and mutation objects and applies them as operations to
-  #   a population's evolvables in that order.
+  #   **Evolution** moves a population from one generation to the next.
+  #   It runs in three steps: selection, combination, and mutation.
+  #   You can swap out any step with your own strategy.
   #
-  #   Each evolutionary operation can be customized individually, allowing you to
-  #   fine-tune the evolutionary process to fit your specific problem domain.
-  #
-  # @example
-  #   # Create a population with custom evolution settings
-  #   population = MyEvolvable.new_population(
-  #     selection: { size: 3 },
-  #     mutation: { probability: 0.1 }
-  #   )
-  #
-  #   population.evolve
+  #   Default pipeline:
+  #   1. **Selection** – keep the most fit evolvables
+  #   2. **Combination** – create offspring by recombining genes
+  #   3. **Mutation** – add random variation to preserve diversity
   #
   class Evolution
     extend Forwardable
@@ -38,20 +30,8 @@ module Evolvable
       @mutation = mutation
     end
 
-    #
-    # The selection strategy used for choosing parent evolvables.
-    # @return [Evolvable::Selection] The current selection object
-    #
     attr_reader :selection,
-                #
-                # The combination strategy used for creating new evolvables.
-                # @return [Evolvable::Combination] The current combination object
-                #
                 :combination,
-                #
-                # The mutation strategy used for introducing variation.
-                # @return [Evolvable::Mutation] The current mutation object
-                #
                 :mutation
 
     #
