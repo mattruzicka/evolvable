@@ -14,8 +14,6 @@
 
   <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/custom.css" type="text/css" />
-
 <script type="text/javascript">
   pathId = "README";
   relpath = '';
@@ -90,7 +88,7 @@
 
 <h2 id="creative-applications">Creative Applications</h2>
 
-<p>Evolvable is designed to make creative, object‑oriented representations first‑class citizens. That means the same API that tunes numbers can evolve music, UI layouts, or game content just as naturally.</p>
+<p>Evolvable treats creative, object-oriented representations as first-class citizens. The same API that optimizes numeric parameters can evolve music compositions, UI layouts, or game content with equal fluency.</p>
 
 <p>Creative applications of Evolvable include:</p>
 
@@ -134,16 +132,7 @@
 
 <h2 id="getting-started">Getting Started</h2>
 
-<p>The evolutionary process works through these components:</p>
-
-<ol>
-<li><strong>Populations</strong>: Groups of the &quot;evolvable&quot; instances you define</li>
-<li><strong>Genes</strong>: Ruby objects that cache data for evolvables</li>
-<li><strong>Evaluation</strong>: Sorts evolvables by fitness</li>
-<li><strong>Evolution</strong>: Selection, combination, and mutation to generate new evolvables</li>
-</ol>
-
-<p>Quick start:</p>
+<p><strong>Quick start</strong>:</p>
 
 <ol>
 <li>Include <code>Evolvable</code> in your Ruby class</li>
@@ -154,56 +143,56 @@
 
 <p>Example population of &quot;shirts&quot; with various colors, buttons, and collars.</p>
 
-<pre class="code ruby"><code class="ruby">  <span class='comment'># Step 1
-</span>  <span class='kw'>class</span> <span class='const'>Shirt</span>
-    <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
+<pre class="code ruby"><code class="ruby"><span class='comment'># Step 1
+</span><span class='kw'>class</span> <span class='const'>Shirt</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
 
-    <span class='comment'># Step 2
-</span>    <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorGene</span> <span class='comment'># count: 1 default
-</span>    <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:buttons</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ButtonGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>10</span> <span class='comment'># Builds an array of genes that can vary in size
-</span>    <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:collar</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>CollarGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>1</span> <span class='comment'># Collar optional
+  <span class='comment'># Step 2
+</span>  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorGene</span> <span class='comment'># count: 1 default
+</span>  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:buttons</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ButtonGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>10</span> <span class='comment'># Builds an array of genes that can vary in size
+</span>  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:collar</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>CollarGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>1</span> <span class='comment'># Collar optional
 </span>
-    <span class='comment'># Step 3
-</span>    <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:fitness</span>
-  <span class='kw'>end</span>
+  <span class='comment'># Step 3
+</span>  <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:fitness</span>
+<span class='kw'>end</span>
 
-  <span class='comment'># Step 4
-</span>  <span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>Shirt</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>size:</span> <span class='int'>10</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_shirt'>shirt</span><span class='op'>|</span> <span class='id identifier rubyid_shirt'>shirt</span><span class='period'>.</span><span class='id identifier rubyid_fitness'>fitness</span> <span class='op'>=</span> <span class='id identifier rubyid_tried_it_on_score'>tried_it_on_score</span> <span class='rbrace'>}</span>
+<span class='comment'># Step 4
+</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>Shirt</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>size:</span> <span class='int'>10</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_shirt'>shirt</span><span class='op'>|</span> <span class='id identifier rubyid_shirt'>shirt</span><span class='period'>.</span><span class='id identifier rubyid_fitness'>fitness</span> <span class='op'>=</span> <span class='id identifier rubyid_style_rating'>style_rating</span> <span class='rbrace'>}</span>
 </code></pre>
 
-<p>You are free to tailor the genes to your needs and &quot;try it on&quot; yourself.</p>
+<p>You are free to tailor the genes to your needs and find a style that suits you.</p>
 
 <p>The <code>ColorGene</code> could be as simple as this:</p>
 
-<pre class="code ruby"><code class="ruby">  <span class='kw'>class</span> <span class='const'>ColorGene</span>
-    <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Evolvable/Gene.html" title="Evolvable::Gene (module)">Gene</a></span></span>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>ColorGene</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Evolvable/Gene.html" title="Evolvable::Gene (module)">Gene</a></span></span>
 
-    <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-      <span class='ivar'>@to_s</span> <span class='op'>||=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>red</span><span class='words_sep'> </span><span class='tstring_content'>green</span><span class='words_sep'> </span><span class='tstring_content'>blue</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
-    <span class='kw'>end</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='ivar'>@to_s</span> <span class='op'>||=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>red</span><span class='words_sep'> </span><span class='tstring_content'>green</span><span class='words_sep'> </span><span class='tstring_content'>blue</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span>
 </code></pre>
 
-<p>Not into shirts?</p>
+<p>Shirts aren&#39;t your style?</p>
 
-<p>Here&#39;s a <a href="https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world">Hello World</a> command line demo.</p>
+<p>Here&#39;s a <a href="https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world">Hello World</a>
+command line demo.</p>
 
 <h2 id="concepts">Concepts</h2>
 
 <p>Evolvable is built on these core concepts:</p>
 
 <ul>
-<li><strong>Genes</strong>: Encapsulate evolving traits and behaviors</li>
-<li><strong>Genomes</strong>: Genes organized in a searchable structure</li>
-<li><strong>Evolvables</strong>: Composable Ruby objects that delegate to genes</li>
-<li><strong>Populations</strong>: Groups of evolvables that evolve together</li>
-<li><strong>Evaluation</strong>: Fitness scoring to rank solutions</li>
-<li><strong>Evolution</strong>: Three-phase process (Selection → Combination → Mutation)</li>
+<li><strong>Genes</strong>: Ruby objects that cache data for evolvables</li>
+<li><strong>Evolvables</strong>: Your Ruby classes that include &quot;Evolvable&quot; and delegate to genes</li>
+<li><strong>Populations</strong>: Groups of evolvables instances that evolve together</li>
+<li><strong>Evaluation</strong>: Sorts evolvables by fitness</li>
+<li><strong>Evolution</strong>: Selection → Combination → Mutation to generate new evolvables</li>
 <li><strong>Communities</strong>: Encapsulate evolvable populations</li>
 </ul>
 
-<p>The library provides default implementations while allowing custom components to adapt to specific problem domains.</p>
+<p>The framework offers built-in implementations while allowing domain-specific customization through its extensible and swapable components.</p>
 
 <h2 id="genes">Genes</h2>
 
@@ -211,104 +200,74 @@
 that can be combined and mutated during evolution. Each gene represents a trait or behavior
 that can influence an evolvable&#39;s performance.</p>
 
-<p><strong>Creating Gene Classes</strong></p>
-
-<p>When defining gene classes, you need to:</p>
+<p><strong>To define a gene class</strong>,</p>
 
 <ol>
 <li>Include the Evolvable::Gene module</li>
 <li>Define how the gene&#39;s value is determined</li>
-<li>Optionally override the combine method for custom combination behavior</li>
 </ol>
 
-<p><strong>Design Patterns</strong></p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>BehaviorGene</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Evolvable/Gene.html" title="Evolvable::Gene (module)">Gene</a></span></span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
+    <span class='ivar'>@value</span> <span class='op'>||=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>explore</span><span class='words_sep'> </span><span class='tstring_content'>gather</span><span class='words_sep'> </span><span class='tstring_content'>attack</span><span class='words_sep'> </span><span class='tstring_content'>defend</span><span class='words_sep'> </span><span class='tstring_content'>build</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>It can then be used in an evolvable class like this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Robot</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
+
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:behaviors</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>BehaviorGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>3</span><span class='op'>..</span><span class='int'>5</span>
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:speed</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>SpeedGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_fitness'>fitness</span>
+    <span class='id identifier rubyid_run_simulation'>run_simulation</span><span class='lparen'>(</span><span class='label'>behaviors:</span> <span class='id identifier rubyid_behaviors'>behaviors</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:value</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>speed:</span> <span class='id identifier rubyid_speed'>speed</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>By default, the combine method randomly picks one of the two parent genes.</p>
+
+<p><strong>A gene class can implement custom gene combination</strong> by overriding the default <code>combine</code> class method.</p>
+
+<p>For example, the <code>SpeedGene</code> class might average the values of the two parent genes:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>SpeedGene</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Evolvable/Gene.html" title="Evolvable::Gene (module)">Gene</a></span></span>
+
+  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_combine'>combine</span><span class='lparen'>(</span><span class='id identifier rubyid_gene_a'>gene_a</span><span class='comma'>,</span> <span class='id identifier rubyid_gene_b'>gene_b</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_new_gene'>new_gene</span> <span class='op'>=</span> <span class='id identifier rubyid_new'>new</span>
+    <span class='id identifier rubyid_new_gene'>new_gene</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_gene_a'>gene_a</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>+</span> <span class='id identifier rubyid_gene_b'>gene_b</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='int'>2</span>
+    <span class='id identifier rubyid_new_gene'>new_gene</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_attr_writer'>attr_writer</span> <span class='symbol'>:value</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
+    <span class='ivar'>@value</span> <span class='op'>||=</span> <span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='int'>100</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
 
 <p>Effective gene design follows several patterns:</p>
 
 <ul>
-<li><strong>Immutability</strong>: Gene values should be initialized once and cached. Use <code>@value ||= compute_value</code>
-pattern to ensure consistency</li>
+<li><strong>Immutability</strong>: Gene values should sampled and cached/memoized e.g. <code>@value ||= rand(1..100)</code></li>
 <li><strong>Self-Contained</strong>: Genes should encapsulate their own logic and data</li>
 <li><strong>Composable</strong>: Complex genes can be built from combinations of other genes</li>
 <li><strong>Domain-Specific</strong>: Genes should directly represent the domain</li>
 </ul>
 
-<p><strong>Common Gene Types</strong></p>
+<p>Genes come in various types, each representing different aspects of a solution.
+Common examples include numeric genes for quantities, selection genes for choices from sets,
+boolean genes for binary decisions, structural genes for architecture, and parameter genes for
+configuration settings.</p>
 
-<ul>
-<li><strong>Numeric Genes</strong>: Represent quantities, measurements, or probabilities</li>
-<li><strong>Selection Genes</strong>: Choose from a fixed set of options</li>
-<li><strong>Boolean Genes</strong>: Represent binary choices</li>
-<li><strong>Structural Genes</strong>: Control the structure or architecture of a solution</li>
-<li><strong>Parameter Genes</strong>: Configure parameters for algorithms or processes</li>
-</ul>
-
-<p>Related sections:</p>
-
-<ul>
-<li>See <a href="#gene-space">Gene Space</a> for how genes are organized</li>
-<li>See <a href="#gene-clusters">Gene Clusters</a> for grouping related genes</li>
-<li>See <a href="#combination">Combination</a> for how genes are combined</li>
-</ul>
-
-<p><strong>Example</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='comment'># A simple example showing gene definition and usage
-</span><span class='kw'>class</span> <span class='const'>BehaviorGene</span>
-  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Evolvable/Gene.html" title="Evolvable::Gene (module)">Gene</a></span></span>
-
-  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_behaviors'>behaviors</span>
-    <span class='ivar'>@behaviors</span> <span class='op'>||=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>explore</span><span class='words_sep'> </span><span class='tstring_content'>gather</span><span class='words_sep'> </span><span class='tstring_content'>attack</span><span class='words_sep'> </span><span class='tstring_content'>defend</span><span class='words_sep'> </span><span class='tstring_content'>build</span><span class='tstring_end'>]</span></span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_behavior'>behavior</span>
-    <span class='ivar'>@behavior</span> <span class='op'>||=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_behaviors'>behaviors</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
-  <span class='kw'>end</span>
-
-  <span class='comment'># Custom combination that creates a new behavior based on parents
-</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_combine'>combine</span><span class='lparen'>(</span><span class='id identifier rubyid_gene_a'>gene_a</span><span class='comma'>,</span> <span class='id identifier rubyid_gene_b'>gene_b</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_new_gene'>new_gene</span> <span class='op'>=</span> <span class='id identifier rubyid_new'>new</span>
-    <span class='comment'># In a real implementation, this might combine behaviors
-</span>    <span class='comment'># or choose based on some logic
-</span>    <span class='id identifier rubyid_new_gene'>new_gene</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@behavior</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_gene_a'>gene_a</span><span class='period'>.</span><span class='id identifier rubyid_behavior'>behavior</span><span class='comma'>,</span> <span class='id identifier rubyid_gene_b'>gene_b</span><span class='period'>.</span><span class='id identifier rubyid_behavior'>behavior</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_new_gene'>new_gene</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span>
-
-<span class='comment'># Use the gene in an evolvable class
-</span><span class='kw'>class</span> <span class='const'>Robot</span>
-  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
-
-  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:behaviors</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>BehaviorGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>3</span><span class='op'>..</span><span class='int'>5</span>
-  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:speed</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>SpeedGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
-  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:energy</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>EnergyGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_fitness'>fitness</span>
-    <span class='comment'># In a real implementation, this would run a simulation
-</span>    <span class='comment'># and return a score based on the robot&#39;s performance
-</span>    <span class='id identifier rubyid_run_simulation'>run_simulation</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Robot with behaviors: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_behaviors'>behaviors</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:behavior</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span>
-
-<span class='comment'># Create and evolve a population
-</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>Robot</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
-  <span class='label'>size:</span> <span class='int'>50</span><span class='comma'>,</span>
-  <span class='label'>mutation:</span> <span class='lbrace'>{</span> <span class='label'>probability:</span> <span class='float'>0.2</span> <span class='rbrace'>}</span>
-<span class='rparen'>)</span>
-
-<span class='comment'># Evolve for 20 generations
-</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>count:</span> <span class='int'>20</span><span class='rparen'>)</span>
-
-<span class='comment'># Get the best robot
-</span><span class='id identifier rubyid_best_robot'>best_robot</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_best_evolvable'>best_evolvable</span>
-<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Best robot: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_best_robot'>best_robot</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-</code></pre>
-
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Gene">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Gene">Gene Documentation</a></p>
 
 <h2 id="populations">Populations</h2>
 
@@ -362,7 +321,7 @@ pattern to ensure consistency</li>
 <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Final solution: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_best_shape'>best_shape</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 </code></pre>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Population">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Population">Population Documentation</a></p>
 
 <h2 id="evaluation">Evaluation</h2>
 
@@ -383,13 +342,6 @@ mechanisms to specify evolutionary goals (maximize, minimize, or equalize).</p>
 <li>During evolution, evolvables are sorted based on the goal&#39;s interpretation</li>
 <li>Evolution can stop when an evolvable reaches a specified goal value</li>
 </ol>
-
-<p><strong>Related Sections</strong></p>
-
-<ul>
-<li>See <a href="#populations">Population</a> for how evaluation fits into evolution</li>
-<li>See <a href="#selection">Selection</a> for how evaluated individuals are chosen</li>
-</ul>
 
 <p><strong>Example</strong></p>
 
@@ -424,7 +376,7 @@ mechanisms to specify evolutionary goals (maximize, minimize, or equalize).</p>
 <span class='id identifier rubyid_targets'>targets</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='int'>42</span><span class='rparen'>)</span>  <span class='comment'># Until we match the target value
 </span></code></pre>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Evaluation">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Evaluation">Evaluation Documentation</a></p>
 
 <h2 id="goals">Goals</h2>
 
@@ -490,7 +442,7 @@ or reaching a specific target value.</p>
 </span><span class='id identifier rubyid_max_population'>max_population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='int'>95</span><span class='rparen'>)</span>  <span class='comment'># Evolve until 95% accuracy
 </span></code></pre>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Goal">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Goal">Goal Documentation</a></p>
 
 <h2 id="evolution">Evolution</h2>
 
@@ -502,7 +454,7 @@ a population&#39;s evolvables in that order.</p>
 <p>Each evolutionary operation can be customized individually, allowing you to
 fine-tune the evolutionary process to fit your specific problem domain.</p>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Evolution">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Evolution">Evolution Documentation</a></p>
 
 <h2 id="selection">Selection</h2>
 
@@ -531,7 +483,7 @@ The selection size is configurable.</p>
 
 <p>This allows for custom selection strategies beyond the built-in methods.</p>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Selection">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Selection">Selection Documentation</a></p>
 
 <h2 id="combination">Combination</h2>
 
@@ -546,7 +498,7 @@ The default combination object is <code>Evolvable::GeneCombination</code>.</p>
 combination behaviors through the Gene.combine class method, giving you
 fine-grained control over how different gene types are combined.</p>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Combination">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Combination">Combination Documentation</a></p>
 
 <h2 id="crossover-strategies">Crossover Strategies</h2>
 
@@ -602,7 +554,7 @@ widely distributed throughout the genome rather than clustered together.</p>
 <span class='rparen'>)</span>
 </code></pre>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/PointCrossover">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/PointCrossover">PointCrossover Documentation</a></p>
 
 <h2 id="mutation">Mutation</h2>
 
@@ -635,7 +587,7 @@ This is crucial for exploring the solution space and preventing premature conver
 <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_rate'>rate</span> <span class='op'>=</span> <span class='float'>0.05</span>
 </code></pre>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Mutation">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Mutation">Mutation Documentation</a></p>
 
 <h2 id="gene-space">Gene Space</h2>
 
@@ -645,15 +597,18 @@ for creating and managing genes.</p>
 <p><strong>Two Key Gene Count Types</strong></p>
 
 <ol>
-<li><p><strong>Fixed Count</strong>: When you specify a single number or default</p>
+<li><strong>Fixed Count</strong>: When you specify a single number or default</li>
+</ol>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorGene</span>  <span class='comment'># Default count: 1
-</span></code></pre></li>
-<li><p><strong>Variable Count</strong>: When you specify a range</p>
+</span></code></pre>
+
+<ol>
+<li><strong>Variable Count</strong>: When you specify a range</li>
+</ol>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:skills</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>SkillGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span><span class='op'>..</span><span class='int'>5</span>  <span class='comment'># Can evolve between 1-5 skills
-</span></code></pre></li>
-</ol>
+</span></code></pre>
 
 <p><strong>Benefits</strong></p>
 
@@ -662,14 +617,6 @@ for creating and managing genes.</p>
 <li>Automatic gene management</li>
 <li>Self-evolving structure (with ranges)</li>
 <li>Consistent instance initialization</li>
-</ul>
-
-<p>Related sections:</p>
-
-<ul>
-<li>See <a href="#genes">Genes</a> for defining individual gene classes</li>
-<li>See <a href="#gene-clusters">Gene Clusters</a> for organizing related genes</li>
-<li>See <a href="#populations">Population</a> for using gene spaces in populations</li>
 </ul>
 
 <p><strong>Example</strong></p>
@@ -714,7 +661,7 @@ for creating and managing genes.</p>
 </span><span class='id identifier rubyid_composer'>composer</span><span class='period'>.</span><span class='id identifier rubyid_structure'>structure</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span>  <span class='comment'># Access a property of the first structure gene
 </span></code></pre>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/GeneSpace">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/GeneSpace">GeneSpace Documentation</a></p>
 
 <h2 id="count-genes">Count Genes</h2>
 
@@ -732,7 +679,7 @@ Unlike CountGene, the RigidCountGene maintains a constant number of genes
 that doesn&#39;t change during evolution. This is used when a gene is defined
 with a fixed integer for <code>count:</code> (e.g., <code>count: 5</code>).</p>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/CountGene">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/CountGene">CountGene Documentation</a></p>
 
 <h2 id="genomes">Genomes</h2>
 
@@ -751,15 +698,7 @@ manipulate, and serialize genetic information.</p>
 <p>The genome serves as the intermediary between the gene space (the definition)
 and the actual gene instances (the implementation).</p>
 
-<p>Related sections:</p>
-
-<ul>
-<li>See <a href="#gene-space">Gene Space</a> for how genomes are created</li>
-<li>See <a href="#combination">Combination</a> for how genomes are combined</li>
-<li>See <a href="#genes">Genes</a> for the building blocks that make up genomes</li>
-</ul>
-
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Genome">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Genome">Genome Documentation</a></p>
 
 <h2 id="gene-clusters">Gene Clusters</h2>
 
@@ -779,13 +718,6 @@ to multiple evolvable classes.</p>
 <li>Clean organization of related genes (styling, physics, etc.)</li>
 <li>Prevention of name conflicts</li>
 <li>Simplified access to gene groups</li>
-</ul>
-
-<p>Related sections:</p>
-
-<ul>
-<li>See <a href="#genes">Genes</a> for defining individual gene classes</li>
-<li>See <a href="#gene-space">Gene Space</a> for how clusters integrate with the gene space</li>
 </ul>
 
 <p><strong>Example</strong></p>
@@ -849,7 +781,7 @@ to multiple evolvable classes.</p>
 <span class='kw'>end</span>
 </code></pre>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/GeneCluster">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/GeneCluster">GeneCluster Documentation</a></p>
 
 <h2 id="community">Community</h2>
 
@@ -917,7 +849,7 @@ layered optimization problems.</p>
 <span class='id identifier rubyid_biome'>biome</span><span class='period'>.</span><span class='id identifier rubyid_simulate_interactions'>simulate_interactions</span><span class='lparen'>(</span><span class='int'>10</span><span class='rparen'>)</span>
 </code></pre>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Community">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Community">Community Documentation</a></p>
 
 <h2 id="serialization">Serialization</h2>
 
@@ -998,7 +930,7 @@ evolvable instances, all of which use this Serializer internally.</p>
 </span><span class='id identifier rubyid_restored'>restored</span> <span class='op'>=</span> <span class='id identifier rubyid_manager'>manager</span><span class='period'>.</span><span class='id identifier rubyid_restore_population'>restore_population</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>checkpoint_3.dat</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 </code></pre>
 
-<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Serializer">Full Documentation</a></p>
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Serializer">Serializer Documentation</a></p>
 
 <h2 id="contributing">Contributing</h2>
 
@@ -1006,7 +938,7 @@ evolvable instances, all of which use this Serializer internally.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Fri May  9 00:09:34 2025 by
+  Generated on Fri May  9 10:32:36 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

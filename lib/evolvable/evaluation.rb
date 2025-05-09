@@ -16,9 +16,8 @@ module Evolvable
   #   3. During evolution, evolvables are sorted based on the goal's interpretation
   #   4. Evolution can stop when an evolvable reaches a specified goal value
   #
-  #   **Related Sections**
-  #   - See [Population](#populations) for how evaluation fits into evolution
-  #   - See [Selection](#selection) for how evaluated individuals are chosen
+  # @see Evolvable::Population
+  # @see Evolvable::Selection
   #
   # @example
   #   # Define an evolvable with a fitness function

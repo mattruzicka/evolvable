@@ -14,8 +14,6 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
-
 <script type="text/javascript">
   pathId = "Evolvable::Evaluation";
   relpath = '../';
@@ -121,13 +119,6 @@ mechanisms to specify evolutionary goals (maximize, minimize, or equalize).</p>
 <li>Evolution can stop when an evolvable reaches a specified goal value</li>
 </ol>
 
-<p><strong>Related Sections</strong></p>
-
-<ul>
-<li>See <a href="#populations">Population</a> for how evaluation fits into evolution</li>
-<li>See <a href="#selection">Selection</a> for how evaluated individuals are chosen</li>
-</ul>
-
 
   </div>
 </div>
@@ -169,6 +160,15 @@ mechanisms to specify evolutionary goals (maximize, minimize, or equalize).</p>
     
   </div>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Population.html" title="Evolvable::Population (class)">Population</a></span></li>
+    
+      <li><span class='object_link'><a href="Selection.html" title="Evolvable::Selection (class)">Selection</a></span></li>
+    
+  </ul>
 
 </div>
   
@@ -441,12 +441,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
+76
 77
-78
-79</pre>
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_goal'>goal</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GOAL_TYPE-constant" title="Evolvable::Evaluation::DEFAULT_GOAL_TYPE (constant)">DEFAULT_GOAL_TYPE</a></span></span><span class='rparen'>)</span>
   <span class='ivar'>@goal</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_goal'>normalize_goal</span><span class='lparen'>(</span><span class='id identifier rubyid_goal'>goal</span><span class='rparen'>)</span>
@@ -505,12 +505,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
+84
 85
-86
-87</pre>
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_goal'>goal</span>
   <span class='ivar'>@goal</span>
@@ -588,12 +588,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
+102
 103
-104
-105</pre>
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_best_evolvable'>best_evolvable</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_max_by'>max_by</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='op'>|</span> <span class='id identifier rubyid_goal'>goal</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -664,12 +664,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
+92
 93
-94
-95</pre>
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_sort_by!'>sort_by!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='op'>|</span> <span class='id identifier rubyid_goal'>goal</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -740,12 +740,12 @@ a hash specifying goal type and value, or a custom goal object</p>
       <pre class="lines">
 
 
+112
 113
-114
-115</pre>
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 112</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_met_goal?'>met_goal?</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_goal'>goal</span><span class='period'>.</span><span class='id identifier rubyid_met?'>met?</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
@@ -760,7 +760,7 @@ a hash specifying goal type and value, or a custom goal object</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 00:09:35 2025 by
+  Generated on Fri May  9 10:32:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

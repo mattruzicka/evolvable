@@ -9,14 +9,16 @@ module Evolvable
   #   **Two Key Gene Count Types**
   #
   #   1. **Fixed Count**: When you specify a single number or default
-  #      ```ruby
-  #      gene :color, type: ColorGene  # Default count: 1
-  #      ```
+  #
+  #   ```ruby
+  #   gene :color, type: ColorGene  # Default count: 1
+  #   ```
   #
   #   2. **Variable Count**: When you specify a range
-  #      ```ruby
-  #      gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
-  #      ```
+  #
+  #   ```ruby
+  #   gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
+  #   ```
   #
   #   **Benefits**
   #
@@ -25,10 +27,9 @@ module Evolvable
   #   - Self-evolving structure (with ranges)
   #   - Consistent instance initialization
   #
-  #   Related sections:
-  #   - See [Genes](#genes) for defining individual gene classes
-  #   - See [Gene Clusters](#gene-clusters) for organizing related genes
-  #   - See [Population](#populations) for using gene spaces in populations
+  # @see Evolvable::Gene
+  # @see Evolvable::GeneCluster
+  # @see Evolvable::Population
   #
   # @example
   #   # A simple example showing various gene definition options

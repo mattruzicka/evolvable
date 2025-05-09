@@ -14,8 +14,6 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
-
 <script type="text/javascript">
   pathId = "Evolvable::GeneSpace";
   relpath = '../';
@@ -109,15 +107,18 @@ for creating and managing genes.</p>
 <p><strong>Two Key Gene Count Types</strong></p>
 
 <ol>
-<li><p><strong>Fixed Count</strong>: When you specify a single number or default</p>
+<li><strong>Fixed Count</strong>: When you specify a single number or default</li>
+</ol>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorGene</span>  <span class='comment'># Default count: 1
-</span></code></pre></li>
-<li><p><strong>Variable Count</strong>: When you specify a range</p>
+</span></code></pre>
+
+<ol>
+<li><strong>Variable Count</strong>: When you specify a range</li>
+</ol>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:skills</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>SkillGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span><span class='op'>..</span><span class='int'>5</span>  <span class='comment'># Can evolve between 1-5 skills
-</span></code></pre></li>
-</ol>
+</span></code></pre>
 
 <p><strong>Benefits</strong></p>
 
@@ -126,14 +127,6 @@ for creating and managing genes.</p>
 <li>Automatic gene management</li>
 <li>Self-evolving structure (with ranges)</li>
 <li>Consistent instance initialization</li>
-</ul>
-
-<p>Related sections:</p>
-
-<ul>
-<li>See <a href="#genes">Genes</a> for defining individual gene classes</li>
-<li>See <a href="#gene-clusters">Gene Clusters</a> for organizing related genes</li>
-<li>See <a href="#populations">Population</a> for using gene spaces in populations</li>
 </ul>
 
 
@@ -182,6 +175,17 @@ for creating and managing genes.</p>
     
   </div>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Gene.html" title="Evolvable::Gene (module)">Gene</a></span></li>
+    
+      <li><span class='object_link'><a href="GeneCluster.html" title="Evolvable::GeneCluster (module)">GeneCluster</a></span></li>
+    
+      <li><span class='object_link'><a href="Population.html" title="Evolvable::Population (class)">Population</a></span></li>
+    
+  </ul>
 
 </div>
 
@@ -408,13 +412,13 @@ for creating and managing genes.</p>
       <pre class="lines">
 
 
-82
 83
 84
-85</pre>
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>config:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>evolvable_class:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@evolvable_class</span> <span class='op'>=</span> <span class='id identifier rubyid_evolvable_class'>evolvable_class</span>
@@ -457,12 +461,12 @@ for creating and managing genes.</p>
       <pre class="lines">
 
 
-87
 88
-89</pre>
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_config'>config</span>
   <span class='ivar'>@config</span>
@@ -499,12 +503,12 @@ for creating and managing genes.</p>
       <pre class="lines">
 
 
-87
 88
-89</pre>
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evolvable_class'>evolvable_class</span>
   <span class='ivar'>@evolvable_class</span>
@@ -536,17 +540,17 @@ for creating and managing genes.</p>
       <pre class="lines">
 
 
-72
 73
 74
 75
 76
 77
 78
-79</pre>
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build'>build</span><span class='lparen'>(</span><span class='id identifier rubyid_config'>config</span><span class='comma'>,</span> <span class='id identifier rubyid_evolvable_class'>evolvable_class</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="" title="Evolvable::GeneSpace (class)">GeneSpace</a></span></span><span class='rparen'>)</span>
@@ -582,13 +586,13 @@ for creating and managing genes.</p>
       <pre class="lines">
 
 
-93
 94
 95
-96</pre>
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge_gene_space'>merge_gene_space</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rparen'>)</span>
@@ -614,13 +618,13 @@ for creating and managing genes.</p>
       <pre class="lines">
 
 
-98
 99
 100
-101</pre>
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge_gene_space!'>merge_gene_space!</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rparen'>)</span>
@@ -646,12 +650,12 @@ for creating and managing genes.</p>
       <pre class="lines">
 
 
-89
 90
-91</pre>
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_space.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_genome'>new_genome</span>
   <span class='const'><span class='object_link'><a href="Genome.html" title="Evolvable::Genome (class)">Genome</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Genome.html#initialize-instance_method" title="Evolvable::Genome#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>config:</span> <span class='id identifier rubyid_new_genome_config'>new_genome_config</span><span class='rparen'>)</span>
@@ -666,7 +670,7 @@ for creating and managing genes.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 00:09:35 2025 by
+  Generated on Fri May  9 10:32:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

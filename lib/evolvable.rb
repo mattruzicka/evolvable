@@ -25,13 +25,7 @@ require 'evolvable/community'
 
 #
 # @readme
-#   The evolutionary process works through these components:
-#     1. **Populations**: Groups of the "evolvable" instances you define
-#     2. **Genes**: Ruby objects that cache data for evolvables
-#     3. **Evaluation**: Sorts evolvables by fitness
-#     4. **Evolution**: Selection, combination, and mutation to generate new evolvables
-#
-#   Quick start:
+#   **Quick start**:
 #     1. Include `Evolvable` in your Ruby class
 #     2. Define genes with the macro-style `gene` method
 #     3. Have the `#fitness` method return a numeric value
@@ -39,42 +33,43 @@ require 'evolvable/community'
 #
 #   Example population of "shirts" with various colors, buttons, and collars.
 #
-#     ```ruby
-#     # Step 1
-#     class Shirt
-#       include Evolvable
+#   ```ruby
+#   # Step 1
+#   class Shirt
+#     include Evolvable
 #
-#       # Step 2
-#       gene :color, type: ColorGene # count: 1 default
-#       gene :buttons, type: ButtonGene, count: 0..10 # Builds an array of genes that can vary in size
-#       gene :collar, type: CollarGene, count: 0..1 # Collar optional
+#     # Step 2
+#     gene :color, type: ColorGene # count: 1 default
+#     gene :buttons, type: ButtonGene, count: 0..10 # Builds an array of genes that can vary in size
+#     gene :collar, type: CollarGene, count: 0..1 # Collar optional
 #
-#       # Step 3
-#       attr_accessor :fitness
-#     end
+#     # Step 3
+#     attr_accessor :fitness
+#   end
 #
-#     # Step 4
-#     population = Shirt.new_population(size: 10)
-#     population.evolvables.each { |shirt| shirt.fitness = tried_it_on_score }
-#     ```
+#   # Step 4
+#   population = Shirt.new_population(size: 10)
+#   population.evolvables.each { |shirt| shirt.fitness = style_rating }
+#   ```
 #
-#   You are free to tailor the genes to your needs and "try it on" yourself.
+#   You are free to tailor the genes to your needs and find a style that suits you.
 #
 #   The `ColorGene` could be as simple as this:
 #
-#     ```ruby
-#     class ColorGene
-#       include Evolvable::Gene
+#   ```ruby
+#   class ColorGene
+#     include Evolvable::Gene
 #
-#       def to_s
-#         @to_s ||= %w[red green blue].sample
-#       end
+#     def to_s
+#       @to_s ||= %w[red green blue].sample
 #     end
-#     ```
+#   end
+#   ```
 #
-#   Not into shirts?
+#   Shirts aren't your style?
 #
-#   Here's a [Hello World](https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world) command line demo.
+#   Here's a [Hello World](https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world)
+#   command line demo.
 #
 module Evolvable
   extend Forwardable

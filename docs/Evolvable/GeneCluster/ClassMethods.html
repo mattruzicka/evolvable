@@ -14,8 +14,6 @@
 
   <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/custom.css" type="text/css" />
-
 <script type="text/javascript">
   pathId = "Evolvable::GeneCluster::ClassMethods";
   relpath = '../../';
@@ -263,14 +261,14 @@ This is called automatically when using the <code>cluster</code> macro.</p>
       <pre class="lines">
 
 
+80
 81
 82
 83
-84
-85</pre>
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_apply_cluster'>apply_cluster</span><span class='lparen'>(</span><span class='id identifier rubyid_evolvable_class'>evolvable_class</span><span class='comma'>,</span> <span class='id identifier rubyid_cluster_name'>cluster_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='ivar'>@cluster_config</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_kw'>kw</span><span class='op'>|</span>
@@ -342,12 +340,12 @@ This is used internally by the cluster to define its component genes.</p>
       <pre class="lines">
 
 
+67
 68
-69
-70</pre>
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gene'>gene</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='ivar'>@cluster_config</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rbracket'>]</span>
@@ -401,13 +399,13 @@ This is used internally by the cluster to define its component genes.</p>
       <pre class="lines">
 
 
+92
 93
 94
-95
-96</pre>
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inherited'>inherited</span><span class='lparen'>(</span><span class='id identifier rubyid_subclass'>subclass</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -423,7 +421,7 @@ This is used internally by the cluster to define its component genes.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 00:09:35 2025 by
+  Generated on Fri May  9 10:32:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

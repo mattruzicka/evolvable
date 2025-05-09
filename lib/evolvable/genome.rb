@@ -15,10 +15,9 @@ module Evolvable
   #   The genome serves as the intermediary between the gene space (the definition)
   #   and the actual gene instances (the implementation).
   #
-  #   Related sections:
-  #   - See [Gene Space](#gene-space) for how genomes are created
-  #   - See [Combination](#combination) for how genomes are combined
-  #   - See [Genes](#genes) for the building blocks that make up genomes
+  # @see Evolvable::GeneSpace
+  # @see Evolvable::GeneCombination
+  # @see Evolvable::Gene
   #
   class Genome
     extend Forwardable
@@ -36,7 +35,12 @@ module Evolvable
     alias to_h config
 
     #
-    # Returns the first gene with the given key. In the Melody example above, the instrument gene has the key `:instrument` so we might write something like: `instrument_gene = melody.find_gene(instrument)`
+    # Returns the first gene with the given key. In the Melody example above, the instrument
+    # gene has the key `:instrument` so we might write something like:
+    #
+    # ```ruby
+    # instrument_gene = melody.find_gene(instrument)
+    # ```
     #
     # @param [<Type>] key <description>
     #
@@ -47,7 +51,10 @@ module Evolvable
     end
 
     #
-    # Returns an array of genes that have the given key. Gene keys are defined using the [EvolvableClass.gene](https://mattruzicka.github.io/evolvable/Evolvable/ClassMethods#gene-instance_method) macro method. In the Melody example above, the key for the note genes would be `:notes`. The following would return an array of them: `note_genes = melody.find_genes(:notes)`
+    # Returns an array of genes that have the given key. Gene keys are defined using the
+    # [EvolvableClass.gene](https://mattruzicka.github.io/evolvable/Evolvable/ClassMethods#gene-instance_method)
+    # macro method. In the Melody example above, the key for the note genes would be `:notes`.
+    # The following would return an array of them: `note_genes = melody.find_genes(:notes)`
     #
     # @param [<Type>] *keys <description>
     #

@@ -26,7 +26,7 @@ Whether you're optimizing parameters, generating creative content, or simulating
 
 ## Creative Applications
 
-Evolvable is designed to make creative, object‑oriented representations first‑class citizens. That means the same API that tunes numbers can evolve music, UI layouts, or game content just as naturally.
+Evolvable treats creative, object-oriented representations as first-class citizens. The same API that optimizes numeric parameters can evolve music compositions, UI layouts, or game content with equal fluency.
 
 Creative applications of Evolvable include:
 - **Generative art**: Evolve visual compositions based on aesthetic criteria
@@ -65,13 +65,7 @@ Add [gem "evolvable"](https://rubygems.org/gems/evolvable) to your Gemfile and r
 
 ## Getting Started
 
-The evolutionary process works through these components:
-  1. **Populations**: Groups of the "evolvable" instances you define
-  2. **Genes**: Ruby objects that cache data for evolvables
-  3. **Evaluation**: Sorts evolvables by fitness
-  4. **Evolution**: Selection, combination, and mutation to generate new evolvables
-
-Quick start:
+**Quick start**:
   1. Include `Evolvable` in your Ruby class
   2. Define genes with the macro-style `gene` method
   3. Have the `#fitness` method return a numeric value
@@ -79,56 +73,56 @@ Quick start:
 
 Example population of "shirts" with various colors, buttons, and collars.
 
-  ```ruby
-  # Step 1
-  class Shirt
-    include Evolvable
+```ruby
+# Step 1
+class Shirt
+  include Evolvable
 
-    # Step 2
-    gene :color, type: ColorGene # count: 1 default
-    gene :buttons, type: ButtonGene, count: 0..10 # Builds an array of genes that can vary in size
-    gene :collar, type: CollarGene, count: 0..1 # Collar optional
+  # Step 2
+  gene :color, type: ColorGene # count: 1 default
+  gene :buttons, type: ButtonGene, count: 0..10 # Builds an array of genes that can vary in size
+  gene :collar, type: CollarGene, count: 0..1 # Collar optional
 
-    # Step 3
-    attr_accessor :fitness
-  end
+  # Step 3
+  attr_accessor :fitness
+end
 
-  # Step 4
-  population = Shirt.new_population(size: 10)
-  population.evolvables.each { |shirt| shirt.fitness = tried_it_on_score }
-  ```
+# Step 4
+population = Shirt.new_population(size: 10)
+population.evolvables.each { |shirt| shirt.fitness = style_rating }
+```
 
-You are free to tailor the genes to your needs and "try it on" yourself.
+You are free to tailor the genes to your needs and find a style that suits you.
 
 The `ColorGene` could be as simple as this:
 
-  ```ruby
-  class ColorGene
-    include Evolvable::Gene
+```ruby
+class ColorGene
+  include Evolvable::Gene
 
-    def to_s
-      @to_s ||= %w[red green blue].sample
-    end
+  def to_s
+    @to_s ||= %w[red green blue].sample
   end
-  ```
+end
+```
 
-Not into shirts?
+Shirts aren't your style?
 
-Here's a [Hello World](https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world) command line demo.
+Here's a [Hello World](https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world)
+command line demo.
 
 
 ## Concepts
 
 Evolvable is built on these core concepts:
-- **Genes**: Encapsulate evolving traits and behaviors
-- **Genomes**: Genes organized in a searchable structure
-- **Evolvables**: Composable Ruby objects that delegate to genes
-- **Populations**: Groups of evolvables that evolve together
-- **Evaluation**: Fitness scoring to rank solutions
-- **Evolution**: Three-phase process (Selection → Combination → Mutation)
+- **Genes**: Ruby objects that cache data for evolvables
+- **Evolvables**: Your Ruby classes that include "Evolvable" and delegate to genes
+- **Populations**: Groups of evolvables instances that evolve together
+- **Evaluation**: Sorts evolvables by fitness
+- **Evolution**: Selection → Combination → Mutation to generate new evolvables
 - **Communities**: Encapsulate evolvable populations
 
-The library provides default implementations while allowing custom components to adapt to specific problem domains.
+The framework offers built-in implementations while allowing domain-specific customization through its extensible and swapable components.
 
 ## Genes
 
@@ -136,96 +130,73 @@ Genes are the building blocks of evolvable objects, encapsulating individual cha
 that can be combined and mutated during evolution. Each gene represents a trait or behavior
 that can influence an evolvable's performance.
 
-**Creating Gene Classes**
-
-When defining gene classes, you need to:
+**To define a gene class**,
 1. Include the Evolvable::Gene module
 2. Define how the gene's value is determined
-3. Optionally override the combine method for custom combination behavior
 
-**Design Patterns**
-
-Effective gene design follows several patterns:
-
-- **Immutability**: Gene values should be initialized once and cached. Use `@value ||= compute_value`
-  pattern to ensure consistency
-- **Self-Contained**: Genes should encapsulate their own logic and data
-- **Composable**: Complex genes can be built from combinations of other genes
-- **Domain-Specific**: Genes should directly represent the domain
-
-**Common Gene Types**
-
-- **Numeric Genes**: Represent quantities, measurements, or probabilities
-- **Selection Genes**: Choose from a fixed set of options
-- **Boolean Genes**: Represent binary choices
-- **Structural Genes**: Control the structure or architecture of a solution
-- **Parameter Genes**: Configure parameters for algorithms or processes
-
-Related sections:
-- See [Gene Space](#gene-space) for how genes are organized
-- See [Gene Clusters](#gene-clusters) for grouping related genes
-- See [Combination](#combination) for how genes are combined
-
-
-**Example**
 ```ruby
-# A simple example showing gene definition and usage
 class BehaviorGene
   include Evolvable::Gene
 
-  def self.behaviors
-    @behaviors ||= %w[explore gather attack defend build]
-  end
-
-  def behavior
-    @behavior ||= self.class.behaviors.sample
-  end
-
-  # Custom combination that creates a new behavior based on parents
-  def self.combine(gene_a, gene_b)
-    new_gene = new
-    # In a real implementation, this might combine behaviors
-    # or choose based on some logic
-    new_gene.instance_variable_set(:@behavior, [gene_a.behavior, gene_b.behavior].sample)
-    new_gene
+  def value
+    @value ||= %w[explore gather attack defend build].sample
   end
 end
+```
 
-# Use the gene in an evolvable class
+It can then be used in an evolvable class like this:
+
+```ruby
 class Robot
   include Evolvable
 
   gene :behaviors, type: BehaviorGene, count: 3..5
   gene :speed, type: SpeedGene, count: 1
-  gene :energy, type: EnergyGene, count: 1
 
   def fitness
-    # In a real implementation, this would run a simulation
-    # and return a score based on the robot's performance
-    run_simulation
-  end
-
-  def to_s
-    "Robot with behaviors: #{behaviors.map(&:behavior).join(', ')}"
+    run_simulation(behaviors: behaviors.map(&:value), speed: speed.value)
   end
 end
-
-# Create and evolve a population
-population = Robot.new_population(
-  size: 50,
-  mutation: { probability: 0.2 }
-)
-
-# Evolve for 20 generations
-population.evolve(count: 20)
-
-# Get the best robot
-best_robot = population.best_evolvable
-puts "Best robot: #{best_robot}"
 ```
 
+By default, the combine method randomly picks one of the two parent genes.
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Gene)
+**A gene class can implement custom gene combination** by overriding the default `combine` class method.
+
+For example, the `SpeedGene` class might average the values of the two parent genes:
+
+```ruby
+class SpeedGene
+  include Evolvable::Gene
+
+  def self.combine(gene_a, gene_b)
+    new_gene = new
+    new_gene.value = (gene_a.value + gene_b.value) / 2
+    new_gene
+  end
+
+  attr_writer :value
+
+  def value
+    @value ||= rand(1..100)
+  end
+end
+```
+
+Effective gene design follows several patterns:
+
+- **Immutability**: Gene values should sampled and cached/memoized e.g. `@value ||= rand(1..100)`
+- **Self-Contained**: Genes should encapsulate their own logic and data
+- **Composable**: Complex genes can be built from combinations of other genes
+- **Domain-Specific**: Genes should directly represent the domain
+
+Genes come in various types, each representing different aspects of a solution.
+Common examples include numeric genes for quantities, selection genes for choices from sets,
+boolean genes for binary decisions, structural genes for architecture, and parameter genes for
+configuration settings.
+
+
+[Gene Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Gene)
 
 ## Populations
 
@@ -278,7 +249,7 @@ puts "Final solution: #{best_shape}"
 ```
 
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Population)
+[Population Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Population)
 
 ## Evaluation
 
@@ -294,10 +265,6 @@ mechanisms to specify evolutionary goals (maximize, minimize, or equalize).
    - `equalize`: Values closer to target are better
 3. During evolution, evolvables are sorted based on the goal's interpretation
 4. Evolution can stop when an evolvable reaches a specified goal value
-
-**Related Sections**
-- See [Population](#populations) for how evaluation fits into evolution
-- See [Selection](#selection) for how evaluated individuals are chosen
 
 
 **Example**
@@ -334,7 +301,7 @@ targets.evolve(goal_value: 42)  # Until we match the target value
 ```
 
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evaluation)
+[Evaluation Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evaluation)
 
 ## Goals
 
@@ -392,7 +359,7 @@ equal_population = RuleOptimizer.new_population(
 max_population.evolve(goal_value: 95)  # Evolve until 95% accuracy
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Goal)
+[Goal Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Goal)
 
 ## Evolution
 
@@ -405,7 +372,7 @@ Each evolutionary operation can be customized individually, allowing you to
 fine-tune the evolutionary process to fit your specific problem domain.
 
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evolution)
+[Evolution Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evolution)
 
 ## Selection
 
@@ -437,7 +404,7 @@ population.evolve_selected([evolvable1, evolvable2])
 This allows for custom selection strategies beyond the built-in methods.
 
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Selection)
+[Selection Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Selection)
 
 ## Combination
 
@@ -453,7 +420,7 @@ combination behaviors through the Gene.combine class method, giving you
 fine-grained control over how different gene types are combined.
 
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Combination)
+[Combination Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Combination)
 
 ## Crossover Strategies
 
@@ -505,7 +472,7 @@ population = MyEvolvable.new_population(
 ```
 
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/PointCrossover)
+[PointCrossover Documentation](https://mattruzicka.github.io/evolvable/Evolvable/PointCrossover)
 
 ## Mutation
 
@@ -534,7 +501,7 @@ population.mutation.rate = 0.05
 ```
 
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Mutation)
+[Mutation Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Mutation)
 
 ## Gene Space
 
@@ -544,14 +511,16 @@ for creating and managing genes.
 **Two Key Gene Count Types**
 
 1. **Fixed Count**: When you specify a single number or default
-   ```ruby
-   gene :color, type: ColorGene  # Default count: 1
-   ```
+
+```ruby
+gene :color, type: ColorGene  # Default count: 1
+```
 
 2. **Variable Count**: When you specify a range
-   ```ruby
-   gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
-   ```
+
+```ruby
+gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
+```
 
 **Benefits**
 
@@ -559,11 +528,6 @@ for creating and managing genes.
 - Automatic gene management
 - Self-evolving structure (with ranges)
 - Consistent instance initialization
-
-Related sections:
-- See [Genes](#genes) for defining individual gene classes
-- See [Gene Clusters](#gene-clusters) for organizing related genes
-- See [Population](#populations) for using gene spaces in populations
 
 
 **Example**
@@ -608,7 +572,7 @@ composer.effects.count         # Number of effect genes
 composer.structure.first.type  # Access a property of the first structure gene
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/GeneSpace)
+[GeneSpace Documentation](https://mattruzicka.github.io/evolvable/Evolvable/GeneSpace)
 
 ## Count Genes
 
@@ -628,7 +592,7 @@ that doesn't change during evolution. This is used when a gene is defined
 with a fixed integer for `count:` (e.g., `count: 5`).
 
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/CountGene)
+[CountGene Documentation](https://mattruzicka.github.io/evolvable/Evolvable/CountGene)
 
 ## Genomes
 
@@ -644,13 +608,8 @@ A genome consists of:
 The genome serves as the intermediary between the gene space (the definition)
 and the actual gene instances (the implementation).
 
-Related sections:
-- See [Gene Space](#gene-space) for how genomes are created
-- See [Combination](#combination) for how genomes are combined
-- See [Genes](#genes) for the building blocks that make up genomes
 
-
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Genome)
+[Genome Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Genome)
 
 ## Gene Clusters
 
@@ -665,10 +624,6 @@ This provides:
 - Clean organization of related genes (styling, physics, etc.)
 - Prevention of name conflicts
 - Simplified access to gene groups
-
-Related sections:
-- See [Genes](#genes) for defining individual gene classes
-- See [Gene Space](#gene-space) for how clusters integrate with the gene space
 
 
 **Example**
@@ -732,7 +687,7 @@ class Panel
 end
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/GeneCluster)
+[GeneCluster Documentation](https://mattruzicka.github.io/evolvable/Evolvable/GeneCluster)
 
 ## Community
 
@@ -797,7 +752,7 @@ biome = BiomeSimulation.new_community
 biome.simulate_interactions(10)
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Community)
+[Community Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Community)
 
 ## Serialization
 
@@ -877,7 +832,7 @@ end
 restored = manager.restore_population("checkpoint_3.dat")
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Serializer)
+[Serializer Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Serializer)
 
 ## Contributing
 

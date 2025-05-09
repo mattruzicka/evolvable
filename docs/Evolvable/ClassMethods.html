@@ -14,8 +14,6 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
-
 <script type="text/javascript">
   pathId = "Evolvable::ClassMethods";
   relpath = '../';
@@ -425,12 +423,12 @@
       <pre class="lines">
 
 
-250
-251
-252</pre>
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cluster_config'>cluster_config</span>
   <span class='ivar'>@cluster_config</span>
@@ -467,12 +465,12 @@
       <pre class="lines">
 
 
-250
-251
-252</pre>
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gene_config'>gene_config</span>
   <span class='ivar'>@gene_config</span>
@@ -514,10 +512,10 @@
       <pre class="lines">
 
 
-302</pre>
+297</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 302</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 297</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_after_evolution'>after_evolution</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -550,10 +548,10 @@
       <pre class="lines">
 
 
-278</pre>
+273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 273</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_before_evaluation'>before_evaluation</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -603,10 +601,10 @@
       <pre class="lines">
 
 
-296</pre>
+291</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 296</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 291</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_before_evolution'>before_evolution</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -728,19 +726,19 @@
       <pre class="lines">
 
 
+234
+235
+236
+237
+238
 239
 240
 241
 242
-243
-244
-245
-246
-247
-248</pre>
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 239</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 234</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cluster'>cluster</span><span class='lparen'>(</span><span class='id identifier rubyid_cluster_name'>cluster_name</span><span class='comma'>,</span> <span class='label'>type:</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_recipe'>recipe</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>Object</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_type'>type</span>
@@ -892,6 +890,11 @@ Syntactically similar to ActiveRecord-style macros, it sets up the genetic struc
       <pre class="lines">
 
 
+174
+175
+176
+177
+178
 179
 180
 181
@@ -908,15 +911,10 @@ Syntactically similar to ActiveRecord-style macros, it sets up the genetic struc
 192
 193
 194
-195
-196
-197
-198
-199
-200</pre>
+195</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gene'>gene</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>type:</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span><span class='comma'>,</span> <span class='label'>cluster:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Error.html" title="Evolvable::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Gene name &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; is already defined</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@gene_config</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -989,14 +987,14 @@ Syntactically similar to ActiveRecord-style macros, it sets up the genetic struc
       <pre class="lines">
 
 
-268
-269
-270
-271
-272</pre>
+263
+264
+265
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 263</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inherited'>inherited</span><span class='lparen'>(</span><span class='id identifier rubyid_subclass'>subclass</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -1051,12 +1049,12 @@ By default, simply calls new with no arguments.</p>
       <pre class="lines">
 
 
-148
-149
-150</pre>
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize_evolvable'>initialize_evolvable</span>
   <span class='id identifier rubyid_new'>new</span>
@@ -1098,15 +1096,15 @@ methods.</p>
       <pre class="lines">
 
 
-135
-136
-137
-138
-139
-140</pre>
+130
+131
+132
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_evolvable'>new_evolvable</span><span class='lparen'>(</span><span class='label'>population:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>genome:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>generation_index:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_evolvable'>evolvable</span> <span class='op'>=</span> <span class='id identifier rubyid_initialize_evolvable'>initialize_evolvable</span>
@@ -1162,12 +1160,12 @@ Used internally when initializing populations.</p>
       <pre class="lines">
 
 
-258
-259
-260</pre>
+253
+254
+255</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 258</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 253</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_gene_space'>new_gene_space</span>
   <span class='const'><span class='object_link'><a href="GeneSpace.html" title="Evolvable::GeneSpace (class)">GeneSpace</a></span></span><span class='period'>.</span><span class='id identifier rubyid_build'><span class='object_link'><a href="GeneSpace.html#build-class_method" title="Evolvable::GeneSpace.build (method)">build</a></span></span><span class='lparen'>(</span><span class='ivar'>@gene_config</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
@@ -1203,13 +1201,13 @@ Used internally when initializing populations.</p>
       <pre class="lines">
 
 
-120
-121
-122
-123</pre>
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='id identifier rubyid_keyword_args'>keyword_args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_keyword_args'>keyword_args</span><span class='lbracket'>[</span><span class='symbol'>:evolvable_type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span>
@@ -1225,7 +1223,7 @@ Used internally when initializing populations.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 00:09:34 2025 by
+  Generated on Fri May  9 10:32:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

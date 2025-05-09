@@ -14,8 +14,6 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
-
 <script type="text/javascript">
   pathId = "Evolvable::GeneCluster";
   relpath = '../';
@@ -105,13 +103,6 @@ to multiple evolvable classes.</p>
 <li>Simplified access to gene groups</li>
 </ul>
 
-<p>Related sections:</p>
-
-<ul>
-<li>See <a href="#genes">Genes</a> for defining individual gene classes</li>
-<li>See <a href="#gene-space">Gene Space</a> for how clusters integrate with the gene space</li>
-</ul>
-
 
   </div>
 </div>
@@ -143,6 +134,15 @@ to multiple evolvable classes.</p>
     
   </div>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Gene.html" title="Evolvable::Gene (module)">Gene</a></span></li>
+    
+      <li><span class='object_link'><a href="GeneSpace.html" title="Evolvable::GeneSpace (class)">GeneSpace</a></span></li>
+    
+  </ul>
 
 </div><h2>Defined Under Namespace</h2>
 <p class="children">
@@ -247,13 +247,13 @@ the GeneCluster module in your class.</p>
       <pre class="lines">
 
 
+51
 52
 53
-54
-55</pre>
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="GeneCluster/ClassMethods.html" title="Evolvable::GeneCluster::ClassMethods (module)">ClassMethods</a></span></span><span class='rparen'>)</span>
@@ -269,7 +269,7 @@ the GeneCluster module in your class.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 00:09:35 2025 by
+  Generated on Fri May  9 10:32:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

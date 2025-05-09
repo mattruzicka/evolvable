@@ -15,9 +15,8 @@ module Evolvable
   #   - Prevention of name conflicts
   #   - Simplified access to gene groups
   #
-  #   Related sections:
-  #   - See [Genes](#genes) for defining individual gene classes
-  #   - See [Gene Space](#gene-space) for how clusters integrate with the gene space
+  # @see Evolvable::Gene
+  # @see Evolvable::GeneSpace
   #
   # @example
   #   # Define a simple styling cluster

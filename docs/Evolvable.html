@@ -14,8 +14,6 @@
 
   <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/custom.css" type="text/css" />
-
 <script type="text/javascript">
   pathId = "Evolvable";
   relpath = '';
@@ -94,16 +92,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>The evolutionary process works through these components:</p>
-
-<ol>
-<li><strong>Populations</strong>: Groups of the &quot;evolvable&quot; instances you define</li>
-<li><strong>Genes</strong>: Ruby objects that cache data for evolvables</li>
-<li><strong>Evaluation</strong>: Sorts evolvables by fitness</li>
-<li><strong>Evolution</strong>: Selection, combination, and mutation to generate new evolvables</li>
-</ol>
-
-<p>Quick start:</p>
+    <p><strong>Quick start</strong>:</p>
 
 <ol>
 <li>Include <code>Evolvable</code> in your Ruby class</li>
@@ -114,40 +103,41 @@
 
 <p>Example population of &quot;shirts&quot; with various colors, buttons, and collars.</p>
 
-<pre class="code ruby"><code class="ruby">  <span class='comment'># Step 1
-</span>  <span class='kw'>class</span> <span class='const'>Shirt</span>
-    <span class='id identifier rubyid_include'>include</span> <span class='const'>Evolvable</span>
+<pre class="code ruby"><code class="ruby"><span class='comment'># Step 1
+</span><span class='kw'>class</span> <span class='const'>Shirt</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Evolvable</span>
 
-    <span class='comment'># Step 2
-</span>    <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorGene</span> <span class='comment'># count: 1 default
-</span>    <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:buttons</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ButtonGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>10</span> <span class='comment'># Builds an array of genes that can vary in size
-</span>    <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:collar</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>CollarGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>1</span> <span class='comment'># Collar optional
+  <span class='comment'># Step 2
+</span>  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorGene</span> <span class='comment'># count: 1 default
+</span>  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:buttons</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ButtonGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>10</span> <span class='comment'># Builds an array of genes that can vary in size
+</span>  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:collar</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>CollarGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>1</span> <span class='comment'># Collar optional
 </span>
-    <span class='comment'># Step 3
-</span>    <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:fitness</span>
-  <span class='kw'>end</span>
+  <span class='comment'># Step 3
+</span>  <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:fitness</span>
+<span class='kw'>end</span>
 
-  <span class='comment'># Step 4
-</span>  <span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>Shirt</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>size:</span> <span class='int'>10</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_shirt'>shirt</span><span class='op'>|</span> <span class='id identifier rubyid_shirt'>shirt</span><span class='period'>.</span><span class='id identifier rubyid_fitness'>fitness</span> <span class='op'>=</span> <span class='id identifier rubyid_tried_it_on_score'>tried_it_on_score</span> <span class='rbrace'>}</span>
+<span class='comment'># Step 4
+</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>Shirt</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>size:</span> <span class='int'>10</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_shirt'>shirt</span><span class='op'>|</span> <span class='id identifier rubyid_shirt'>shirt</span><span class='period'>.</span><span class='id identifier rubyid_fitness'>fitness</span> <span class='op'>=</span> <span class='id identifier rubyid_style_rating'>style_rating</span> <span class='rbrace'>}</span>
 </code></pre>
 
-<p>You are free to tailor the genes to your needs and &quot;try it on&quot; yourself.</p>
+<p>You are free to tailor the genes to your needs and find a style that suits you.</p>
 
 <p>The <code>ColorGene</code> could be as simple as this:</p>
 
-<pre class="code ruby"><code class="ruby">  <span class='kw'>class</span> <span class='const'>ColorGene</span>
-    <span class='id identifier rubyid_include'>include</span> <span class='const'>Evolvable</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Evolvable/Gene.html" title="Evolvable::Gene (module)">Gene</a></span></span>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>ColorGene</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Evolvable</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Evolvable/Gene.html" title="Evolvable::Gene (module)">Gene</a></span></span>
 
-    <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-      <span class='ivar'>@to_s</span> <span class='op'>||=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>red</span><span class='words_sep'> </span><span class='tstring_content'>green</span><span class='words_sep'> </span><span class='tstring_content'>blue</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
-    <span class='kw'>end</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='ivar'>@to_s</span> <span class='op'>||=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>red</span><span class='words_sep'> </span><span class='tstring_content'>green</span><span class='words_sep'> </span><span class='tstring_content'>blue</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span>
 </code></pre>
 
-<p>Not into shirts?</p>
+<p>Shirts aren&#39;t your style?</p>
 
-<p>Here&#39;s a <a href="https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world">Hello World</a> command line demo.</p>
+<p>Here&#39;s a <a href="https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world">Hello World</a>
+command line demo.</p>
 
 
   </div>
@@ -180,6 +170,11 @@
           
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2.0.0</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="DOC_URL-constant" class="">DOC_URL =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://mattruzicka.github.io/evolvable</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
     </dl>
   
@@ -599,12 +594,12 @@
       <pre class="lines">
 
 
-322
-323
-324</pre>
+317
+318
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 317</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generation_index'>generation_index</span>
   <span class='ivar'>@generation_index</span>
@@ -641,12 +636,12 @@
       <pre class="lines">
 
 
-322
-323
-324</pre>
+317
+318
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 317</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_genome'>genome</span>
   <span class='ivar'>@genome</span>
@@ -683,12 +678,12 @@
       <pre class="lines">
 
 
-322
-323
-324</pre>
+317
+318
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 317</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_population'>population</span>
   <span class='ivar'>@population</span>
@@ -750,14 +745,14 @@ Sets up the necessary instance variables and extends the class with ClassMethods
       <pre class="lines">
 
 
-94
-95
-96
-97
-98</pre>
+89
+90
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@gene_config</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
@@ -862,12 +857,12 @@ from configuration hashes.</p>
       <pre class="lines">
 
 
-110
-111
-112</pre>
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_new_object'>new_object</span><span class='lparen'>(</span><span class='id identifier rubyid_old_val'>old_val</span><span class='comma'>,</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='comma'>,</span> <span class='id identifier rubyid_default_class'>default_class</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_val'>new_val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='id identifier rubyid_old_val'>old_val</span><span class='op'>&amp;.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>||</span> <span class='id identifier rubyid_default_class'>default_class</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_new_val'>new_val</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_new_val'>new_val</span>
@@ -898,10 +893,10 @@ from configuration hashes.</p>
       <pre class="lines">
 
 
-305</pre>
+300</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 305</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 300</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_after_initialize_evolvable'>after_initialize_evolvable</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -973,12 +968,12 @@ Useful for saving the state of an evolvable.</p>
       <pre class="lines">
 
 
-373
-374
-375</pre>
+368
+369
+370</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 373</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 368</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dump_genome'>dump_genome</span><span class='lparen'>(</span><span class='label'>serializer:</span> <span class='const'><span class='object_link'><a href="Evolvable/Serializer.html" title="Evolvable::Serializer (class)">Serializer</a></span></span><span class='rparen'>)</span>
   <span class='ivar'>@genome</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='label'>serializer:</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='rparen'>)</span>
@@ -1003,17 +998,17 @@ Useful for saving the state of an evolvable.</p>
       <pre class="lines">
 
 
+302
+303
+304
+305
+306
 307
 308
-309
-310
-311
-312
-313
-314</pre>
+309</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 307</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 302</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_gene'>find_gene</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@genome</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1090,12 +1085,12 @@ This is used internally when accessing gene clusters.</p>
       <pre class="lines">
 
 
-362
-363
-364</pre>
+357
+358
+359</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 362</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 357</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_gene_cluster'>find_gene_cluster</span><span class='lparen'>(</span><span class='id identifier rubyid_cluster'>cluster</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_find_genes'>find_genes</span><span class='lparen'>(</span><span class='op'>*</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_cluster_config'>cluster_config</span><span class='lbracket'>[</span><span class='id identifier rubyid_cluster'>cluster</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -1120,14 +1115,14 @@ This is used internally when accessing gene clusters.</p>
       <pre class="lines">
 
 
-316
-317
-318
-319
-320</pre>
+311
+312
+313
+314
+315</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 316</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 311</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_genes'>find_genes</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='ivar'>@genome</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1154,12 +1149,12 @@ This is used internally when accessing gene clusters.</p>
       <pre class="lines">
 
 
-326
-327
-328</pre>
+321
+322
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 321</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_genes'>genes</span>
   <span class='ivar'>@genome</span><span class='op'>&amp;.</span><span class='id identifier rubyid_genes'>genes</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1248,13 +1243,13 @@ Useful for combining genomes from different sources.</p>
       <pre class="lines">
 
 
-397
-398
-399
-400</pre>
+392
+393
+394
+395</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 397</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 392</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_and_merge_genome!'>load_and_merge_genome!</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>serializer:</span> <span class='const'><span class='object_link'><a href="Evolvable/Serializer.html" title="Evolvable::Serializer (class)">Serializer</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_genome'>genome</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Evolvable/Genome.html" title="Evolvable::Genome (class)">Genome</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load'><span class='object_link'><a href="Evolvable/Genome.html#load-class_method" title="Evolvable::Genome.load (method)">load</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>serializer:</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='rparen'>)</span>
@@ -1344,12 +1339,12 @@ Useful for restoring the state of an evolvable.</p>
       <pre class="lines">
 
 
-385
-386
-387</pre>
+380
+381
+382</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 385</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 380</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_genome'>load_genome</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>serializer:</span> <span class='const'><span class='object_link'><a href="Evolvable/Serializer.html" title="Evolvable::Serializer (class)">Serializer</a></span></span><span class='rparen'>)</span>
   <span class='ivar'>@genome</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Evolvable/Genome.html" title="Evolvable::Genome (class)">Genome</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load'><span class='object_link'><a href="Evolvable/Genome.html#load-class_method" title="Evolvable::Genome.load (method)">load</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>serializer:</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='rparen'>)</span>
@@ -1457,15 +1452,15 @@ This is called internally by the class method <code>new_evolvable</code>.</p>
       <pre class="lines">
 
 
-339
-340
-341
-342
-343
-344</pre>
+334
+335
+336
+337
+338
+339</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 339</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 334</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_make_evolvable'>make_evolvable</span><span class='lparen'>(</span><span class='label'>population:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>genome:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>generation_index:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span>
@@ -1540,12 +1535,12 @@ Useful for combining genetic traits from different evolvables.</p>
       <pre class="lines">
 
 
-409
-410
-411</pre>
+404
+405
+406</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 409</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 404</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge_genome!'>merge_genome!</span><span class='lparen'>(</span><span class='id identifier rubyid_other_genome'>other_genome</span><span class='rparen'>)</span>
   <span class='ivar'>@genome</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_other_genome'>other_genome</span><span class='rparen'>)</span>
@@ -1560,7 +1555,7 @@ Useful for combining genetic traits from different evolvables.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 00:09:34 2025 by
+  Generated on Fri May  9 10:32:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

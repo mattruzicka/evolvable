@@ -14,8 +14,6 @@
 
   <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
-
 <script type="text/javascript">
   pathId = "Evolvable::Genome";
   relpath = '../';
@@ -123,19 +121,22 @@ manipulate, and serialize genetic information.</p>
 <p>The genome serves as the intermediary between the gene space (the definition)
 and the actual gene instances (the implementation).</p>
 
-<p>Related sections:</p>
-
-<ul>
-<li>See <a href="#gene-space">Gene Space</a> for how genomes are created</li>
-<li>See <a href="#combination">Combination</a> for how genomes are combined</li>
-<li>See <a href="#genes">Genes</a> for the building blocks that make up genomes</li>
-</ul>
-
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="GeneSpace.html" title="Evolvable::GeneSpace (class)">GeneSpace</a></span></li>
+    
+      <li><span class='object_link'><a href="GeneCombination.html" title="Evolvable::GeneCombination (class)">GeneCombination</a></span></li>
+    
+      <li><span class='object_link'><a href="Gene.html" title="Evolvable::Gene (module)">Gene</a></span></li>
+    
+  </ul>
 
 </div>
 
@@ -477,12 +478,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
+29
 30
-31
-32</pre>
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>config:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@config</span> <span class='op'>=</span> <span class='id identifier rubyid_config'>config</span>
@@ -528,12 +529,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
+33
 34
-35
-36</pre>
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_config'>config</span>
   <span class='ivar'>@config</span>
@@ -565,12 +566,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
+25
 26
-27
-28</pre>
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>serializer:</span> <span class='const'><span class='object_link'><a href="Serializer.html" title="Evolvable::Serializer (class)">Serializer</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>config:</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -601,12 +602,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
-103
-104
-105</pre>
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='label'>serializer:</span> <span class='const'><span class='object_link'><a href="Serializer.html" title="Evolvable::Serializer (class)">Serializer</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span> <span class='ivar'>@config</span>
@@ -677,12 +678,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
-81
-82
-83</pre>
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_count_gene'>find_count_gene</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='symbol'>:count_gene</span><span class='rparen'>)</span>
@@ -703,7 +704,11 @@ and the actual gene instances (the implementation).</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns the first gene with the given key. In the Melody example above, the instrument gene has the key <code>:instrument</code> so we might write something like: <code>instrument_gene = melody.find_gene(instrument)</code></p>
+    <p>Returns the first gene with the given key. In the Melody example above, the instrument
+gene has the key <code>:instrument</code> so we might write something like:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_instrument_gene'>instrument_gene</span> <span class='op'>=</span> <span class='id identifier rubyid_melody'>melody</span><span class='period'>.</span><span class='id identifier rubyid_find_gene'>find_gene</span><span class='lparen'>(</span><span class='id identifier rubyid_instrument'>instrument</span><span class='rparen'>)</span>
+</code></pre>
 
 
   </div>
@@ -753,12 +758,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
-45
-46
-47</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_gene'>find_gene</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='symbol'>:genes</span><span class='comma'>,</span> <span class='int'>0</span><span class='rparen'>)</span>
@@ -779,7 +784,10 @@ and the actual gene instances (the implementation).</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns an array of genes that have the given key. Gene keys are defined using the <a href="https://mattruzicka.github.io/evolvable/Evolvable/ClassMethods#gene-instance_method">EvolvableClass.gene</a> macro method. In the Melody example above, the key for the note genes would be <code>:notes</code>. The following would return an array of them: <code>note_genes = melody.find_genes(:notes)</code></p>
+    <p>Returns an array of genes that have the given key. Gene keys are defined using the
+<a href="https://mattruzicka.github.io/evolvable/Evolvable/ClassMethods#gene-instance_method">EvolvableClass.gene</a>
+macro method. In the Melody example above, the key for the note genes would be <code>:notes</code>.
+The following would return an array of them: <code>note_genes = melody.find_genes(:notes)</code></p>
 
 
   </div>
@@ -829,15 +837,15 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
-56
-57
-58
-59
-60
-61</pre>
+63
+64
+65
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_genes'>find_genes</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_keys'>keys</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_flatten!'>flatten!</span>
@@ -911,12 +919,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
-70
-71
-72</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_genes_count'>find_genes_count</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_find_count_gene'>find_count_gene</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span>
@@ -941,12 +949,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
-87
-88
-89</pre>
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gene_keys'>gene_keys</span>
   <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
@@ -971,12 +979,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
-91
-92
-93</pre>
+98
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_genes'>genes</span>
   <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_flat_map'>flat_map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__gene_key'>_gene_key</span><span class='comma'>,</span> <span class='id identifier rubyid_gene_config'>gene_config</span><span class='op'>|</span> <span class='id identifier rubyid_gene_config'>gene_config</span><span class='lbracket'>[</span><span class='symbol'>:genes</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -1001,12 +1009,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
-99
-100
-101</pre>
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
@@ -1031,12 +1039,12 @@ and the actual gene instances (the implementation).</p>
       <pre class="lines">
 
 
-95
-96
-97</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/genome.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_other_genome'>other_genome</span><span class='rparen'>)</span>
   <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_other_genome'>other_genome</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
@@ -1051,7 +1059,7 @@ and the actual gene instances (the implementation).</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 00:09:35 2025 by
+  Generated on Fri May  9 10:32:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

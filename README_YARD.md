@@ -26,7 +26,7 @@ Whether you're optimizing parameters, generating creative content, or simulating
 
 ## Creative Applications
 
-Evolvable is designed to make creative, object‑oriented representations first‑class citizens. That means the same API that tunes numbers can evolve music, UI layouts, or game content just as naturally.
+Evolvable treats creative, object-oriented representations as first-class citizens. The same API that optimizes numeric parameters can evolve music compositions, UI layouts, or game content with equal fluency.
 
 Creative applications of Evolvable include:
 - **Generative art**: Evolve visual compositions based on aesthetic criteria
@@ -54,7 +54,7 @@ Creative applications of Evolvable include:
 * [Gene Clusters](#gene-clusters)
 * [Community](#community)
 * [Serialization](#serialization)
-* [Documentation](https://mattruzicka.github.io/evolvable)
+* [Documentation]({@string Evolvable::DOC_URL})
 
 
 ## Installation
@@ -70,24 +70,20 @@ Add [gem "evolvable"](https://rubygems.org/gems/evolvable) to your Gemfile and r
 ## Concepts
 
 Evolvable is built on these core concepts:
-- **Genes**: Encapsulate evolving traits and behaviors
-- **Genomes**: Genes organized in a searchable structure
-- **Evolvables**: Composable Ruby objects that delegate to genes
-- **Populations**: Groups of evolvables that evolve together
-- **Evaluation**: Fitness scoring to rank solutions
-- **Evolution**: Three-phase process (Selection → Combination → Mutation)
+- **Genes**: Ruby objects that cache data for evolvables
+- **Evolvables**: Your Ruby classes that include "Evolvable" and delegate to genes
+- **Populations**: Groups of evolvables instances that evolve together
+- **Evaluation**: Sorts evolvables by fitness
+- **Evolution**: Selection → Combination → Mutation to generate new evolvables
 - **Communities**: Encapsulate evolvable populations
 
-The library provides default implementations while allowing custom components to adapt to specific problem domains.
+The framework offers built-in implementations while allowing domain-specific customization through its extensible and swapable components.
 
 ## Genes
 
 {@readme Evolvable::Gene}
 
-**Example**
-{@example Evolvable::Gene}
-
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Gene)
+[Gene Documentation]({@string Evolvable::DOC_URL}/Evolvable/Gene)
 
 ## Populations
 
@@ -96,7 +92,7 @@ The library provides default implementations while allowing custom components to
 **Example**
 {@example Evolvable::Population}
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Population)
+[Population Documentation]({@string Evolvable::DOC_URL}/Evolvable/Population)
 
 ## Evaluation
 
@@ -105,7 +101,7 @@ The library provides default implementations while allowing custom components to
 **Example**
 {@example Evolvable::Evaluation}
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evaluation)
+[Evaluation Documentation]({@string Evolvable::DOC_URL}/Evolvable/Evaluation)
 
 ## Goals
 
@@ -144,25 +140,25 @@ equal_population = RuleOptimizer.new_population(
 max_population.evolve(goal_value: 95)  # Evolve until 95% accuracy
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Goal)
+[Goal Documentation]({@string Evolvable::DOC_URL}/Evolvable/Goal)
 
 ## Evolution
 
 {@readme Evolvable::Evolution}
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evolution)
+[Evolution Documentation]({@string Evolvable::DOC_URL}/Evolvable/Evolution)
 
 ## Selection
 
 {@readme Evolvable::Selection}
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Selection)
+[Selection Documentation]({@string Evolvable::DOC_URL}/Evolvable/Selection)
 
 ## Combination
 
 {@readme Evolvable::GeneCombination}
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Combination)
+[Combination Documentation]({@string Evolvable::DOC_URL}/Evolvable/Combination)
 
 ## Crossover Strategies
 
@@ -174,7 +170,7 @@ max_population.evolve(goal_value: 95)  # Evolve until 95% accuracy
 
 {@readme Evolvable::UniformCrossover}
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/PointCrossover)
+[PointCrossover Documentation]({@string Evolvable::DOC_URL}/Evolvable/PointCrossover)
 
 ## Mutation
 
@@ -183,7 +179,7 @@ max_population.evolve(goal_value: 95)  # Evolve until 95% accuracy
 **Example**
 {@example Evolvable::Mutation}
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Mutation)
+[Mutation Documentation]({@string Evolvable::DOC_URL}/Evolvable/Mutation)
 
 ## Gene Space
 
@@ -231,7 +227,7 @@ composer.effects.count         # Number of effect genes
 composer.structure.first.type  # Access a property of the first structure gene
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/GeneSpace)
+[GeneSpace Documentation]({@string Evolvable::DOC_URL}/Evolvable/GeneSpace)
 
 ## Count Genes
 
@@ -243,13 +239,13 @@ composer.structure.first.type  # Access a property of the first structure gene
 
 {@readme Evolvable::RigidCountGene}
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/CountGene)
+[CountGene Documentation]({@string Evolvable::DOC_URL}/Evolvable/CountGene)
 
 ## Genomes
 
 {@readme Evolvable::Genome}
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Genome)
+[Genome Documentation]({@string Evolvable::DOC_URL}/Evolvable/Genome)
 
 ## Gene Clusters
 
@@ -316,7 +312,7 @@ class Panel
 end
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/GeneCluster)
+[GeneCluster Documentation]({@string Evolvable::DOC_URL}/Evolvable/GeneCluster)
 
 ## Community
 
@@ -364,7 +360,7 @@ biome = BiomeSimulation.new_community
 biome.simulate_interactions(10)
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Community)
+[Community Documentation]({@string Evolvable::DOC_URL}/Evolvable/Community)
 
 ## Serialization
 
@@ -415,7 +411,7 @@ end
 restored = manager.restore_population("checkpoint_3.dat")
 ```
 
-[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Serializer)
+[Serializer Documentation]({@string Evolvable::DOC_URL}/Evolvable/Serializer)
 
 ## Contributing
 
