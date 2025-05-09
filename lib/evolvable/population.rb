@@ -68,7 +68,7 @@ module Evolvable
     # @param evolvable_type [Class] Required. The class of evolvables to create
     # @param id [String, nil] Optional identifier, not used by Evolvable internally
     # @param name [String, nil] Optional name, not used by Evolvable internally
-    # @param size [Integer] The number of instances in the population (default: 40)
+    # @param size [Integer] The number of instances in the population (default: 0)
     # @param evolutions_count [Integer] The number of evolutions completed (default: 0)
     # @param gene_space [Evolvable::GeneSpace, nil] The gene space for initializing evolvables
     # @param parent_evolvables [Array<Evolvable>] Parent evolvables for breeding the next generation
@@ -83,7 +83,7 @@ module Evolvable
     def initialize(evolvable_type:,
                    id: nil,
                    name: nil,
-                   size: 40,
+                   size: 0,
                    evolutions_count: 0,
                    gene_space: nil,
                    parent_evolvables: [],

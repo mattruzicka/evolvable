@@ -9,6 +9,7 @@ Breaking Changes:
 * Changed population initialization and evolvable creation workflow for more consistency.
 * Simplified error handling in favor of more single  `Evolvable::Error` type with more informative messages.
 * Changed `Population#new_evolvables` to only accept a `count` parameter, removing the `evolvables` parameter.
+* Changed default `size` parameter in `Population#initialize` from 40 to 0.
 
 New Features:
 * Added gene clusters for organizing related genes through the `cluster` parameter in gene definitions.
