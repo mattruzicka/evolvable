@@ -3,25 +3,16 @@
 require 'bundler/setup'
 require 'evolvable'
 require 'debug'
-
-Dir['./examples/*.rb'].each { |f| require f }
-
-## HelloWorld
-# population = HelloWorld.new_population(size: 100,
-#                                        evaluation: { equalize: 0 },
-#                                        mutation: { probability: 0.6 })
-# population.evolve
-# HelloWorld.start_loop(population)
-
-## Stickman
-# population = Stickman.new_population(size: 5,
-#                                      mutation: { probability: 0.3 })
-# population.evolve
-
-## AsciiArt
-# ascii_art = AsciiArt.new_population(size: 8,
-#                                     mutation: { probability: 0.3, rate: 0.02 })
-# ascii_art.evolve
-
 require 'irb'
-IRB.start(__FILE__)
+
+require './examples/stickman'
+stickman_pop = Stickman.new_population(size: 5, mutation: { probability: 0.3 })
+
+require './examples/ascii_art'
+require './examples/ascii_gene'
+ascii_pop = AsciiArt.new_population(size: 8, mutation: { probability: 0.3, rate: 0.02 })
+
+# stickman_pop.evolve
+# ascii_pop.evolve
+
+binding.irb

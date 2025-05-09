@@ -8,6 +8,7 @@
 
 require 'bundler/setup'
 require 'evolvable'
+require 'irb'
 
 class CharGene
   include Evolvable::Gene
@@ -103,5 +104,4 @@ population = HelloWorld.new_population(size: 100,
 population.evolve
 HelloWorld.start_loop(population)
 
-require 'irb'
-IRB.start(__FILE__)
+binding.irb

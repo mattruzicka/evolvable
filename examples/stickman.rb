@@ -37,17 +37,13 @@ class Stickman
 
     (@best_evolvables ||= []) << population.best_evolvable
     animate_best_evolvables if @best_evolvables.count > 1
-    print "\n\n\n\n\n\n\n #{green_text('Evolve next generation?');} Yes!" \
-          "  #{green_text('...Use Ctrl-C to stop')}#{"\b" * 23}"
-    gets
-    print CLEAR_SEQUENCE
   end
 
   def self.animate_best_evolvables
     @best_evolvables.each_with_index do |evolvable, index|
       puts "\n\n#{green_text(evolvable.draw)}\n\n"
       print green_text(" Generation: #{index}\r\n ")
-      sleep 0.12
+      sleep 0.5
       print "#{CLEAR_SEQUENCE}"
     end
   end
