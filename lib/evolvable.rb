@@ -2,9 +2,9 @@
 
 require 'forwardable'
 require 'evolvable/version'
-require 'evolvable/error/undefined_method'
 require 'evolvable/gene'
-require 'evolvable/search_space'
+require 'evolvable/gene_cluster'
+require 'evolvable/gene_space'
 require 'evolvable/genome'
 require 'evolvable/goal'
 require 'evolvable/equalize_goal'
@@ -21,28 +21,92 @@ require 'evolvable/population'
 require 'evolvable/count_gene'
 require 'evolvable/rigid_count_gene'
 require 'evolvable/serializer'
+require 'evolvable/community'
 
 #
 # @readme
-#   The `Evolvable` module makes it possible to implement evolutionary behaviors for
-#   any class by defining a `.search_space` class method and `#value` instance method.
-#   Then to evolve instances, initialize a population with `.new_population` and invoke
-#   the `#evolve` method on the resulting population object.
+#   The evolutionary process works through these components:
+#     1. **Populations**: Groups of the "evolvable" instances you define
+#     2. **Genes**: Ruby objects that cache data for evolvables
+#     3. **Evaluation**: Sorts evolvables by fitness
+#     4. **Evolution**: Selection, combination, and mutation to generate new evolvables
 #
-#   ### Implementation Steps
+#   Quick start:
+#     1. Include `Evolvable` in your Ruby class
+#     2. Define genes with the macro-style `gene` method
+#     3. Have the `#fitness` method return a numeric value
+#     4. Initialize a population and evolve it
 #
-#   1. [Include the `Evolvable` module in the class you want to evolve.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable)
-#   2. [Define `.search_space` and any gene classes that you reference.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/SearchSpace)
-#   3. [Define `#value`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evaluation)
-#   4. [Initialize a population with `.new_population` and use `#evolve`.](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population)
+#   Example population of "shirts" with various colors, buttons, and collars.
+#
+#     ```ruby
+#     # Step 1
+#     class Shirt
+#       include Evolvable
+#
+#       # Step 2
+#       gene :color, type: ColorGene # count: 1 default
+#       gene :buttons, type: ButtonGene, count: 0..10 # Builds an array of genes that can vary in size
+#       gene :collar, type: CollarGene, count: 0..1 # Collar optional
+#
+#       # Step 3
+#       attr_accessor :fitness
+#     end
+#
+#     # Step 4
+#     population = Shirt.new_population(size: 10)
+#     population.evolvables.each { |shirt| shirt.fitness = tried_it_on_score }
+#     ```
+#
+#   You are free to tailor the genes to your needs and "try it on" yourself.
+#
+#   The `ColorGene` could be as simple as this:
+#
+#     ```ruby
+#     class ColorGene
+#       include Evolvable::Gene
+#
+#       def to_s
+#         @to_s ||= %w[red green blue].sample
+#       end
+#     end
+#     ```
+#
+#   Not into shirts?
+#
+#   Here's a [Hello World](https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world) command line demo.
 #
 module Evolvable
   extend Forwardable
 
+  #
+  # Error class for Evolvable-specific exceptions.
+  #
+  class Error < StandardError; end
+
+  #
+  # Called when the Evolvable module is included in a class.
+  # Sets up the necessary instance variables and extends the class with ClassMethods.
+  #
+  # @param base [Class] The class that is including the Evolvable module
+  # @return [void]
+  #
   def self.included(base)
+    base.instance_variable_set(:@gene_config, {})
+    base.instance_variable_set(:@cluster_config, {})
     base.extend(ClassMethods)
   end
 
+  #
+  # Helper method for creating or updating objects with hash parameters.
+  # This is used internally for creating evaluation, selection, mutation, etc. objects
+  # from configuration hashes.
+  #
+  # @param old_val [Object, nil] The existing object to update, if any
+  # @param new_val [Object, Hash] The new object or configuration hash
+  # @param default_class [Class] The default class to instantiate if new_val is a Hash
+  # @return [Object] The new or updated object
+  #
   def self.new_object(old_val, new_val, default_class)
     new_val.is_a?(Hash) ? (old_val&.class || default_class).new(**new_val) : new_val
   end
@@ -50,9 +114,8 @@ module Evolvable
   module ClassMethods
     #
     # @readme
-    #   Initializes a population using configurable defaults that can be configured and optimized.
-    #   Accepts the same named parameters as
-    #   [Population#initialize](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population#initialize).
+    #   Initializes a population with defaults that can be changed using the same named parameters as
+    #   [Population#initialize](https://mattruzicka.github.io/evolvable/Evolvable/Population#initialize).
     #
     def new_population(keyword_args = {})
       keyword_args[:evolvable_type] = self
@@ -69,102 +132,148 @@ module Evolvable
     # initialized you can override either of the following two "initialize_instance"
     # methods.
     #
-    def new_evolvable(population: nil,
-                      genome: Genome.new,
-                      generation_index: nil)
+    def new_evolvable(population: nil, genome: nil, generation_index: nil)
       evolvable = initialize_evolvable
-      evolvable.population = population
-      evolvable.genome = genome
-      evolvable.generation_index = generation_index
-      evolvable.after_initialize
+      evolvable.make_evolvable(population: population, genome: genome, generation_index: generation_index)
+      evolvable.after_initialize_evolvable
       evolvable
     end
 
+    #
+    # Override this method to customize how your evolvable instances are initialized.
+    # By default, simply calls new with no arguments.
+    #
+    # @return [Evolvable] A new evolvable instance
+    #
     def initialize_evolvable
       new
     end
 
-    def new_search_space
-      space_config = search_space.empty? ? gene_space : search_space
-      search_space = SearchSpace.build(space_config, self)
-      search_spaces.each { |space| search_space.merge_search_space!(space) }
-      search_space
-    end
+    #
+    # @readme
+    #   The `.gene` macro defines traits that can mutate and evolve over time.
+    #   Syntactically similar to ActiveRecord-style macros, it sets up the genetic structure of your model.
+    #
+    #   Key features:
+    #   - Fixed or variable gene counts
+    #   - Automatic accessor methods
+    #   - Optional clustering for related genes
+    #
+    # @example Basic gene definition
+    #   class Melody
+    #     include Evolvable
+    #
+    #     gene :notes, type: NoteGene, count: 4..16 # Can have 4-16 notes
+    #     gene :instrument, type: InstrumentGene, count: 1
+    #
+    #     def play
+    #       instrument.play(notes)
+    #     end
+    #   end
+    #
+    # @param name [Symbol] The name of the gene
+    # @param type [String, Class] The gene type or class name
+    # @param count [Integer, Range] Number or range of gene instances
+    # @param cluster [Symbol, nil] Optional cluster name for grouping related genes
+    #
+    def gene(name, type:, count: 1, cluster: nil)
+      raise Error, "Gene name '#{name}' is already defined" if @gene_config.key?(name)
 
-    #
-    # @abstract
-    #
-    # This method is responsible for configuring the available gene types
-    # of evolvable instances. In effect, it provides the
-    # blueprint for constructing a hyperdimensional genetic space that's capable
-    # of being used and searched by evolvable objects.
-    #
-    # Override this method with a search space config for initializing
-    # SearchSpace objects. The config can be a hash, array of arrays,
-    # or single array when there's only one type of gene.
-    #
-    # The below example definitions could conceivably be used to generate evolvable music.
-    #
-    # @todo
-    #   Define gene config attributes - name, type, count
-    #
-    # @example Hash config
-    #   def search_space
-    #     { instrument: { type: InstrumentGene, count: 1..4 },
-    #       notes: { type: NoteGene, count: 16 } }
-    #   end
-    # @example Array of arrays config
-    #   # With explicit gene names
-    #   def search_space
-    #     [[:instrument, InstrumentGene, 1..4],
-    #      [:notes, NoteGene, 16]]
-    #   end
-    #
-    #   # Without explicit gene names
-    #   def search_space
-    #     [[SynthGene, 0..4], [RhythmGene, 0..8]]
-    #   end
-    # @example Array config
-    #   # Available when when just one type of gene
-    #   def search_space
-    #     [NoteGene, 1..100]
-    #   end
-    #
-    #   # With explicit gene type name.
-    #   def search_space
-    #     ['notes', 'NoteGene', 1..100]
-    #   end
-    #
-    # @return [Hash, Array]
-    #
-    # @see https://github.com/mattruzicka/evolvable#search_space
-    #
-    def search_space
-      {}
-    end
+      @gene_config[name] = { type: type, count: count }
 
-    #
-    # @abstract Override this method to define multiple search spaces
-    #
-    # @return [Array]
-    #
-    # @see https://github.com/mattruzicka/evolvable#search_space
-    #
-    def search_spaces
-      []
-    end
+      if (count.is_a?(Range) ? count.last : count) > 1
+        define_method(name) { find_genes(name) }
+      else
+        define_method(name) { find_gene(name) }
+      end
 
-    # @deprecated
-    #   Will be removed in version 2.0.
-    #   Use {#search_space} instead.
-    def gene_space
-      {}
-    end
+      if cluster
+        raise Error, "Cluster name '#{cluster}' conflicts with an existing gene name" if @gene_config.key?(cluster)
 
+        if @cluster_config[cluster]
+          @cluster_config[cluster] << name
+        else
+          @cluster_config[cluster] = [name]
+          define_method(cluster) { find_gene_cluster(cluster) }
+        end
+      end
+    end
 
     #
     # @readme
-    #   Runs before evaluation.
+    #   The `.cluster` macro applies a pre-defined group of related genes.
+    #
+    #   Clusters promote code organization through:
+    #     - Modularity: Define related genes once, reuse them
+    #     - Organization: Group genes by function
+    #     - Maintenance: Update in one place
+    #     - Accessibility: Access via a single accessor
+    #
+    # @example UI Component with Styling Cluster
+    #   # Define a gene cluster for UI styling properties
+    #   class ColorSchemeCluster
+    #     include Evolvable::GeneCluster
+    #
+    #     gene :background_color, type: 'ColorGene', count: 1
+    #     gene :text_color, type: 'ColorGene', count: 1
+    #     gene :accent_color, type: 'ColorGene', count: 0..1
+    #   end
+    #
+    #   # Use the cluster in an evolvable UI component
+    #   class Button
+    #     include Evolvable
+    #
+    #     cluster :colors, type: ColorSchemeCluster
+    #     gene :padding, type: PaddingGene, count: 1
+    #
+    #     def render
+    #       puts "Button with #{colors.count} colors"
+    #       puts "Background: #{colors.background_color.hex_code}"
+    #     end
+    #   end
+    #
+    # @param cluster_name [Symbol] The name for accessing the cluster
+    # @param type [Class, String] The class that defines the cluster
+    # @param opts [Hash] Optional arguments passed to the cluster initializer
+    #
+    def cluster(cluster_name, type:, **opts)
+      recipe = type.is_a?(String) ? Object.const_get(type) : type
+      unless recipe.respond_to?(:apply_cluster)
+        raise ArgumentError, "#{recipe} cannot apply a gene cluster"
+      end
+
+      recipe.apply_cluster(self, cluster_name, **opts)
+
+      define_method(cluster_name) { find_gene_cluster(cluster_name) }
+    end
+
+    attr_reader :gene_config, :cluster_config
+
+    #
+    # Creates a new gene space for this evolvable class.
+    # Used internally when initializing populations.
+    #
+    # @return [Evolvable::GeneSpace] A new gene space
+    #
+    def new_gene_space
+      GeneSpace.build(@gene_config, self)
+    end
+
+    #
+    # Ensures that subclasses inherit the gene and cluster configuration.
+    #
+    # @param subclass [Class] The subclass that is inheriting from this class
+    # @return [void]
+    #
+    def inherited(subclass)
+      super
+      subclass.instance_variable_set(:@gene_config, @gene_config.dup)
+      subclass.instance_variable_set(:@cluster_config, @cluster_config.dup)
+    end
+
+    #
+    # @readme
+    #   Called before evaluation.
     #
     def before_evaluation(population); end
 
@@ -193,49 +302,111 @@ module Evolvable
     def after_evolution(population); end
   end
 
-  # Runs an evolvable is initialized. Ueful for implementing custom initialization logic.
-  def after_initialize; end
+  def after_initialize_evolvable; end
 
-  #
-  # @!method value
-  #   Implementing this method is required for evaluation and selection.
-  #
-  attr_accessor :id,
-                :population,
-                :genome,
-                :generation_index,
-                :value
+  def find_gene(name)
+    return nil if @genome.nil?
 
-  #
-  # @deprecated
-  #   Will be removed in version 2.0.
-  #   Use {#generation_index} instead.
-  #
-  def population_index
-    generation_index
+    genes = @genome[name]&.dig(:genes)
+    return nil if genes.nil? || genes.empty?
+
+    genes.first
+  end
+
+  def find_genes(name)
+    return [] if @genome.nil?
+
+    @genome[name]&.dig(:genes) || []
+  end
+
+  attr_reader :population,
+              :genome,
+              :generation_index
+
+  def genes
+    @genome&.genes || []
   end
 
   #
-  # @!method find_gene
-  #   @see Genome#find_gene
-  # @!method find_genes
-  #   @see Genome#find_genes
-  # @!method find_genes_count
-  #   @see Genome#find_genes_count
-  # @!method genes
-  #   @see Genome#genes
+  # Makes this object evolvable by setting up its population, genome, and generation index.
+  # This is called internally by the class method `new_evolvable`.
   #
-  def_delegators :genome,
-                 :find_gene,
-                 :find_genes,
-                 :find_genes_count,
-                 :genes
+  # @param population [Evolvable::Population, nil] The population this evolvable belongs to
+  # @param genome [Evolvable::Genome, nil] The genome to initialize with
+  # @param generation_index [Integer, nil] The generation index
+  # @return [self] This evolvable object
+  #
+  def make_evolvable(population: nil, genome: nil, generation_index: nil)
+    self.population = population
+    @genome = genome
+    self.generation_index = generation_index
+    self
+  end
 
+  def population=(val)
+    @population = val
+    genes.each { |gene| gene.evolvable = self if gene.respond_to?(:evolvable=) }
+  end
+
+  def generation_index=(val)
+    @generation_index = val
+  end
+
+  #
+  # Finds an array of genes that belong to the specified cluster.
+  # This is used internally when accessing gene clusters.
+  #
+  # @param cluster [Symbol] The cluster name
+  # @return [Array<Evolvable::Gene>] The genes belonging to the cluster
+  #
+  def find_gene_cluster(cluster)
+    find_genes(*self.class.cluster_config[cluster])
+  end
+
+  #
+  # Dumps the genome to a serialized format.
+  # Useful for saving the state of an evolvable.
+  #
+  # @param serializer [Evolvable::Serializer] The serializer to use
+  # @return [String] The serialized genome
+  #
   def dump_genome(serializer: Serializer)
     @genome.dump(serializer: serializer)
   end
 
+  #
+  # Loads a genome from serialized data.
+  # Useful for restoring the state of an evolvable.
+  #
+  # @param data [String] The serialized genome data
+  # @param serializer [Evolvable::Serializer] The serializer to use
+  # @return [Evolvable::Genome] The loaded genome
+  #
   def load_genome(data, serializer: Serializer)
     @genome = Genome.load(data, serializer: serializer)
+  end
+
+  #
+  # Loads a genome from serialized data and merges it with the current genome.
+  # Useful for combining genomes from different sources.
+  #
+  # @param data [String] The serialized genome data
+  # @param serializer [Evolvable::Serializer] The serializer to use
+  # @return [Evolvable::Genome] The merged genome
+  #
+  def load_and_merge_genome!(data, serializer: Serializer)
+    genome = Genome.load(data, serializer: serializer)
+    merge_genome!(genome)
+  end
+
+  #
+  # Merges another genome into this evolvable's genome.
+  # Useful for combining genetic traits from different evolvables.
+  #
+  # @param other_genome [Evolvable::Genome] The genome to merge
+  # @return [Evolvable::Genome] The merged genome
+  #
+  def merge_genome!(other_genome)
+    @genome.merge!(other_genome)
   end
 end

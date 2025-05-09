@@ -3,7 +3,22 @@
 module Evolvable
   #
   # @readme
-  #   TODO...
+  #   The Genome class represents the complete genetic blueprint of an evolvable instance.
+  #   It stores and manages all genes organized by their keys, providing methods to access,
+  #   manipulate, and serialize genetic information.
+  #
+  #   A genome consists of:
+  #   - Gene configurations organized by key
+  #   - Count genes that determine how many of each gene type exists
+  #   - Methods to find and manipulate genes
+  #
+  #   The genome serves as the intermediary between the gene space (the definition)
+  #   and the actual gene instances (the implementation).
+  #
+  #   Related sections:
+  #   - See [Gene Space](#gene-space) for how genomes are created
+  #   - See [Combination](#combination) for how genomes are combined
+  #   - See [Genes](#genes) for the building blocks that make up genomes
   #
   class Genome
     extend Forwardable
@@ -18,6 +33,8 @@ module Evolvable
 
     attr_reader :config
 
+    alias to_h config
+
     #
     # Returns the first gene with the given key. In the Melody example above, the instrument gene has the key `:instrument` so we might write something like: `instrument_gene = melody.find_gene(instrument)`
     #
@@ -30,7 +47,7 @@ module Evolvable
     end
 
     #
-    # Returns an array of genes that have the given key. Gene keys are defined in the [EvolvableClass.search_space](#evolvableclasssearch_space) method. In the Melody example above, the key for the note genes would be `:notes`. The following would return an array of them: `note_genes = melody.find_genes(:notes)`
+    # Returns an array of genes that have the given key. Gene keys are defined using the [EvolvableClass.gene](https://mattruzicka.github.io/evolvable/Evolvable/ClassMethods#gene-instance_method) macro method. In the Melody example above, the key for the note genes would be `:notes`. The following would return an array of them: `note_genes = melody.find_genes(:notes)`
     #
     # @param [<Type>] *keys <description>
     #
@@ -73,6 +90,10 @@ module Evolvable
 
     def genes
       @config.flat_map { |_gene_key, gene_config| gene_config[:genes] }
+    end
+
+    def merge!(other_genome)
+      @config.merge!(other_genome.config)
     end
 
     def inspect

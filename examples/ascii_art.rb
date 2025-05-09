@@ -3,14 +3,10 @@ require './examples/ascii_gene'
 class AsciiArt
   include Evolvable
 
-  class << self
-    def search_space
-      { chars: { type: 'AsciiGene', count: 136 } }
-    end
+  gene :chars, type: 'AsciiGene', count: 136
 
-    def before_evaluation(population)
-      population.best_evolvable.to_terminal
-    end
+  def self.before_evaluation(population)
+    population.best_evolvable.to_terminal
   end
 
   CLEAR_SEQUENCE = ("\e[1A\r\033[2K" * 14).freeze
@@ -18,7 +14,7 @@ class AsciiArt
   def to_terminal
     print(CLEAR_SEQUENCE) unless population.evolutions_count.zero?
     lines = genes.each_slice(17).flat_map(&:join)
-    lines[0] = "\n    #{lines[0]}     #{green_text('Minimalism Score:')} #{value}"
+    lines[0] = "\n    #{lines[0]}     #{green_text('Minimalism Score:')} #{fitness}"
     lines[1] << "     #{green_text('Generation:')} #{population.evolutions_count}"
     print "\n\n#{lines.join("\n    ")}\n\n\n\n   #{green_text('Use Ctrl-C to stop')} "
   end
@@ -27,7 +23,7 @@ class AsciiArt
     @minimalism_score ||= essence_score + spacial_score - clutter_score
   end
 
-  alias value minimalism_score
+  alias fitness minimalism_score
 
   private
 

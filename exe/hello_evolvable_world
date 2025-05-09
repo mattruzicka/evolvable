@@ -1,0 +1,107 @@
+#!/usr/bin/env ruby
+#
+# Hello World Command Line Demo
+#
+# Make sure you have the gem installed: `gem install evolvable``
+# Run this file directly: `bundle exec hello_evolvable_world`
+#
+
+require 'bundler/setup'
+require 'evolvable'
+
+class CharGene
+  include Evolvable::Gene
+
+  def self.chars
+    @chars ||= 32.upto(126).map(&:chr)
+  end
+
+  def self.add_missing_chars(input_string)
+    @chars.concat(input_string.chars - @chars)
+  end
+
+  def to_s
+    @to_s ||= self.class.chars.sample
+  end
+end
+
+class HelloWorld
+  include Evolvable
+
+  MAX_STRING_LENGTH = 40
+
+  gene :char_genes, type: 'CharGene', count: 1..MAX_STRING_LENGTH
+
+  def self.start_loop(population)
+    loop do
+      HelloWorld.seek_target
+      prepare_to_exit_loop && break if exit_loop?
+
+      population.reset_evolvables
+      population.evolve
+    end
+  end
+
+  def self.exit_loop?
+    ['"exit"', 'exit'].include?(target)
+  end
+
+  def self.prepare_to_exit_loop
+    print "\n\n\n\n\n #{green_text('Goodbye!')}\n\n\n"
+    true
+  end
+
+  def self.seek_target
+    print "\n\n\n\n\n #{green_text('Use "exit" to stop')} \e[1A\e[1A\e[1A\r" \
+    " #{green_text('Enter a string to evolve: ')}"
+    self.target = gets.strip!
+  end
+
+  DEFAULT_TARGET = 'Hello Evolvable World'
+
+  def self.target=(input_string)
+    CharGene.add_missing_chars(input_string)
+    @target = input_string.empty? ? DEFAULT_TARGET : input_string.slice(0...MAX_STRING_LENGTH)
+  end
+
+  def self.target
+    @target ||= DEFAULT_TARGET
+  end
+
+  def self.before_evolution(population)
+    best_evolvable = population.best_evolvable
+    spacing = ' ' * (2 + MAX_STRING_LENGTH - best_evolvable.to_s.length)
+    puts " #{best_evolvable}#{spacing}#{green_text("Generation #{population.evolutions_count}")}"
+  end
+
+  def self.green_text(text)
+    "\e[32m#{text}\e[0m"
+  end
+
+  def to_s
+    @to_s ||= genes.join
+  end
+
+  def fitness
+    @fitness ||= compute_fitness
+  end
+
+  private
+
+  def compute_fitness
+    string = to_s
+    target = self.class.target
+    target_length = target.length
+    char_matches = target.each_char.with_index.count { |chr, i| chr == string[i] }
+    (target_length - char_matches) + (target_length - string.length).abs
+  end
+end
+
+population = HelloWorld.new_population(size: 100,
+                                       evaluation: { equalize: 0 },
+                                       mutation: { probability: 0.6 })
+population.evolve
+HelloWorld.start_loop(population)
+
+require 'irb'
+IRB.start(__FILE__)

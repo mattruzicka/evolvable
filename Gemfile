@@ -4,4 +4,5 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'readme_yard'
+gem 'debug'
+gem 'bundler', '~> 2.5'

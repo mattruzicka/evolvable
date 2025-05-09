@@ -2,10 +2,29 @@
 
 module Evolvable
   #
-  # Supports single and multi-point crossover. The default is single-point
-  # crossover via a `points_count` of 1 which can be changed on an existing population
-  # (`population.crossover.points_count = 5`) or during initialization
-  # (`Evolvable::PointCrossover.new(5)`)
+  # @readme
+  #   PointCrossover implements single and multi-point crossover, a common recombination
+  #   strategy in genetic algorithms. It works by selecting random points in the gene sequence
+  #   and exchanging genetic material between those points.
+  #
+  #   In single-point crossover (the default), one position is chosen at random, and all genes
+  #   beyond that point are swapped between parents. In multi-point crossover, multiple
+  #   positions are chosen, and segments between consecutive points are alternately swapped.
+  #
+  #   This strategy:
+  #   - Preserves segments of good solutions
+  #   - Enables exploration of different combinations of traits
+  #   - Is particularly effective when related genes are close together
+  #
+  #   Configuration:
+  #   ```ruby
+  #   population = MyEvolvable.new_population(
+  #     combination: Evolvable::PointCrossover.new(points_count: 2)  # Two-point crossover
+  #   )
+  #
+  #   # Or modify an existing population
+  #   population.combination = Evolvable::PointCrossover.new(points_count: 3)
+  #   ```
   #
   class PointCrossover
     def initialize(points_count: 1)

@@ -3,34 +3,76 @@
 module Evolvable
 
   #
-  # The goal for a population can be specified via assignment - `population.goal = Evolvable::Goal::Equalize.new` - or by passing an evaluation object when [initializing a population](#evolvablepopulationnew).
+  # @readme
+  #   Goals define the success criteria for evolution. They allow you to specify what your
+  #   population is evolving toward, whether it's maximizing a value, minimizing a value,
+  #   or reaching a specific target value.
   #
-  # You can intialize the `Evolvable::Evaluation` object with any goal object like this:
+  #   Evolvable provides three built-in goal types:
+  #   - **MaximizeGoal**: Higher fitness values are better (e.g., scoring more points)
+  #   - **MinimizeGoal**: Lower fitness values are better (e.g., reducing errors)
+  #   - **EqualizeGoal**: Values closer to a target are better (e.g., matching a pattern)
   #
-  # You can implement custom goal object like so:
+  #   Each goal type influences:
+  #   1. How evolvables are ranked during evaluation
+  #   2. Which evolvables are selected as parents
+  #   3. When to stop evolving if a goal value is reached
   #
-  # @example
-  #   goal_object = SomeGoal.new(value: 100)
-  #   Evolvable::Evaluation.new(goal_object)
+  #   **Custom Goals**
   #
-  # or more succinctly like this:
+  #   You can create custom goals by subclassing Goal and implementing:
+  #   - `evaluate(evolvable)`: Returns a value used to rank evolvables
+  #   - `met?(evolvable)`: Returns true when the goal is reached
   #
-  # @example
-  #   Evolvable::Evaluation.new(:maximize) # Uses default goal value of   Float::INFINITY
-  #   Evolvable::Evaluation.new(maximize: 50) # Sets goal value to 50
-  #   Evolvable::Evaluation.new(:minimize) # Uses default goal value of   -Float::INFINITY
-  #   Evolvable::Evaluation.new(minimize: 100) # Sets goal value to 100
-  #   Evolvable::Evaluation.new(:equalize) # Uses default goal value of 0
-  #   Evolvable::Evaluation.new(equalize: 1000) # Sets goal value to 1000
+  # @example Setting up a goal with a specific target value
+  #   # Create a goal object with a target value of 100
+  #   goal_object = Evolvable::MaximizeGoal.new(value: 100)
   #
-  # @example
-  #   class CustomGoal < Evolvable::Goal
-  #     def evaluate(instance)
-  #       # Required by Evolvable::Evaluation in order to sort instances in preparation for selection.
+  #   # Use it when initializing an evaluation
+  #   evaluation = Evolvable::Evaluation.new(goal_object)
+  #
+  #   # Or set it on an existing population
+  #   population.goal = goal_object
+  #
+  # @example Using shorthand goal configuration
+  #   # Maximize fitness (default goal value is Float::INFINITY)
+  #   Evolvable::Evaluation.new(:maximize)
+  #
+  #   # Maximize with a specific target value of 50
+  #   Evolvable::Evaluation.new(maximize: 50)
+  #
+  #   # Minimize fitness (default goal value is -Float::INFINITY)
+  #   Evolvable::Evaluation.new(:minimize)
+  #
+  #   # Minimize with a specific target value of 100
+  #   Evolvable::Evaluation.new(minimize: 100)
+  #
+  #   # Equalize fitness (default target value is 0)
+  #   Evolvable::Evaluation.new(:equalize)
+  #
+  #   # Equalize with a specific target value of 1000
+  #   Evolvable::Evaluation.new(equalize: 1000)
+  #
+  # @example Creating a custom goal class
+  #   class TargetRangeGoal < Evolvable::Goal
+  #     def initialize(min: 0, max: 100, value: nil)
+  #       super(value: value)
+  #       @min = min
+  #       @max = max
   #     end
   #
+  #     # Used to rank instances by fitness
+  #     def evaluate(instance)
+  #       # Higher score when value is within range
+  #       return 100 if @min <= instance.fitness && instance.fitness <= @max
+  #       # Otherwise, negative score based on distance from range
+  #       distance = [(@min - instance.fitness).abs, (@max - instance.fitness).abs].min
+  #       -distance
+  #     end
+  #
+  #     # Goal is met when fitness is within the target range
   #     def met?(instance)
-  #       # Used by Evolvable::Population#evolve to stop evolving when the goal value has been reached.
+  #       @min <= instance.fitness && instance.fitness <= @max
   #     end
   #   end
   #
@@ -42,11 +84,11 @@ module Evolvable
     attr_accessor :value
 
     def evaluate(_evolvable)
-      raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
+      raise Error, "Undefined method: #{self.class.name}##{__method__}"
     end
 
     def met?(_evolvable)
-      raise Errors::UndefinedMethod, "#{self.class.name}##{__method__}"
+      raise Error, "Undefined method: #{self.class.name}##{__method__}"
     end
   end
 end

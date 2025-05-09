@@ -1,11 +1,39 @@
-# Evolvable 🦎
+# Evolvable 🧬
 
-[![Gem Version](https://badge.fury.io/rb/evolvable.svg)](https://badge.fury.io/rb/evolvable) [![Maintainability](https://api.codeclimate.com/v1/badges/7faf84a6d467718b33c0/maintainability)](https://codeclimate.com/github/mattruzicka/evolvable/maintainability)
+[![Gem Version](https://badge.fury.io/rb/evolvable.svg)](https://badge.fury.io/rb/evolvable)
 
-An evolutionary framework for writing programs that use operations such as selection, combination, and mutation. Explore ideas generatively in any domain, discover novel solutions to complex problems, and build intuitions about intelligence, complexity, and the natural world.
+**Code Version: {@string Evolvable::VERSION}** (unreleased)
 
-Subscribe to the [Evolvable Newsletter](https://www.evolvable.site/newsletter) to slowly learn more, or keep reading this contextualization of the [full documentation](https://rubydoc.info/github/mattruzicka/evolvable).
+🚧 **The README and Documentation are still evolving**
 
+Evolvable is a Ruby gem that brings genetic algorithms to Ruby objects through simple, flexible APIs. Define genes, implement fitness criteria, and let evolution discover optimal solutions through selection, combination, and mutation.
+
+Perfect for optimization problems, creative content generation, machine learning, and simulating complex systems.
+
+## Why Evolvable?
+
+Evolvable is ideal when the solution space is too large or complex for brute-force methods. Instead of hardcoding solutions, you define constraints and let evolution discover optimal configurations over time.
+
+**The Evolvable Approach:**
+- Explore vast solution spaces efficiently without examining every possibility
+- Discover novel solutions that might not be obvious to human designers
+- Adapt to changing conditions through continuous evolution
+- Balance diverse objectives with communities of different populations
+- Integrate evolutionary concepts directly into your Ruby object model
+- Generate creative content like music, art, and text, not just numerical optimization
+
+Whether you're optimizing parameters, generating creative content, or simulating complex systems, Evolvable provides a natural, object-oriented approach to evolutionary algorithms.
+
+## Creative Applications
+
+Evolvable is designed to make creative, object‑oriented representations first‑class citizens. That means the same API that tunes numbers can evolve music, UI layouts, or game content just as naturally.
+
+Creative applications of Evolvable include:
+- **Generative art**: Evolve visual compositions based on aesthetic criteria
+- **Music composition**: Create melodies, chord progressions, and rhythms
+- **Game design**: Generate levels, characters, or game mechanics
+- **Natural language**: Evolve text with specific tones, styles, or constraints
+- **UI/UX design**: Discover intuitive layouts and color schemes
 
 ## Table of Contents
 * [Installation](#installation)
@@ -14,224 +42,381 @@ Subscribe to the [Evolvable Newsletter](https://www.evolvable.site/newsletter) t
 * [Genes](#genes)
 * [Populations](#populations)
 * [Evaluation](#evaluation)
+* [Goals](#goals)
 * [Evolution](#evolution)
 * [Selection](#selection)
 * [Combination](#combination)
+* [Crossover Strategies](#crossover-strategies)
 * [Mutation](#mutation)
-* [Search Space](#search-space)
+* [Gene Space](#gene-space)
+* [Count Genes](#count-genes)
+* [Genomes](#genomes)
+* [Gene Clusters](#gene-clusters)
+* [Community](#community)
+* [Serialization](#serialization)
+* [Documentation](https://mattruzicka.github.io/evolvable)
 
 
 ## Installation
 
 Add [gem "evolvable"](https://rubygems.org/gems/evolvable) to your Gemfile and run `bundle install` or install it yourself with: `gem install evolvable`
 
+**Ruby Compatibility:** Evolvable officially supports Ruby 3.0 and higher.
+
 ## Getting Started
 
 {@readme Evolvable}
 
-To demonstrate these steps, we'll look at the [Hello World](#) example program.
-
-### Hello World
-
-Let's build the evolvable hello world program using the above steps. It'll evolve a population of arbitrary strings to be more like a given target string. After installing this gem, run `evolvable hello` at the command line to see it in action.
-
-Below is example output from evolving a population of randomly initialized string objects to match "Hello World!", then "Hello Evolvable World".
-
-```
-❯ Enter a string to evolve: Hello World!
-
-pp`W^jXG'_N`%              Generation 0
-H-OQXZ\a~{H*               Generation 1 ...
-HRv9X WorlNi               Generation 50 ...
-HRl6W World#               Generation 100 ...
-Hello World!               Generation 165
-
-❯ Enter a string to evolve: Hello Evolvable World
-
-Helgo World!b+=1}3         Generation 165
-Helgo Worlv!}:c(SoV        Generation 166
-Helgo WorlvsC`X(Joqs       Generation 167
-Helgo WorlvsC`X(So1RE      Generation 168 ...
-Hello Evolv#"l{ Wor*5      Generation 300 ...
-Hello Evolvable World      Generation 388
-```
-
-### Step 1
-
-Let's begin by defining a `HelloWorld` class and have it **include the `Evolvable` module**.
-
-```ruby
-class HelloWorld
-  include Evolvable
-end
-```
-
-### Step 2
-
-Now we can **define the `.search_space`** class method with the types of [genes](#genes) that we want our our evolvable "hello world" instances to be able to have. We'll use `CharGene` instances to represent single characters within strings. So an instance with the string value of "Hello" would be composed of five `CharGene` instances.
-
-```ruby
-class HelloWorld
-  include Evolvable
-
-  def self.search_space
-    ["CharGene", 1..40]
-  end
-end
-```
-
-The [Search Space](#search-space) can be defined in a variety of ways. The above is shorthand that's useful for when there's only one type of gene. This method can also return an array of arrays or hash.
-
-The `1..40` specifies the range of possible genes for a particular HelloWorld instance. Evolvable translates this range or integer value into a `Evolvable::CountGene` object.
-
-By specifying a range, an `Evolvable::CountGene` instance can change the number of genes that are present in an evovlable instance. Count genes undergo evolutionary operations like any other gene. Their effects can be seen in the letter changes from Generation 165 to 168 in the above example output.
-
-To finish step 2, we'll **define the gene class** that we referenced in the above `.search_space` method. Gene classes should include the `Evolvable::Gene` module.
-
-```ruby
-class CharGene
-  include Evolvable::Gene
-
-  def self.chars
-    @chars ||= 32.upto(126).map(&:chr)
-  end
-
-  def to_s
-    @to_s ||= self.class.chars.sample
-  end
-end
-```
-
-It's important that, once accessed, the data for a particular gene never change. When the `#to_s` method first runs, Ruby's `||=` operator memoizes the result of randomly picking a char, enabling this method to sample a char only once per gene.
-
-After defining the search space, we can now initialize `HelloWorld` instances with random genes, but to actually evolve them, we need to **define the `#value` instance method**. It provides the basis for comparing different evolvable instances.
-
-### Step 3
-
-In the next step, we'll set the goal value to 0, so that evolution favors evolvable HelloWorld instances with `#value` methods that return numbers closer to 0. That means we want instances that more closely match their targets to return scores nearer to 0. As an example, if our target is "hello world", an instance that returns "jello world" would have a value of 1 and "hello world" would have a value of 0.
-
-For a working implementation, see the `#value` method in [examples/hello_world.rb](https://github.com/mattruzicka/evolvable/blob/main/examples/hello_world.rb)
-
-### Step 4
-
-Now it's time to **initialize a population with `.new_population`**. By default, evolvable populations seek to maximize numeric values. In this program, we always know the best possible value, so setting the goal to a concrete number makes sense. This is done by passing the evaluation params with equalize set to 0.
-
-We'll also specify the number of instances in a population using the population's `size` parameter and change the mutation porbability from 0.03 (3%) to 0.6 (60%).
-
-Experimentation has suggested that a large mutation probability tends to decrease the time it takes to evolve matches with short strings and has the opposite effect for long strings. This is demonstrated in the example output above by how many generations it took to go from "Hello World!" to "Hello Evolvable World". As an optimization, we could dynamically change the mutation probability using a population hook detailed below, but doing so will be left as an exercise for the reader. [Pull requests are welcome.](#contributing)
-
-```ruby
-population = HelloWorld.new_population(size: 100,
-                                       evaluation: { equalize: 0 },
-                                       mutation: { probability: 0.6 }
-```
-
-
-At this point, everything should work when we run `population.evolve`, but it'll look like nothing is happening. The next section will allow us to gain instight by hooking into the evolutionary process.
-
-### Evolvable Population Hooks
-
-The following class methods can be implemented on your Evolvable class, e.g. HelloWorld, to hook into the Population#evolve lifecycle. This is useful for logging evolutionary progress, optimizing parameters, and creating interactions with and between evolvable instances.
-
-1. `.before_evaluation(population)` - {@readme Evolvable::ClassMethods#before_evaluation}
-2. `.before_evolution(population)`- {@readme Evolvable::ClassMethods#before_evolution}
-3. `.after_evolution(population)` - {@readme Evolvable::ClassMethods#after_evolution}
-
-Let's define `.before_evolution` to print the best value for each generation. We'll also define `HelloWorld#to_s`, which implicitly delegates to `CharGene#to_s` during the string interpolation that happens.
-
-```ruby
-class HelloWorld
-  include Evolvable
-
-  def self.before_evolution(population)
-    best_evolvable = population.best_evolvable
-    evolutions_count = population.evolutions_count
-    puts "#{best_evolvable} - Generation #{evolutions_count}"
-  end
-
-  # ...
-
-  def to_s
-    @to_s ||= genes.join
-  end
-
-  # ...
-end
-```
-
-Finally we can **evolve the population with the `Evolvable::Population#evolve` instance method**.
-
-```ruby
-population.evolve
-```
-
-**You now know the fundamental steps to building evolvable programs of endless complexity in any domain!** 🐸 The exact implementation for the command line demo can be found in [exe/hello](https://github.com/mattruzicka/evolvable/blob/main/exe/hello) and [examples/hello_world.rb](https://github.com/mattruzicka/evolvable/blob/main/examples/hello_world.rb).
-
 ## Concepts
 
-[Populations](#populations) are composed of evolvables which are composed of genes. Evolvables orchestrate behaviors by delegating to gene objects. Collections of genes are organized into genomes and constitute the [search space](#search-space). [Evaluation](#evaluation) and [evolution](#evolution) objects are used to evolve populations. By default, evolution is composed of [selection](#selection), [combination](#combination), and [mutation](#mutation).
+Evolvable is built on these core concepts:
+- **Genes**: Encapsulate evolving traits and behaviors
+- **Genomes**: Genes organized in a searchable structure
+- **Evolvables**: Composable Ruby objects that delegate to genes
+- **Populations**: Groups of evolvables that evolve together
+- **Evaluation**: Fitness scoring to rank solutions
+- **Evolution**: Three-phase process (Selection → Combination → Mutation)
+- **Communities**: Encapsulate evolvable populations
 
-The following concept map depicts how genes flow through populations.
-
-![Concept Map](https://github.com/mattruzicka/evolvable/raw/main/examples/images/diagram.png)
-
-Evolvable is designed with extensibility in mind. Evolvable objects such as [evaluation](#evaluation), [evolution](#evolution), [selection](#selection), [combination](#combination), and [mutation](#mutation) can be extended and swapped, potentially in ways that alter the above graph.
+The library provides default implementations while allowing custom components to adapt to specific problem domains.
 
 ## Genes
+
 {@readme Evolvable::Gene}
 
+**Example**
 {@example Evolvable::Gene}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Gene)
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Gene)
 
 ## Populations
+
 {@readme Evolvable::Population}
 
+**Example**
 {@example Evolvable::Population}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Population)
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Population)
 
 ## Evaluation
+
 {@readme Evolvable::Evaluation}
 
+**Example**
 {@example Evolvable::Evaluation}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evaluation)
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evaluation)
+
+## Goals
+
+{@readme Evolvable::Goal}
+
+**Example**
+```ruby
+# Using different goal types
+class RuleOptimizer
+  include Evolvable
+
+  gene :rules, type: RuleGene, count: 5..20
+
+  def fitness
+    # Calculate fitness based on rule effectiveness
+    accuracy = calculate_accuracy
+    complexity_penalty = rules.count * 0.5
+    accuracy - complexity_penalty
+  end
+end
+
+# Configure populations with different goals
+max_population = RuleOptimizer.new_population(
+  evaluation: { maximize: true }  # Find most effective rules
+)
+
+min_population = RuleOptimizer.new_population(
+  evaluation: { minimize: 0.1 }   # Minimize error rate to 10%
+)
+
+equal_population = RuleOptimizer.new_population(
+  evaluation: { equalize: 50 }    # Reach exactly 50% performance
+)
+
+# Stopping evolution when goal is reached
+max_population.evolve(goal_value: 95)  # Evolve until 95% accuracy
+```
+
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Goal)
 
 ## Evolution
+
 {@readme Evolvable::Evolution}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Evolution)
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Evolution)
 
 ## Selection
+
 {@readme Evolvable::Selection}
 
-{@example Evolvable::Selection}
-
-
-[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Selection)
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Selection)
 
 ## Combination
+
 {@readme Evolvable::GeneCombination}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Combination)
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Combination)
+
+## Crossover Strategies
+
+**Point Crossover**
+
+{@readme Evolvable::PointCrossover}
+
+**Uniform Crossover**
+
+{@readme Evolvable::UniformCrossover}
+
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/PointCrossover)
 
 ## Mutation
+
 {@readme Evolvable::Mutation}
 
+**Example**
 {@example Evolvable::Mutation}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/Mutation)
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Mutation)
 
-## Search Space
-{@readme Evolvable::SearchSpace}
+## Gene Space
 
-{@example Evolvable::SearchSpace}
+{@readme Evolvable::GeneSpace}
 
-[Documentation](https://rubydoc.info/github/mattruzicka/evolvable/Evolvable/SearchSpace)
+**Example**
+```ruby
+class MusicComposer
+  include Evolvable
+
+  # Define basic musical genes
+  gene :melody, type: MelodyGene, count: 1
+  gene :harmony, type: HarmonyGene, count: 1
+  gene :rhythm, type: RhythmGene, count: 1
+
+  # Group audio effects into a cluster for easier handling
+  gene :reverb, type: ReverbGene, count: 0..1, cluster: :effects
+  gene :delay, type: DelayGene, count: 0..1, cluster: :effects
+  gene :distortion, type: DistortionGene, count: 0..1, cluster: :effects
+  gene :flanger, type: FlangerGene, count: 0..1, cluster: :effects
+
+  def play
+    # Access genes directly
+    puts "Playing melody: #{melody}"
+
+    # Or access gene clusters as collections
+    puts "With effects: #{effects.map(&:name).join(', ')}"
+  end
+
+  def fitness
+    # Evaluate fitness based on musical theory and constraints
+    melody_score = melody.consonance_with(harmony)
+    structure_balance = structure.count > 1 ? 1.0 : 0.5
+    effect_complexity = [1.0, effects.count * 0.2].min
+
+    melody_score * structure_balance * effect_complexity
+  end
+end
+
+# Access genes and clusters
+composer = MusicComposer.new_evolvable
+composer.reverb                # Access a specific gene
+composer.effects               # Access all genes in the effects cluster
+composer.effects.count         # Number of effect genes
+composer.structure.first.type  # Access a property of the first structure gene
+```
+
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/GeneSpace)
+
+## Count Genes
+
+**Dynamic Count Genes**
+
+{@readme Evolvable::CountGene}
+
+**Fixed Count Genes**
+
+{@readme Evolvable::RigidCountGene}
+
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/CountGene)
+
+## Genomes
+
+{@readme Evolvable::Genome}
+
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Genome)
+
+## Gene Clusters
+
+{@readme Evolvable::GeneCluster}
+
+**Example**
+```ruby
+# Define a reusable cluster for visual styling
+module Evolvable::UI
+  class StylingCluster
+    include Evolvable::GeneCluster
+
+    gene :background_color, type: 'UI::ColorGene', count: 1
+    gene :text_color, type: 'UI::ColorGene', count: 1
+    gene :border_color, type: 'UI::ColorGene', count: 0..1
+    gene :border_width, type: 'UI::SizeGene', count: 0..1
+    gene :border_radius, type: 'UI::RadiusGene', count: 0..1
+    gene :shadow, type: 'UI::ShadowGene', count: 0..1
+  end
+end
+
+# Use the styling cluster in multiple UI components
+class Button
+  include Evolvable
+
+  # Apply the styling cluster
+  cluster :styling, type: Evolvable::UI::StylingCluster
+
+  # Button-specific genes
+  gene :size, type: SizeGene, count: 1
+  gene :text, type: TextGene, count: 1
+
+  def render
+    puts "Button with #{text}"
+    puts "Background: #{styling.background_color.hex_code}"
+    puts "Border: #{styling.border_width&.value || 0}px"
+  end
+
+  def fitness
+    # Evaluate based on design principles and constraints
+    contrast = styling.text_color.contrast_with(styling.background_color)
+    readability = text.length < 15 ? 1.0 : 0.7
+
+    contrast * readability
+  end
+end
+
+class Panel
+  include Evolvable
+
+  # Reuse the same styling cluster with a different name
+  cluster :visual, type: Evolvable::UI::StylingCluster
+
+  # Panel-specific genes
+  gene :width, type: SizeGene, count: 1
+  gene :height, type: SizeGene, count: 1
+  gene :children, type: ComponentGene, count: 0..10
+
+  def render
+    puts "Panel #{width.value}x#{height.value}"
+    puts "Background: #{visual.background_color.hex_code}"
+    children.each(&:render)
+  end
+end
+```
+
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/GeneCluster)
+
+## Community
+
+{@readme Evolvable::Community}
+
+**Example**
+```ruby
+# A complex ecosystem with multiple interacting species
+class BiomeSimulation
+  include Evolvable::Community
+
+  evolvable_community plants: Plant,
+                      herbivores: Herbivore,
+                      carnivores: Carnivore
+
+  def simulate_interactions(cycles = 1)
+    cycles.times do
+      # Plants grow based on environmental factors
+      plants.each(&:grow)
+
+      # Herbivores eat plants and may increase or decrease in population
+      herbivores.each do |herbivore|
+        herbivore.eat(plants.sample)
+      end
+
+      # Carnivores hunt herbivores
+      carnivores.each do |carnivore|
+        carnivore.hunt(herbivores.sample)
+      end
+
+      # Evolve all populations for one generation
+      evolve_all
+    end
+  end
+
+  def evolve_all
+    populations_by_name.values.each do |population|
+      population.evolve(count: 1)
+    end
+  end
+end
+
+# Initialize and use the simulation
+biome = BiomeSimulation.new_community
+biome.simulate_interactions(10)
+```
+
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Community)
+
+## Serialization
+
+{@readme Evolvable::Serializer}
+
+**Example**
+```ruby
+# Basic serialization and persistence
+class EvolutionManager
+  def save_champion(population, filename)
+    champion = population.best_evolvable
+    serialized = champion.dump_genome
+    File.write(filename, serialized)
+    puts "Champion saved with fitness: #{champion.fitness}"
+  end
+
+  def load_champion(evolvable_class, filename)
+    serialized = File.read(filename)
+    champion = evolvable_class.new_evolvable
+    champion.load_genome(serialized)
+    champion
+  end
+
+  def checkpoint_population(population, filename)
+    serialized = population.dump
+    File.write(filename, serialized)
+    puts "Population checkpoint saved at generation #{population.evolutions_count}"
+  end
+
+  def restore_population(filename)
+    serialized = File.read(filename)
+    Evolvable::Population.load(serialized)
+  end
+end
+
+# Usage
+manager = EvolutionManager.new
+population = MyEvolvable.new_population(size: 100)
+
+# Run evolution for 50 generations with checkpoints
+5.times do |i|
+  population.evolve(count: 10)
+  manager.checkpoint_population(population, "checkpoint_#{i}.dat")
+  manager.save_champion(population, "champion_#{i}.dat")
+end
+
+# Restore from checkpoint
+restored = manager.restore_population("checkpoint_3.dat")
+```
+
+[Full Documentation](https://mattruzicka.github.io/evolvable/Evolvable/Serializer)
 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/mattruzicka/evolvable.
-
-If you're interested in contributing, but don't know where to get started, message me on twitter at [@mattruzicka](https://twitter.com/mattruzicka).

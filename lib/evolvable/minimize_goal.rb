@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
   # Prioritizes instances with lesser values.
   #
   # The default goal value is `-Float::INFINITY`, but it can be reassigned
@@ -12,18 +13,11 @@ module Evolvable
     end
 
     def evaluate(evolvable)
-      -evolvable.value
+      -evolvable.fitness
     end
 
     def met?(evolvable)
-      evolvable.value <= value
+      evolvable.fitness <= value
     end
   end
-
-  #
-  # @deprecated
-  #   Will be removed in 2.0.
-  #   Use {MinimizeGoal} instead
-  #
-  class Goal::Minimize < MinimizeGoal; end
 end
