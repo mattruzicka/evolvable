@@ -8,6 +8,7 @@ Breaking Changes:
 * Renamed `Evolvable#after_initialize` to `Evolvable#after_initialize_evolvable`.
 * Changed population initialization and evolvable creation workflow for more consistency.
 * Simplified error handling in favor of more single  `Evolvable::Error` type with more informative messages.
+* Changed `Population#new_evolvables` to only accept a `count` parameter, removing the `evolvables` parameter.
 
 New Features:
 * Added gene clusters for organizing related genes through the `cluster` parameter in gene definitions.

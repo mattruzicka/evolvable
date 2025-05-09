@@ -107,7 +107,8 @@ module Evolvable
       self.selection = selection if selection
       self.combination = combination if combination
       self.mutation = mutation if mutation
-      @evolvables = new_evolvables(count: @size - evolvables.count, evolvables: evolvables)
+      self.evolvables = evolvables || []
+      new_evolvables(count: @size - evolvables.count)
     end
 
     #
@@ -256,17 +257,16 @@ module Evolvable
     # Creates multiple new evolvable instances.
     #
     # @param count [Integer] The number of evolvables to create
-    # @param evolvables [Array<Evolvable>, nil] Optional existing evolvables to include
-    # @return [Array<Evolvable>] The collection of evolvables
+    # @return [Array<Evolvable>] The newly created evolvables
     #
-    def new_evolvables(count:, evolvables: nil)
-      evolvables ||= @evolvables || []
-      @evolvables = evolvables
-
+    def new_evolvables(count:)
       if parent_evolvables.empty?
         Array.new(count) { new_evolvable(genome: new_genome) }
       else
-        @evolvables = generate_evolvables(count)
+        evolvables = generate_evolvables(count)
+        @evolvables ||= []
+        @evolvables.concat evolvables
+        evolvables
       end
     end
 
