@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="evolvable-">Evolvable 🧬</h1>
+
+<p><a href="https://badge.fury.io/rb/evolvable"><img src="https://badge.fury.io/rb/evolvable.svg" alt="Gem Version" /></a></p>
+
+<p><strong>Code Version: 2.0.0</strong> (unreleased)</p>
+
+<p>🚧 <strong>The README and Documentation are still evolving</strong></p>
+
+<p>Evolvable is a Ruby gem that brings genetic algorithms to Ruby objects through simple, flexible APIs. Define genes, implement fitness criteria, and let evolution discover optimal solutions through selection, combination, and mutation.</p>
+
+<p>Perfect for optimization problems, creative content generation, machine learning, and simulating complex systems.</p>
+
+<h2 id="why-evolvable">Why Evolvable?</h2>
+
+<p>Evolvable is ideal when the solution space is too large or complex for brute-force methods. Instead of hardcoding solutions, you define constraints and let evolution discover optimal configurations over time.</p>
+
+<p><strong>The Evolvable Approach:</strong>
+- Explore vast solution spaces efficiently without examining every possibility
+- Discover novel solutions that might not be obvious to human designers
+- Adapt to changing conditions through continuous evolution
+- Balance diverse objectives with communities of different populations
+- Integrate evolutionary concepts directly into your Ruby object model
+- Generate creative content like music, art, and text, not just numerical optimization</p>
+
+<p>Whether you’re optimizing parameters, generating creative content, or simulating complex systems, Evolvable provides a natural, object-oriented approach to evolutionary algorithms.</p>
+
+<h2 id="creative-applications">Creative Applications</h2>
+
+<p>Evolvable is designed to make creative, object‑oriented representations first‑class citizens. That means the same API that tunes numbers can evolve music, UI layouts, or game content just as naturally.</p>
+
+<p>Creative applications of Evolvable include:
+- <strong>Generative art</strong>: Evolve visual compositions based on aesthetic criteria
+- <strong>Music composition</strong>: Create melodies, chord progressions, and rhythms
+- <strong>Game design</strong>: Generate levels, characters, or game mechanics
+- <strong>Natural language</strong>: Evolve text with specific tones, styles, or constraints
+- <strong>UI/UX design</strong>: Discover intuitive layouts and color schemes</p>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#getting-started">Getting Started</a></li>
+  <li><a href="#concepts">Concepts</a></li>
+  <li><a href="#genes">Genes</a></li>
+  <li><a href="#populations">Populations</a></li>
+  <li><a href="#evaluation">Evaluation</a></li>
+  <li><a href="#goals">Goals</a></li>
+  <li><a href="#evolution">Evolution</a></li>
+  <li><a href="#selection">Selection</a></li>
+  <li><a href="#combination">Combination</a></li>
+  <li><a href="#crossover-strategies">Crossover Strategies</a></li>
+  <li><a href="#mutation">Mutation</a></li>
+  <li><a href="#gene-space">Gene Space</a></li>
+  <li><a href="#count-genes">Count Genes</a></li>
+  <li><a href="#genomes">Genomes</a></li>
+  <li><a href="#gene-clusters">Gene Clusters</a></li>
+  <li><a href="#community">Community</a></li>
+  <li><a href="#serialization">Serialization</a></li>
+  <li><a href="https://mattruzicka.github.io/evolvable">Documentation</a></li>
+</ul>
+
+<h2 id="installation">Installation</h2>
+
+<p>Add <a href="https://rubygems.org/gems/evolvable">gem “evolvable”</a> to your Gemfile and run <code>bundle install</code> or install it yourself with: <code>gem install evolvable</code></p>
+
+<p><strong>Ruby Compatibility:</strong> Evolvable officially supports Ruby 3.0 and higher.</p>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>The evolutionary process works through these components:
+  1. <strong>Populations</strong>: Groups of the “evolvable” instances you define
+  2. <strong>Genes</strong>: Ruby objects that cache data for evolvables
+  3. <strong>Evaluation</strong>: Sorts evolvables by fitness
+  4. <strong>Evolution</strong>: Selection, combination, and mutation to generate new evolvables</p>
+
+<p>Quick start:
+  1. Include <code>Evolvable</code> in your Ruby class
+  2. Define genes with the macro-style <code>gene</code> method
+  3. Have the <code>#fitness</code> method return a numeric value
+  4. Initialize a population and evolve it</p>
+
+<p>Example population of “shirts” with various colors, buttons, and collars.</p>
+
+<p>```ruby
+  # Step 1
+  class Shirt
+    include Evolvable</p>
+
+<pre class="code ruby"><code class="ruby"># Step 2
+gene :color, type: ColorGene # count: 1 default
+gene :buttons, type: ButtonGene, count: 0..10 # Builds an array of genes that can vary in size
+gene :collar, type: CollarGene, count: 0..1 # Collar optional
+
+# Step 3
+attr_accessor :fitness   end
+</code></pre>
+
+<p># Step 4
+  population = Shirt.new_population(size: 10)
+  population.evolvables.each { |shirt| shirt.fitness = tried_it_on_score }
+  ```</p>
+
+<p>You are free to tailor the genes to your needs and “try it on” yourself.</p>
+
+<p>The <code>ColorGene</code> could be as simple as this:</p>
+
+<p>```ruby
+  class ColorGene
+    include Evolvable::Gene</p>
+
+<pre class="code ruby"><code class="ruby">def to_s
+  @to_s ||= %w[red green blue].sample
+end   end   ```
+</code></pre>
+
+<p>Not into shirts?</p>
+
+<p>Here’s a <a href="https://github.com/mattruzicka/evolvable/blob/main/exe/hello_evolvable_world">Hello World</a> command line demo.</p>
+
+<h2 id="concepts">Concepts</h2>
+
+<p>Evolvable is built on these core concepts:
+- <strong>Genes</strong>: Encapsulate evolving traits and behaviors
+- <strong>Genomes</strong>: Genes organized in a searchable structure
+- <strong>Evolvables</strong>: Composable Ruby objects that delegate to genes
+- <strong>Populations</strong>: Groups of evolvables that evolve together
+- <strong>Evaluation</strong>: Fitness scoring to rank solutions
+- <strong>Evolution</strong>: Three-phase process (Selection → Combination → Mutation)
+- <strong>Communities</strong>: Encapsulate evolvable populations</p>
+
+<p>The library provides default implementations while allowing custom components to adapt to specific problem domains.</p>
+
+<h2 id="genes">Genes</h2>
+
+<p>Genes are the building blocks of evolvable objects, encapsulating individual characteristics
+that can be combined and mutated during evolution. Each gene represents a trait or behavior
+that can influence an evolvable’s performance.</p>
+
+<p><strong>Creating Gene Classes</strong></p>
+
+<p>When defining gene classes, you need to:
+1. Include the Evolvable::Gene module
+2. Define how the gene’s value is determined
+3. Optionally override the combine method for custom combination behavior</p>
+
+<p><strong>Design Patterns</strong></p>
+
+<p>Effective gene design follows several patterns:</p>
+
+<ul>
+  <li><strong>Immutability</strong>: Gene values should be initialized once and cached. Use <code>@value ||= compute_value</code>
+pattern to ensure consistency</li>
+  <li><strong>Self-Contained</strong>: Genes should encapsulate their own logic and data</li>
+  <li><strong>Composable</strong>: Complex genes can be built from combinations of other genes</li>
+  <li><strong>Domain-Specific</strong>: Genes should directly represent the domain</li>
+</ul>
+
+<p><strong>Common Gene Types</strong></p>
+
+<ul>
+  <li><strong>Numeric Genes</strong>: Represent quantities, measurements, or probabilities</li>
+  <li><strong>Selection Genes</strong>: Choose from a fixed set of options</li>
+  <li><strong>Boolean Genes</strong>: Represent binary choices</li>
+  <li><strong>Structural Genes</strong>: Control the structure or architecture of a solution</li>
+  <li><strong>Parameter Genes</strong>: Configure parameters for algorithms or processes</li>
+</ul>
+
+<p>Related sections:
+- See <a href="#gene-space">Gene Space</a> for how genes are organized
+- See <a href="#gene-clusters">Gene Clusters</a> for grouping related genes
+- See <a href="#combination">Combination</a> for how genes are combined</p>
+
+<p><strong>Example</strong>
+```ruby
+# A simple example showing gene definition and usage
+class BehaviorGene
+  include Evolvable::Gene</p>
+
+<p>def self.behaviors
+    @behaviors ||= %w[explore gather attack defend build]
+  end</p>
+
+<p>def behavior
+    @behavior ||= self.class.behaviors.sample
+  end</p>
+
+<p># Custom combination that creates a new behavior based on parents
+  def self.combine(gene_a, gene_b)
+    new_gene = new
+    # In a real implementation, this might combine behaviors
+    # or choose based on some logic
+    new_gene.instance_variable_set(:@behavior, [gene_a.behavior, gene_b.behavior].sample)
+    new_gene
+  end
+end</p>
+
+<h1 id="use-the-gene-in-an-evolvable-class">Use the gene in an evolvable class</h1>
+<p>class Robot
+  include Evolvable</p>
+
+<p>gene :behaviors, type: BehaviorGene, count: 3..5
+  gene :speed, type: SpeedGene, count: 1
+  gene :energy, type: EnergyGene, count: 1</p>
+
+<p>def fitness
+    # In a real implementation, this would run a simulation
+    # and return a score based on the robot’s performance
+    run_simulation
+  end</p>
+
+<p>def to_s
+    “Robot with behaviors: #‘)”
+  end
+end</p>
+
+<h1 id="create-and-evolve-a-population">Create and evolve a population</h1>
+<p>population = Robot.new_population(
+  size: 50,
+  mutation: { probability: 0.2 }
+)</p>
+
+<h1 id="evolve-for-20-generations">Evolve for 20 generations</h1>
+<p>population.evolve(count: 20)</p>
+
+<h1 id="get-the-best-robot">Get the best robot</h1>
+<p>best_robot = population.best_evolvable
+puts “Best robot: #best_robot”
+```</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Gene">Full Documentation</a></p>
+
+<h2 id="populations">Populations</h2>
+
+<p>Populations orchestrate the evolutionary process through four key components:</p>
+
+<ol>
+  <li><strong>Evaluation</strong>: Ranks instances by fitness</li>
+  <li><strong>Selection</strong>: Chooses parents for combination</li>
+  <li><strong>Combination</strong>: Creates offspring from parents</li>
+  <li><strong>Mutation</strong>: Adds genetic diversity</li>
+</ol>
+
+<p><strong>Features</strong></p>
+
+<ul>
+  <li>Easy configuration via parameters</li>
+  <li>Lifecycle hooks (<code>before_evaluation</code>, <code>before_evolution</code>, <code>after_evolution</code>)</li>
+  <li>Progress tracking with <code>best_evolvable</code></li>
+  <li>Goal-based or generation-count evolution</li>
+  <li>Serialization for saving/restoring</li>
+</ul>
+
+<p><strong>Configuration</strong></p>
+
+<p>```ruby
+population = MyEvolvable.new_population(
+  size: 50,                            # Population size
+  evaluation: { maximize: true },      # Fitness goal
+  selection: { size: 10 },             # Parent selection count
+  mutation: { probability: 0.2 }       # Mutation rate
+)</p>
+
+<h1 id="run-evolution">Run evolution</h1>
+<p>population.evolve(count: 20)           # For 20 generations
+# or
+population.evolve(goal_value: 100)     # Until fitness goal reached
+```</p>
+
+<p><strong>Example</strong>
+```ruby
+# Track evolution progress over generations
+population = Shape.new_population(size: 30)</p>
+
+<p>10.times do |i|
+  population.evolve(count: 1)
+  best = population.best_evolvable
+  puts “Generation #i: Best fitness = #bestbest.fitness”
+end</p>
+
+<h1 id="get-and-use-the-best-solution">Get and use the best solution</h1>
+<p>best_shape = population.best_evolvable
+puts “Final solution: #best_shape”
+```</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Population">Full Documentation</a></p>
+
+<h2 id="evaluation">Evaluation</h2>
+
+<p>Evaluation determines how evolvables are ranked based on their fitness scores and provides
+mechanisms to specify evolutionary goals (maximize, minimize, or equalize).</p>
+
+<p><strong>How It Works</strong></p>
+
+<ol>
+  <li>Your evolvable class defines a <code>#fitness</code> method that returns a numeric score</li>
+  <li>The evaluation’s goal determines how this score is interpreted:
+    <ul>
+      <li><code>maximize</code>: Higher values are better (default)</li>
+      <li><code>minimize</code>: Lower values are better</li>
+      <li><code>equalize</code>: Values closer to target are better</li>
+    </ul>
+  </li>
+  <li>During evolution, evolvables are sorted based on the goal’s interpretation</li>
+  <li>Evolution can stop when an evolvable reaches a specified goal value</li>
+</ol>
+
+<p><strong>Related Sections</strong>
+- See <a href="#populations">Population</a> for how evaluation fits into evolution
+- See <a href="#selection">Selection</a> for how evaluated individuals are chosen</p>
+
+<p><strong>Example</strong>
+```ruby
+# Define an evolvable with a fitness function
+class Robot
+  include Evolvable</p>
+
+<p>gene :speed, type: SpeedGene, count: 1
+  gene :sensors, type: SensorGene, count: 1..5</p>
+
+<p>def fitness
+    # Calculate fitness based on speed and sensor quality
+    score = speed.value * 10
+    score += sensors.sum(&amp;:accuracy) * 5
+    score -= sensors.size &gt; 3 ? (sensors.size - 3) * 10 : 0 # Penalty for too many sensors
+    score
+  end
+end</p>
+
+<h1 id="different-goal-types">Different goal types</h1>
+
+<h1 id="maximize-higher-is-better">1. Maximize (higher is better)</h1>
+<p>robots = Robot.new_population(evaluation: { maximize: true })
+robots.evolve(goal_value: 100)  # Until fitness reaches 100+</p>
+
+<h1 id="minimize-lower-is-better">2. Minimize (lower is better)</h1>
+<p>errors = ErrorModel.new_population(evaluation: { minimize: true })
+errors.evolve(goal_value: 0.01)  # Until error rate reaches 0.01 or less</p>
+
+<h1 id="equalize-closer-to-target-is-better">3. Equalize (closer to target is better)</h1>
+<p>targets = TargetMatcher.new_population(evaluation: { equalize: 42 })
+targets.evolve(goal_value: 42)  # Until we match the target value
+```</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Evaluation">Full Documentation</a></p>
+
+<h2 id="goals">Goals</h2>
+
+<p>Goals define the success criteria for evolution. They allow you to specify what your
+population is evolving toward, whether it’s maximizing a value, minimizing a value,
+or reaching a specific target value.</p>
+
+<p>Evolvable provides three built-in goal types:
+- <strong>MaximizeGoal</strong>: Higher fitness values are better (e.g., scoring more points)
+- <strong>MinimizeGoal</strong>: Lower fitness values are better (e.g., reducing errors)
+- <strong>EqualizeGoal</strong>: Values closer to a target are better (e.g., matching a pattern)</p>
+
+<p>Each goal type influences:
+1. How evolvables are ranked during evaluation
+2. Which evolvables are selected as parents
+3. When to stop evolving if a goal value is reached</p>
+
+<p><strong>Custom Goals</strong></p>
+
+<p>You can create custom goals by subclassing Goal and implementing:
+- <code>evaluate(evolvable)</code>: Returns a value used to rank evolvables
+- <code>met?(evolvable)</code>: Returns true when the goal is reached</p>
+
+<p><strong>Example</strong>
+```ruby
+# Using different goal types
+class RuleOptimizer
+  include Evolvable</p>
+
+<p>gene :rules, type: RuleGene, count: 5..20</p>
+
+<p>def fitness
+    # Calculate fitness based on rule effectiveness
+    accuracy = calculate_accuracy
+    complexity_penalty = rules.count * 0.5
+    accuracy - complexity_penalty
+  end
+end</p>
+
+<h1 id="configure-populations-with-different-goals">Configure populations with different goals</h1>
+<p>max_population = RuleOptimizer.new_population(
+  evaluation: { maximize: true }  # Find most effective rules
+)</p>
+
+<p>min_population = RuleOptimizer.new_population(
+  evaluation: { minimize: 0.1 }   # Minimize error rate to 10%
+)</p>
+
+<p>equal_population = RuleOptimizer.new_population(
+  evaluation: { equalize: 50 }    # Reach exactly 50% performance
+)</p>
+
+<h1 id="stopping-evolution-when-goal-is-reached">Stopping evolution when goal is reached</h1>
+<p>max_population.evolve(goal_value: 95)  # Evolve until 95% accuracy
+```</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Goal">Full Documentation</a></p>
+
+<h2 id="evolution">Evolution</h2>
+
+<p>After a population’s instances are evaluated, they undergo evolution.
+The default evolution object is composed of selection,
+combination, and mutation objects and applies them as operations to
+a population’s evolvables in that order.</p>
+
+<p>Each evolutionary operation can be customized individually, allowing you to
+fine-tune the evolutionary process to fit your specific problem domain.</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Evolution">Full Documentation</a></p>
+
+<h2 id="selection">Selection</h2>
+
+<p>The selection object assumes that a population’s evolvables have already
+been sorted by the evaluation object. It selects “parent” evolvables to
+undergo combination and thereby produce the next generation of evolvables.</p>
+
+<p>Only two evolvables are selected as parents for each generation by default.
+The selection size is configurable.</p>
+
+<p><code>ruby
+# Configure selection size
+population = MyEvolvable.new_population(
+  selection: { size: 3 }  # Select top 3 performers
+)
+</code></p>
+
+<p>You can also assign selected evolvables:</p>
+
+<p><code>ruby
+population.selected_evolvables = [evolvable1, evolvable2]
+</code>
+or skip to evolving them:</p>
+
+<p><code>ruby
+population.evolve_selected([evolvable1, evolvable2])
+</code></p>
+
+<p>This allows for custom selection strategies beyond the built-in methods.</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Selection">Full Documentation</a></p>
+
+<h2 id="combination">Combination</h2>
+
+<p>Combination generates new evolvable instances by combining the genes of selected instances.
+You can think of it as a mixing of parent genes from one generation to
+produce the next generation.</p>
+
+<p>You may choose from a selection of combination objects or implement your own.
+The default combination object is <code>Evolvable::GeneCombination</code>.</p>
+
+<p>This implementation enables individual gene types to define their own
+combination behaviors through the Gene.combine class method, giving you
+fine-grained control over how different gene types are combined.</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Combination">Full Documentation</a></p>
+
+<h2 id="crossover-strategies">Crossover Strategies</h2>
+
+<p><strong>Point Crossover</strong></p>
+
+<p>PointCrossover implements single and multi-point crossover, a common recombination
+strategy in genetic algorithms. It works by selecting random points in the gene sequence
+and exchanging genetic material between those points.</p>
+
+<p>In single-point crossover (the default), one position is chosen at random, and all genes
+beyond that point are swapped between parents. In multi-point crossover, multiple
+positions are chosen, and segments between consecutive points are alternately swapped.</p>
+
+<p>This strategy:
+- Preserves segments of good solutions
+- Enables exploration of different combinations of traits
+- Is particularly effective when related genes are close together</p>
+
+<p>Configuration:
+```ruby
+population = MyEvolvable.new_population(
+  combination: Evolvable::PointCrossover.new(points_count: 2)  # Two-point crossover
+)</p>
+
+<h1 id="or-modify-an-existing-population">Or modify an existing population</h1>
+<p>population.combination = Evolvable::PointCrossover.new(points_count: 3)
+```</p>
+
+<p><strong>Uniform Crossover</strong></p>
+
+<p>UniformCrossover randomly selects genes from either parent with equal probability
+for each gene position. Unlike point crossover, there are no “chunks” of genes preserved
+from either parent - each gene is chosen independently.</p>
+
+<p>This strategy:
+- Provides maximum mixing of genetic material
+- Better handles problems where gene ordering isn’t important
+- Often performs well on problems with complex interdependencies</p>
+
+<p>Uniform crossover is particularly effective when good solutions have traits that are
+widely distributed throughout the genome rather than clustered together.</p>
+
+<p>Configuration:
+<code>ruby
+population = MyEvolvable.new_population(
+  combination: Evolvable::UniformCrossover.new
+)
+</code></p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/PointCrossover">Full Documentation</a></p>
+
+<h2 id="mutation">Mutation</h2>
+
+<p>Mutation introduces genetic diversity by replacing genes with newly initialized ones.
+This is crucial for exploring the solution space and preventing premature convergence.</p>
+
+<p>Two key parameters control mutation:
+- <code>probability</code>: Chance of an individual being mutated (0.0-1.0)
+- <code>rate</code>: Portion of genes to mutate in affected individuals (0.0-1.0)</p>
+
+<p>Common strategies:
+- Higher rates early (exploration phase)
+- Lower rates later (exploitation/refinement phase)</p>
+
+<p><strong>Example</strong>
+```ruby
+# Start with high mutation for exploration
+population = MyEvolvable.new_population(
+  mutation: { probability: 0.4, rate: 0.2 }
+)</p>
+
+<h1 id="later-reduce-for-fine-tuning">Later, reduce for fine-tuning</h1>
+<p>population.mutation.probability = 0.1
+population.mutation.rate = 0.05
+```</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Mutation">Full Documentation</a></p>
+
+<h2 id="gene-space">Gene Space</h2>
+
+<p>The gene space defines the genetic structure of evolvable classes - a blueprint
+for creating and managing genes.</p>
+
+<p><strong>Two Key Gene Count Types</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Fixed Count</strong>: When you specify a single number or default
+<code>ruby
+gene :color, type: ColorGene  # Default count: 1
+</code></p>
+  </li>
+  <li>
+    <p><strong>Variable Count</strong>: When you specify a range
+<code>ruby
+gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
+</code></p>
+  </li>
+</ol>
+
+<p><strong>Benefits</strong></p>
+
+<ul>
+  <li>Declarative model definition</li>
+  <li>Automatic gene management</li>
+  <li>Self-evolving structure (with ranges)</li>
+  <li>Consistent instance initialization</li>
+</ul>
+
+<p>Related sections:
+- See <a href="#genes">Genes</a> for defining individual gene classes
+- See <a href="#gene-clusters">Gene Clusters</a> for organizing related genes
+- See <a href="#populations">Population</a> for using gene spaces in populations</p>
+
+<p><strong>Example</strong>
+```ruby
+class MusicComposer
+  include Evolvable</p>
+
+<p># Define basic musical genes
+  gene :melody, type: MelodyGene, count: 1
+  gene :harmony, type: HarmonyGene, count: 1
+  gene :rhythm, type: RhythmGene, count: 1</p>
+
+<p># Group audio effects into a cluster for easier handling
+  gene :reverb, type: ReverbGene, count: 0..1, cluster: :effects
+  gene :delay, type: DelayGene, count: 0..1, cluster: :effects
+  gene :distortion, type: DistortionGene, count: 0..1, cluster: :effects
+  gene :flanger, type: FlangerGene, count: 0..1, cluster: :effects</p>
+
+<p>def play
+    # Access genes directly
+    puts “Playing melody: #melody”</p>
+
+<pre class="code ruby"><code class="ruby"># Or access gene clusters as collections
+puts &quot;With effects: #{effects.map(&amp;:name).join(&#39;, &#39;)}&quot;   end
+</code></pre>
+
+<p>def fitness
+    # Evaluate fitness based on musical theory and constraints
+    melody_score = melody.consonance_with(harmony)
+    structure_balance = structure.count &gt; 1 ? 1.0 : 0.5
+    effect_complexity = [1.0, effects.count * 0.2].min</p>
+
+<pre class="code ruby"><code class="ruby">melody_score * structure_balance * effect_complexity   end end
+</code></pre>
+
+<h1 id="access-genes-and-clusters">Access genes and clusters</h1>
+<p>composer = MusicComposer.new_evolvable
+composer.reverb                # Access a specific gene
+composer.effects               # Access all genes in the effects cluster
+composer.effects.count         # Number of effect genes
+composer.structure.first.type  # Access a property of the first structure gene
+```</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/GeneSpace">Full Documentation</a></p>
+
+<h2 id="count-genes">Count Genes</h2>
+
+<p><strong>Dynamic Count Genes</strong></p>
+
+<p>The CountGene class handles the dynamic count of genes in evolvable instances.
+When a gene is defined with a range for <code>count:</code> (e.g., <code>count: 2..8</code>), a CountGene
+is created to manage this count, allowing the number of genes to evolve over
+successive generations.</p>
+
+<p><strong>Fixed Count Genes</strong></p>
+
+<p>The RigidCountGene class manages fixed gene counts in evolvable instances.
+Unlike CountGene, the RigidCountGene maintains a constant number of genes
+that doesn’t change during evolution. This is used when a gene is defined
+with a fixed integer for <code>count:</code> (e.g., <code>count: 5</code>).</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/CountGene">Full Documentation</a></p>
+
+<h2 id="genomes">Genomes</h2>
+
+<p>The Genome class represents the complete genetic blueprint of an evolvable instance.
+It stores and manages all genes organized by their keys, providing methods to access,
+manipulate, and serialize genetic information.</p>
+
+<p>A genome consists of:
+- Gene configurations organized by key
+- Count genes that determine how many of each gene type exists
+- Methods to find and manipulate genes</p>
+
+<p>The genome serves as the intermediary between the gene space (the definition)
+and the actual gene instances (the implementation).</p>
+
+<p>Related sections:
+- See <a href="#gene-space">Gene Space</a> for how genomes are created
+- See <a href="#combination">Combination</a> for how genomes are combined
+- See <a href="#genes">Genes</a> for the building blocks that make up genomes</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Genome">Full Documentation</a></p>
+
+<h2 id="gene-clusters">Gene Clusters</h2>
+
+<p>Gene clusters group related genes into reusable components that can be applied
+to multiple evolvable classes.</p>
+
+<p>When applied, genes are automatically namespaced with the cluster name:
+- Access as a group: <code>evolvable.styling</code> (returns all styling genes)
+- Access individually: <code>evolvable.find_gene("styling-color")</code></p>
+
+<p>This provides:
+- Clean organization of related genes (styling, physics, etc.)
+- Prevention of name conflicts
+- Simplified access to gene groups</p>
+
+<p>Related sections:
+- See <a href="#genes">Genes</a> for defining individual gene classes
+- See <a href="#gene-space">Gene Space</a> for how clusters integrate with the gene space</p>
+
+<p><strong>Example</strong>
+```ruby
+# Define a reusable cluster for visual styling
+module Evolvable::UI
+  class StylingCluster
+    include Evolvable::GeneCluster</p>
+
+<pre class="code ruby"><code class="ruby">gene :background_color, type: &#39;UI::ColorGene&#39;, count: 1
+gene :text_color, type: &#39;UI::ColorGene&#39;, count: 1
+gene :border_color, type: &#39;UI::ColorGene&#39;, count: 0..1
+gene :border_width, type: &#39;UI::SizeGene&#39;, count: 0..1
+gene :border_radius, type: &#39;UI::RadiusGene&#39;, count: 0..1
+gene :shadow, type: &#39;UI::ShadowGene&#39;, count: 0..1   end end
+</code></pre>
+
+<h1 id="use-the-styling-cluster-in-multiple-ui-components">Use the styling cluster in multiple UI components</h1>
+<p>class Button
+  include Evolvable</p>
+
+<p># Apply the styling cluster
+  cluster :styling, type: Evolvable::UI::StylingCluster</p>
+
+<p># Button-specific genes
+  gene :size, type: SizeGene, count: 1
+  gene :text, type: TextGene, count: 1</p>
+
+<p>def render
+    puts “Button with #text”
+    puts “Background: #stylingstyling.background_colorstyling.background_color.hex_code”
+    puts “Border: #|| 0px”
+  end</p>
+
+<p>def fitness
+    # Evaluate based on design principles and constraints
+    contrast = styling.text_color.contrast_with(styling.background_color)
+    readability = text.length &lt; 15 ? 1.0 : 0.7</p>
+
+<pre class="code ruby"><code class="ruby">contrast * readability   end end
+</code></pre>
+
+<p>class Panel
+  include Evolvable</p>
+
+<p># Reuse the same styling cluster with a different name
+  cluster :visual, type: Evolvable::UI::StylingCluster</p>
+
+<p># Panel-specific genes
+  gene :width, type: SizeGene, count: 1
+  gene :height, type: SizeGene, count: 1
+  gene :children, type: ComponentGene, count: 0..10</p>
+
+<p>def render
+    puts “Panel #widthwidth.valuex#heightheight.value”
+    puts “Background: #visualvisual.background_colorvisual.background_color.hex_code”
+    children.each(&amp;:render)
+  end
+end
+```</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/GeneCluster">Full Documentation</a></p>
+
+<h2 id="community">Community</h2>
+
+<p>The Community module provides a framework for managing multiple interrelated populations
+in a coordinated manner. This is essential for more complex simulations where different types
+of evolvables need to interact, such as predator-prey ecosystems, multi-agent systems, or
+layered optimization problems.</p>
+
+<p><strong>Key Features</strong></p>
+
+<ul>
+  <li>Define a community with multiple population types</li>
+  <li>Manage relationships between different evolvable types</li>
+  <li>Coordinate evolution across multiple populations</li>
+  <li>Access populations and instances through a unified interface</li>
+</ul>
+
+<p><strong>Example Use Cases</strong></p>
+
+<ul>
+  <li><strong>Ecosystems</strong>: Simulate interactions between plants, herbivores, and predators</li>
+  <li><strong>Multi-component Systems</strong>: Design systems where components evolve together</li>
+  <li><strong>Layered Optimization</strong>: Solve problems with different optimization levels</li>
+</ul>
+
+<p><strong>Example</strong>
+```ruby
+# A complex ecosystem with multiple interacting species
+class BiomeSimulation
+  include Evolvable::Community</p>
+
+<p>evolvable_community plants: Plant,
+                      herbivores: Herbivore,
+                      carnivores: Carnivore</p>
+
+<p>def simulate_interactions(cycles = 1)
+    cycles.times do
+      # Plants grow based on environmental factors
+      plants.each(&amp;:grow)</p>
+
+<pre class="code ruby"><code class="ruby">  # Herbivores eat plants and may increase or decrease in population
+  herbivores.each do |herbivore|
+    herbivore.eat(plants.sample)
+  end
+
+  # Carnivores hunt herbivores
+  carnivores.each do |carnivore|
+    carnivore.hunt(herbivores.sample)
+  end
+
+  # Evolve all populations for one generation
+  evolve_all
+end   end
+</code></pre>
+
+<p>def evolve_all
+    populations_by_name.values.each do |population|
+      population.evolve(count: 1)
+    end
+  end
+end</p>
+
+<h1 id="initialize-and-use-the-simulation">Initialize and use the simulation</h1>
+<p>biome = BiomeSimulation.new_community
+biome.simulate_interactions(10)
+```</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Community">Full Documentation</a></p>
+
+<h2 id="serialization">Serialization</h2>
+
+<p>The Serializer provides a way to save and restore the state of populations
+and evolvable instances. By default, it uses Ruby’s built-in Marshal class
+to serialize data.</p>
+
+<p>Serialization is useful for:
+- Saving the progress of a long-running evolution
+- Storing champion solutions for later use
+- Transferring evolved populations between systems
+- Creating checkpoints to revert to if needed</p>
+
+<p>Evolvable provides serialization methods on both Population and individual
+evolvable instances, all of which use this Serializer internally.</p>
+
+<p>```ruby
+# Save a population to a file
+population = MyEvolvable.new_population
+population.evolve(count: 100)</p>
+
+<h1 id="save-state">Save state</h1>
+<p>serialized_data = population.dump
+File.write(‘evolved_population.dat’, serialized_data)</p>
+
+<h1 id="later-load-the-state">Later, load the state</h1>
+<p>data = File.read(‘evolved_population.dat’)
+restored_population = Population.load(data)</p>
+
+<h1 id="continue-evolution-from-saved-point">Continue evolution from saved point</h1>
+<p>restored_population.evolve(count: 100)
+```</p>
+
+<p><strong>Example</strong>
+```ruby
+# Basic serialization and persistence
+class EvolutionManager
+  def save_champion(population, filename)
+    champion = population.best_evolvable
+    serialized = champion.dump_genome
+    File.write(filename, serialized)
+    puts “Champion saved with fitness: #championchampion.fitness”
+  end</p>
+
+<p>def load_champion(evolvable_class, filename)
+    serialized = File.read(filename)
+    champion = evolvable_class.new_evolvable
+    champion.load_genome(serialized)
+    champion
+  end</p>
+
+<p>def checkpoint_population(population, filename)
+    serialized = population.dump
+    File.write(filename, serialized)
+    puts “Population checkpoint saved at generation #populationpopulation.evolutions_count”
+  end</p>
+
+<p>def restore_population(filename)
+    serialized = File.read(filename)
+    Evolvable::Population.load(serialized)
+  end
+end</p>
+
+<h1 id="usage">Usage</h1>
+<p>manager = EvolutionManager.new
+population = MyEvolvable.new_population(size: 100)</p>
+
+<h1 id="run-evolution-for-50-generations-with-checkpoints">Run evolution for 50 generations with checkpoints</h1>
+<p>5.times do |i|
+  population.evolve(count: 10)
+  manager.checkpoint_population(population, “checkpoint_#i.dat”)
+  manager.save_champion(population, “champion_#i.dat”)
+end</p>
+
+<h1 id="restore-from-checkpoint">Restore from checkpoint</h1>
+<p>restored = manager.restore_population(“checkpoint_3.dat”)
+```</p>
+
+<p><a href="https://mattruzicka.github.io/evolvable/Evolvable/Serializer">Full Documentation</a></p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Bug reports and pull requests are welcome on GitHub at https://github.com/mattruzicka/evolvable.</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Thu May  8 23:57:26 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.4.2).
+</div>
+
+    </div>
+  </body>
+</html>

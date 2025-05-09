@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Evolvable::ClassMethods
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Evolvable::ClassMethods";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
+     &raquo; 
+    <span class="title">ClassMethods</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Evolvable::ClassMethods
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/evolvable.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cluster_config-instance_method" title="#cluster_config (instance method)">#<strong>cluster_config</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute cluster_config.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gene_config-instance_method" title="#gene_config (instance method)">#<strong>gene_config</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute gene_config.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#after_evolution-instance_method" title="#after_evolution (instance method)">#<strong>after_evolution</strong>(population)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs after evolution.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#before_evaluation-instance_method" title="#before_evaluation (instance method)">#<strong>before_evaluation</strong>(population)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Called before evaluation.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#before_evolution-instance_method" title="#before_evolution (instance method)">#<strong>before_evolution</strong>(population)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs after evaluation and before evolution.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cluster-instance_method" title="#cluster (instance method)">#<strong>cluster</strong>(cluster_name, type:, **opts)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The <code>.cluster</code> macro applies a pre-defined group of related genes.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gene-instance_method" title="#gene (instance method)">#<strong>gene</strong>(name, type:, count: 1, cluster: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The <code>.gene</code> macro defines traits that can mutate and evolve over time.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inherited-instance_method" title="#inherited (instance method)">#<strong>inherited</strong>(subclass)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Ensures that subclasses inherit the gene and cluster configuration.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_evolvable-instance_method" title="#initialize_evolvable (instance method)">#<strong>initialize_evolvable</strong>  &#x21d2; Evolvable </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override this method to customize how your evolvable instances are initialized.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new_evolvable-instance_method" title="#new_evolvable (instance method)">#<strong>new_evolvable</strong>(population: nil, genome: nil, generation_index: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Initializes a new instance.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new_gene_space-instance_method" title="#new_gene_space (instance method)">#<strong>new_gene_space</strong>  &#x21d2; Evolvable::GeneSpace </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new gene space for this evolvable class.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new_population-instance_method" title="#new_population (instance method)">#<strong>new_population</strong>(keyword_args = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Initializes a population with defaults that can be changed using the same named parameters as <a href="https://mattruzicka.github.io/evolvable/Evolvable/Population#initialize">Population#initialize</a>.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="cluster_config-instance_method">
+  
+    #<strong>cluster_config</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute cluster_config.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 250</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cluster_config'>cluster_config</span>
+  <span class='ivar'>@cluster_config</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="gene_config-instance_method">
+  
+    #<strong>gene_config</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute gene_config.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 250</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gene_config'>gene_config</span>
+  <span class='ivar'>@gene_config</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="after_evolution-instance_method">
+  
+    #<strong>after_evolution</strong>(population)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Runs after evolution.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+302</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 302</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_after_evolution'>after_evolution</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="before_evaluation-instance_method">
+  
+    #<strong>before_evaluation</strong>(population)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Called before evaluation.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+278</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 278</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_before_evaluation'>before_evaluation</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="before_evolution-instance_method">
+  
+    #<strong>before_evolution</strong>(population)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Runs after evaluation and before evolution.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Melody</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
+
+  <span class='comment'># Play the best melody from each generation
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_before_evolution'>before_evolution</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_best_evolvable'>best_evolvable</span><span class='period'>.</span><span class='id identifier rubyid_play'>play</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># ...
+</span><span class='kw'>end</span></code></pre>
+    
+  </div>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+296</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 296</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_before_evolution'>before_evolution</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cluster-instance_method">
+  
+    #<strong>cluster</strong>(cluster_name, type:, **opts)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The <code>.cluster</code> macro applies a pre-defined group of related genes.</p>
+
+<p>Clusters promote code organization through:
+  - Modularity: Define related genes once, reuse them
+  - Organization: Group genes by function
+  - Maintenance: Update in one place
+  - Accessibility: Access via a single accessor</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>UI Component with Styling Cluster</p>
+</div></h5>
+      
+      <pre class="example code"><code><span class='comment'># Define a gene cluster for UI styling properties
+</span><span class='kw'>class</span> <span class='const'>ColorSchemeCluster</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="GeneCluster.html" title="Evolvable::GeneCluster (module)">GeneCluster</a></span></span>
+
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:background_color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ColorGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:text_color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ColorGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:accent_color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ColorGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='op'>..</span><span class='int'>1</span>
+<span class='kw'>end</span>
+
+<span class='comment'># Use the cluster in an evolvable UI component
+</span><span class='kw'>class</span> <span class='const'>Button</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
+
+  <span class='id identifier rubyid_cluster'>cluster</span> <span class='symbol'>:colors</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorSchemeCluster</span>
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:padding</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>PaddingGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Button with </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_colors'>colors</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='embexpr_end'>}</span><span class='tstring_content'> colors</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Background: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_colors'>colors</span><span class='period'>.</span><span class='id identifier rubyid_background_color'>background_color</span><span class='period'>.</span><span class='id identifier rubyid_hex_code'>hex_code</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cluster_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The name for accessing the cluster</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>Class</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The class that defines the cluster</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Optional arguments passed to the cluster initializer</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 239</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cluster'>cluster</span><span class='lparen'>(</span><span class='id identifier rubyid_cluster_name'>cluster_name</span><span class='comma'>,</span> <span class='label'>type:</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_recipe'>recipe</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>Object</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_type'>type</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_recipe'>recipe</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:apply_cluster</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_recipe'>recipe</span><span class='embexpr_end'>}</span><span class='tstring_content'> cannot apply a gene cluster</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_recipe'>recipe</span><span class='period'>.</span><span class='id identifier rubyid_apply_cluster'>apply_cluster</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_cluster_name'>cluster_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='id identifier rubyid_cluster_name'>cluster_name</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_find_gene_cluster'>find_gene_cluster</span><span class='lparen'>(</span><span class='id identifier rubyid_cluster_name'>cluster_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gene-instance_method">
+  
+    #<strong>gene</strong>(name, type:, count: 1, cluster: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The <code>.gene</code> macro defines traits that can mutate and evolve over time.
+Syntactically similar to ActiveRecord-style macros, it sets up the genetic structure of your model.</p>
+
+<p>Key features:
+- Fixed or variable gene counts
+- Automatic accessor methods
+- Optional clustering for related genes</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Basic gene definition</p>
+</div></h5>
+      
+      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Melody</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
+
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:notes</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>NoteGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>4</span><span class='op'>..</span><span class='int'>16</span> <span class='comment'># Can have 4-16 notes
+</span>  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:instrument</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>InstrumentGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_play'>play</span>
+    <span class='id identifier rubyid_instrument'>instrument</span><span class='period'>.</span><span class='id identifier rubyid_play'>play</span><span class='lparen'>(</span><span class='id identifier rubyid_notes'>notes</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The name of the gene</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The gene type or class name</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>Range</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>1</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Number or range of gene instances</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cluster</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Optional cluster name for grouping related genes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Error.html" title="Evolvable::Error (class)">Error</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 179</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gene'>gene</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>type:</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span><span class='comma'>,</span> <span class='label'>cluster:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Error.html" title="Evolvable::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Gene name &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; is already defined</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@gene_config</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+
+  <span class='ivar'>@gene_config</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>type:</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='id identifier rubyid_count'>count</span> <span class='rbrace'>}</span>
+
+  <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_count'>count</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Range</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_count'>count</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span> <span class='op'>:</span> <span class='id identifier rubyid_count'>count</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='int'>1</span>
+    <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_find_genes'>find_genes</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_find_gene'>find_gene</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_cluster'>cluster</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Error.html" title="Evolvable::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cluster name &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cluster'>cluster</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; conflicts with an existing gene name</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@gene_config</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_cluster'>cluster</span><span class='rparen'>)</span>
+
+    <span class='kw'>if</span> <span class='ivar'>@cluster_config</span><span class='lbracket'>[</span><span class='id identifier rubyid_cluster'>cluster</span><span class='rbracket'>]</span>
+      <span class='ivar'>@cluster_config</span><span class='lbracket'>[</span><span class='id identifier rubyid_cluster'>cluster</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_name'>name</span>
+    <span class='kw'>else</span>
+      <span class='ivar'>@cluster_config</span><span class='lbracket'>[</span><span class='id identifier rubyid_cluster'>cluster</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='id identifier rubyid_cluster'>cluster</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_find_gene_cluster'>find_gene_cluster</span><span class='lparen'>(</span><span class='id identifier rubyid_cluster'>cluster</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inherited-instance_method">
+  
+    #<strong>inherited</strong>(subclass)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p><p>Ensures that subclasses inherit the gene and cluster configuration.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>subclass</span>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The subclass that is inheriting from this class</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270
+271
+272</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 268</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_inherited'>inherited</span><span class='lparen'>(</span><span class='id identifier rubyid_subclass'>subclass</span><span class='rparen'>)</span>
+  <span class='kw'>super</span>
+  <span class='id identifier rubyid_subclass'>subclass</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@gene_config</span><span class='comma'>,</span> <span class='ivar'>@gene_config</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_subclass'>subclass</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@cluster_config</span><span class='comma'>,</span> <span class='ivar'>@cluster_config</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="initialize_evolvable-instance_method">
+  
+    #<strong>initialize_evolvable</strong>  &#x21d2; <tt><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Override this method to customize how your evolvable instances are initialized.
+By default, simply calls new with no arguments.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>A new evolvable instance</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+148
+149
+150</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 148</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize_evolvable'>initialize_evolvable</span>
+  <span class='id identifier rubyid_new'>new</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="new_evolvable-instance_method">
+  
+    #<strong>new_evolvable</strong>(population: nil, genome: nil, generation_index: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Initializes a new instance. Accepts a population object, an array of gene objects,
+and the instance’s population index. This method is useful for re-initializing
+instances and populations that have been saved.</p>
+
+<p><em>It is not recommended that you override this method</em> as it is used by
+Evolvable internals. If you need to customize how your instances are
+initialized you can override either of the following two “initialize_instance”
+methods.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137
+138
+139
+140</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 135</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_new_evolvable'>new_evolvable</span><span class='lparen'>(</span><span class='label'>population:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>genome:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>generation_index:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_evolvable'>evolvable</span> <span class='op'>=</span> <span class='id identifier rubyid_initialize_evolvable'>initialize_evolvable</span>
+  <span class='id identifier rubyid_evolvable'>evolvable</span><span class='period'>.</span><span class='id identifier rubyid_make_evolvable'>make_evolvable</span><span class='lparen'>(</span><span class='label'>population:</span> <span class='id identifier rubyid_population'>population</span><span class='comma'>,</span> <span class='label'>genome:</span> <span class='id identifier rubyid_genome'>genome</span><span class='comma'>,</span> <span class='label'>generation_index:</span> <span class='id identifier rubyid_generation_index'>generation_index</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_evolvable'>evolvable</span><span class='period'>.</span><span class='id identifier rubyid_after_initialize_evolvable'>after_initialize_evolvable</span>
+  <span class='id identifier rubyid_evolvable'>evolvable</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="new_gene_space-instance_method">
+  
+    #<strong>new_gene_space</strong>  &#x21d2; <tt><span class='object_link'><a href="GeneSpace.html" title="Evolvable::GeneSpace (class)">Evolvable::GeneSpace</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new gene space for this evolvable class.
+Used internally when initializing populations.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="GeneSpace.html" title="Evolvable::GeneSpace (class)">Evolvable::GeneSpace</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>A new gene space</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+258
+259
+260</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 258</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_new_gene_space'>new_gene_space</span>
+  <span class='const'><span class='object_link'><a href="GeneSpace.html" title="Evolvable::GeneSpace (class)">GeneSpace</a></span></span><span class='period'>.</span><span class='id identifier rubyid_build'><span class='object_link'><a href="GeneSpace.html#build-class_method" title="Evolvable::GeneSpace.build (method)">build</a></span></span><span class='lparen'>(</span><span class='ivar'>@gene_config</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="new_population-instance_method">
+  
+    #<strong>new_population</strong>(keyword_args = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Initializes a population with defaults that can be changed using the same named parameters as
+<a href="https://mattruzicka.github.io/evolvable/Evolvable/Population#initialize">Population#initialize</a>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 120</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='id identifier rubyid_keyword_args'>keyword_args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_keyword_args'>keyword_args</span><span class='lbracket'>[</span><span class='symbol'>:evolvable_type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span>
+  <span class='const'><span class='object_link'><a href="Population.html" title="Evolvable::Population (class)">Population</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Population.html#initialize-instance_method" title="Evolvable::Population#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_keyword_args'>keyword_args</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu May  8 23:57:27 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.4.2).
+</div>
+
+    </div>
+  </body>
+</html>

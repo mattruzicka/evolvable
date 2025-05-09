@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Evolvable::Evaluation
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Evolvable::Evaluation";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (E)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
+     &raquo; 
+    <span class="title">Evaluation</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Evolvable::Evaluation
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Evolvable::Evaluation</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/evolvable/evaluation.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Evaluation determines how evolvables are ranked based on their fitness scores and provides
+mechanisms to specify evolutionary goals (maximize, minimize, or equalize).</p>
+
+<p><strong>How It Works</strong></p>
+
+<ol>
+  <li>Your evolvable class defines a <code>#fitness</code> method that returns a numeric score</li>
+  <li>The evaluation’s goal determines how this score is interpreted:
+    <ul>
+      <li><code>maximize</code>: Higher values are better (default)</li>
+      <li><code>minimize</code>: Lower values are better</li>
+      <li><code>equalize</code>: Values closer to target are better</li>
+    </ul>
+  </li>
+  <li>During evolution, evolvables are sorted based on the goal’s interpretation</li>
+  <li>Evolution can stop when an evolvable reaches a specified goal value</li>
+</ol>
+
+<p><strong>Related Sections</strong>
+- See <a href="#populations">Population</a> for how evaluation fits into evolution
+- See <a href="#selection">Selection</a> for how evaluated individuals are chosen</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='comment'># Define an evolvable with a fitness function
+</span><span class='kw'>class</span> <span class='const'>Robot</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
+
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:speed</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>SpeedGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:sensors</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>SensorGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span><span class='op'>..</span><span class='int'>5</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_fitness'>fitness</span>
+    <span class='comment'># Calculate fitness based on speed and sensor quality
+</span>    <span class='id identifier rubyid_score'>score</span> <span class='op'>=</span> <span class='id identifier rubyid_speed'>speed</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>*</span> <span class='int'>10</span>
+    <span class='id identifier rubyid_score'>score</span> <span class='op'>+=</span> <span class='id identifier rubyid_sensors'>sensors</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:accuracy</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='int'>5</span>
+    <span class='id identifier rubyid_score'>score</span> <span class='op'>-=</span> <span class='id identifier rubyid_sensors'>sensors</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;</span> <span class='int'>3</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='id identifier rubyid_sensors'>sensors</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>3</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='int'>10</span> <span class='op'>:</span> <span class='int'>0</span> <span class='comment'># Penalty for too many sensors
+</span>    <span class='id identifier rubyid_score'>score</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='comment'># Different goal types
+</span>
+<span class='comment'># 1. Maximize (higher is better)
+</span><span class='id identifier rubyid_robots'>robots</span> <span class='op'>=</span> <span class='const'>Robot</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>maximize:</span> <span class='kw'>true</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_robots'>robots</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='int'>100</span><span class='rparen'>)</span>  <span class='comment'># Until fitness reaches 100+
+</span>
+<span class='comment'># 2. Minimize (lower is better)
+</span><span class='id identifier rubyid_errors'>errors</span> <span class='op'>=</span> <span class='const'>ErrorModel</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>minimize:</span> <span class='kw'>true</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='float'>0.01</span><span class='rparen'>)</span>  <span class='comment'># Until error rate reaches 0.01 or less
+</span>
+<span class='comment'># 3. Equalize (closer to target is better)
+</span><span class='id identifier rubyid_targets'>targets</span> <span class='op'>=</span> <span class='const'>TargetMatcher</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span><span class='label'>evaluation:</span> <span class='lbrace'>{</span> <span class='label'>equalize:</span> <span class='int'>42</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_targets'>targets</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>goal_value:</span> <span class='int'>42</span><span class='rparen'>)</span>  <span class='comment'># Until we match the target value</span></code></pre>
+    
+  </div>
+
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="GOALS-constant" class="">GOALS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Mapping of goal type symbols to their corresponding goal objects.
+See the readme section above for details on each goal type.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, <span class='object_link'><a href="Goal.html" title="Evolvable::Goal (class)">Evolvable::Goal</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Available goal objects by type</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span> <span class='label'>maximize:</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MaximizeGoal.html" title="Evolvable::MaximizeGoal (class)">MaximizeGoal</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Goal.html#initialize-instance_method" title="Evolvable::Goal#initialize (method)">new</a></span></span><span class='comma'>,</span>
+<span class='label'>minimize:</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MinimizeGoal.html" title="Evolvable::MinimizeGoal (class)">MinimizeGoal</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Goal.html#initialize-instance_method" title="Evolvable::Goal#initialize (method)">new</a></span></span><span class='comma'>,</span>
+<span class='label'>equalize:</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EqualizeGoal.html" title="Evolvable::EqualizeGoal (class)">EqualizeGoal</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Goal.html#initialize-instance_method" title="Evolvable::Goal#initialize (method)">new</a></span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEFAULT_GOAL_TYPE-constant" class="">DEFAULT_GOAL_TYPE =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The default goal type used if none is specified.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The default goal type (maximize)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:maximize</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#goal-instance_method" title="#goal (instance method)">#<strong>goal</strong>  &#x21d2; Evolvable::Goal </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The goal object used for evaluation.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#best_evolvable-instance_method" title="#best_evolvable (instance method)">#<strong>best_evolvable</strong>(population)  &#x21d2; Evolvable </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the best evolvable in the population according to the goal.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#call-instance_method" title="#call (instance method)">#<strong>call</strong>(population)  &#x21d2; Array&lt;Evolvable&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Evaluates and sorts all evolvables in the population according to the goal.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(goal = DEFAULT_GOAL_TYPE)  &#x21d2; Evaluation </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Initializes a new evaluation object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#met_goal%3F-instance_method" title="#met_goal? (instance method)">#<strong>met_goal?</strong>(population)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Checks if the goal has been met by any evolvable in the population.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(goal = DEFAULT_GOAL_TYPE)  &#x21d2; <tt><span class='object_link'><a href="" title="Evolvable::Evaluation (class)">Evaluation</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Initializes a new evaluation object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>goal</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>Hash</tt>, <tt><span class='object_link'><a href="Goal.html" title="Evolvable::Goal (class)">Evolvable::Goal</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>DEFAULT_GOAL_TYPE</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The goal type (:maximize, :minimize, :equalize),
+a hash specifying goal type and value, or a custom goal object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 77</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_goal'>goal</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GOAL_TYPE-constant" title="Evolvable::Evaluation::DEFAULT_GOAL_TYPE (constant)">DEFAULT_GOAL_TYPE</a></span></span><span class='rparen'>)</span>
+  <span class='ivar'>@goal</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_goal'>normalize_goal</span><span class='lparen'>(</span><span class='id identifier rubyid_goal'>goal</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="goal=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="goal-instance_method">
+  
+    #<strong>goal</strong>  &#x21d2; <tt><span class='object_link'><a href="Goal.html" title="Evolvable::Goal (class)">Evolvable::Goal</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The goal object used for evaluation.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Goal.html" title="Evolvable::Goal (class)">Evolvable::Goal</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The current goal object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 85</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_goal'>goal</span>
+  <span class='ivar'>@goal</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="best_evolvable-instance_method">
+  
+    #<strong>best_evolvable</strong>(population)  &#x21d2; <tt><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the best evolvable in the population according to the goal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>population</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Population.html" title="Evolvable::Population (class)">Evolvable::Population</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The population to evaluate</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The best evolvable based on the current goal</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_best_evolvable'>best_evolvable</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_max_by'>max_by</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='op'>|</span> <span class='id identifier rubyid_goal'>goal</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="call-instance_method">
+  
+    #<strong>call</strong>(population)  &#x21d2; <tt>Array&lt;<span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Evaluates and sorts all evolvables in the population according to the goal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>population</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Population.html" title="Evolvable::Population (class)">Evolvable::Population</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The population to evaluate</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The sorted evolvables</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 93</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_sort_by!'>sort_by!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='op'>|</span> <span class='id identifier rubyid_goal'>goal</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="met_goal?-instance_method">
+  
+    #<strong>met_goal?</strong>(population)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Checks if the goal has been met by any evolvable in the population.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>population</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Population.html" title="Evolvable::Population (class)">Evolvable::Population</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The population to check</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>True if the goal has been met, false otherwise</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/evaluation.rb', line 113</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_met_goal?'>met_goal?</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_goal'>goal</span><span class='period'>.</span><span class='id identifier rubyid_met?'>met?</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu May  8 23:57:27 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.4.2).
+</div>
+
+    </div>
+  </body>
+</html>
