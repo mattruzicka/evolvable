@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'irb', '>= 1.0'
-  spec.add_development_dependency 'readme_yard', '>= 0.3'
+  spec.add_development_dependency 'readme_yard', '>= 0.5'
 end

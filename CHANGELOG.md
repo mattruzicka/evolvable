@@ -1,3 +1,24 @@
+## 2.0.0 - unreleased
+
+Breaking Changes:
+* Replaced `.search_space` and `.search_spaces` with the `.gene` macro-style method for defining genetic attributes.
+* Renamed `#value` to `#fitness` throughout the codebase for clarity.
+* Removed deprecated `Gene.crossover` in favor of `Gene.combine`.
+* Removed deprecated `Evolution#crossover` in favor of `Evolution#combination`.
+* Renamed `Evolvable#after_initialize` to `Evolvable#after_initialize_evolvable`.
+* Changed population initialization and evolvable creation workflow for more consistency.
+* Simplified error handling in favor of more single  `Evolvable::Error` type with more informative messages.
+
+New Features:
+* Added gene clusters for organizing related genes through the `cluster` parameter in gene definitions.
+* Introduced the `Evolvable::GeneCluster` module for complex gene grouping.
+* Added `Evolvable::Community` for managing multiple populations and their interactions.
+* Added genome merging capabilities with `merge_genome!` and `load_and_merge_genome!`.
+* Improved inheritance support for evolvable classes, preserving gene configurations.
+* Added `evolve_selected` method to Population for evolving a specific subset of evolvables.
+* Added direct access to genes and gene clusters through automatically generated methods.
+* Comprehensive YARD documentation and README overhaul.
+
 ## 1.2.0 - 2022-1-22
 
 * Make it easier to dump and load genomes and use custom serializers. [69afd7c](https://github.com/mattruzicka/evolvable/commit/69afd7c957cbf89cc03b4f3f0ba967bf571c34c5)

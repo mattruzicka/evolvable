@@ -3,34 +3,68 @@
 module Evolvable
   #
   # @readme
-  #   The gene space encapsulates the range of possible genes
-  #   for a particular evolvable. You can think of it as the search space
-  #   for genes or the boundaries of genetic variation. It is configured via the
-  #   `.gene` macro-style method that you use to define genetic attributes on
-  #   your evolvable class. These gene definitions are used by populations
-  #   to initialize new evolvables.
+  #   The gene space defines the genetic structure of evolvable classes - a blueprint
+  #   for creating and managing genes.
   #
-  #   Evolvable provides a clean, declarative approach to defining your genetic model
-  #   structure. Here's how you might define genes for a music evolution program:
+  #   **Two Key Gene Count Types**
+  #
+  #   1. **Fixed Count**: When you specify a single number or default
+  #      ```ruby
+  #      gene :color, type: ColorGene  # Default count: 1
+  #      ```
+  #
+  #   2. **Variable Count**: When you specify a range
+  #      ```ruby
+  #      gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
+  #      ```
+  #
+  #   **Benefits**
+  #
+  #   - Declarative model definition
+  #   - Automatic gene management
+  #   - Self-evolving structure (with ranges)
+  #   - Consistent instance initialization
+  #
+  #   Related sections:
+  #   - See [Genes](#genes) for defining individual gene classes
+  #   - See [Gene Clusters](#gene-clusters) for organizing related genes
+  #   - See [Population](#populations) for using gene spaces in populations
   #
   # @example
-  #   class Melody
+  #   # A simple example showing various gene definition options
+  #   class Character
   #     include Evolvable
   #
-  #     gene :notes, type: NoteGene, count: 4..16
-  #     gene :instrument, type: InstrumentGene, count: 1
-  #     gene :tempo, type: TempoGene, count: 1
+  #     # Fixed count gene
+  #     gene :name, type: NameGene, count: 1
   #
-  #     # Define audio effects as a cluster of related genes
-  #     gene :reverb, type: ReverbGene, count: 0..1, cluster: :effects
-  #     gene :delay, type: DelayGene, count: 0..1, cluster: :effects
-  #     gene :distortion, type: DistortionGene, count: 0..1, cluster: :effects
-  #     gene :chorus_effect, type: ChorusEffectGene, count: 0..1, cluster: :effects
+  #     # Variable count gene - can have between 1-20 skills
+  #     gene :skills, type: SkillGene, count: 1..20
   #
-  #     def play
-  #       # Access genes directly or through their clusters
-  #       instrument.play(notes, tempo, effects)
+  #     # Genes organized in a cluster
+  #     gene :strength, type: AttributeGene, count: 1, cluster: :physical_stats
+  #     gene :dexterity, type: AttributeGene, count: 1, cluster: :physical_stats
+  #     gene :constitution, type: AttributeGene, count: 1, cluster: :physical_stats
+  #
+  #     # Access genes individually
+  #     def describe
+  #       puts "#{name} has #{skills.count} skills"
+  #       puts "Strength: #{strength.value}"
   #     end
+  #
+  #     # Or access gene clusters
+  #     def physical_power
+  #       physical_stats.sum(&:value)
+  #     end
+  #   end
+  #
+  #   # Create a population and evolve it
+  #   population = Character.new_population(size: 10)
+  #   population.evolve(count: 5)
+  #
+  #   # The number of skills may have changed during evolution
+  #   best_character = population.best_evolvable
+  #   puts "Best character has #{best_character.skills.count} skills"
   #
 
   class GeneSpace

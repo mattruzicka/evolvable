@@ -3,44 +3,52 @@
 module Evolvable
   #
   # @readme
-  #   Gene clusters provide a way to organize related genes into logical groups.
-  #   These clusters can be defined as separate reusable components and applied
-  #   to different evolvable classes, promoting modularity and code reuse.
+  #   Gene clusters group related genes into reusable components that can be applied
+  #   to multiple evolvable classes.
   #
-  #   Gene clusters are useful when you have groups of related genes that often
-  #   appear together, such as visual styling properties, audio effects, or any
-  #   collection of genes that function as a unit.
+  #   When applied, genes are automatically namespaced with the cluster name:
+  #   - Access as a group: `evolvable.styling` (returns all styling genes)
+  #   - Access individually: `evolvable.find_gene("styling-color")`
+  #
+  #   This provides:
+  #   - Clean organization of related genes (styling, physics, etc.)
+  #   - Prevention of name conflicts
+  #   - Simplified access to gene groups
+  #
+  #   Related sections:
+  #   - See [Genes](#genes) for defining individual gene classes
+  #   - See [Gene Space](#gene-space) for how clusters integrate with the gene space
   #
   # @example
-  #   # Define a reusable gene cluster for audio effects
-  #   class EffectsCluster
+  #   # Define a simple styling cluster
+  #   class StylingCluster
   #     include Evolvable::GeneCluster
   #
-  #     gene :reverb, type: 'ReverbGene', count: 0..1
-  #     gene :delay, type: 'DelayGene', count: 0..1
-  #     gene :distortion, type: 'DistortionGene', count: 0..1
-  #     gene :flanger, type: 'FlangerGene', count: 0..1
+  #     gene :color, type: 'ColorGene', count: 1
+  #     gene :size, type: 'SizeGene', count: 1
   #   end
   #
-  #   # Use the cluster in an evolvable class
-  #   class MusicComposer
+  #   # Use the cluster in a component
+  #   class Box
   #     include Evolvable
   #
-  #     # Basic musical genes
-  #     gene :melody, type: MelodyGene, count: 1
-  #     gene :harmony, type: HarmonyGene, count: 1
+  #     cluster :style, type: StylingCluster
+  #     gene :text, type: 'TextGene', count: 1
   #
-  #     # Apply the effects cluster
-  #     cluster :effects, type: EffectsCluster
-  #
-  #     def play
-  #       # The cluster can be accessed as a single unit
-  #       puts "Playing with effects: #{effects.map(&:name).join(', ')}"
+  #     def render
+  #       "Box with #{style.color} and size #{style.size}"
   #     end
   #   end
   #
   module GeneCluster
-    # @private
+    #
+    # When included in a class, extends the class with ClassMethods and initializes
+    # the cluster configuration. This is called automatically when you include
+    # the GeneCluster module in your class.
+    #
+    # @param base [Class] The class that includes the GeneCluster module
+    # @return [void]
+    #
     def self.included(base)
       base.extend(ClassMethods)
       base.instance_variable_set(:@cluster_config, [])
@@ -68,6 +76,7 @@ module Evolvable
       # @param evolvable_class [Class] The evolvable class to apply the cluster to
       # @param cluster_name [Symbol] The name to use for the cluster in the evolvable class
       # @param _ [Hash] Additional options (for future expansion)
+      # @return [void]
       #
       def apply_cluster(evolvable_class, cluster_name, **_)
         @cluster_config.each do |name, kw|
@@ -79,6 +88,7 @@ module Evolvable
       # Ensures that subclasses inherit the cluster configuration.
       #
       # @param subclass [Class] The subclass that is inheriting from this class
+      # @return [void]
       #
       def inherited(subclass)
         super

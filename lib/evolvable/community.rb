@@ -1,32 +1,39 @@
 # frozen_string_literal: true
 
 module Evolvable
-  # The Community module helps manage multiple related populations
-  # and their evolvable instances in a coordinated manner.
   #
-  # @example Creating a farm with different animal populations
-  #   class Farm
+  # @readme
+  #   The Community module provides a framework for managing multiple interrelated populations
+  #   in a coordinated manner. This is essential for more complex simulations where different types
+  #   of evolvables need to interact, such as predator-prey ecosystems, multi-agent systems, or
+  #   layered optimization problems.
+  #
+  #   **Key Features**
+  #
+  #   - Define a community with multiple population types
+  #   - Manage relationships between different evolvable types
+  #   - Coordinate evolution across multiple populations
+  #   - Access populations and instances through a unified interface
+  #
+  #   **Example Use Cases**
+  #
+  #   - **Ecosystems**: Simulate interactions between plants, herbivores, and predators
+  #   - **Multi-component Systems**: Design systems where components evolve together
+  #   - **Layered Optimization**: Solve problems with different optimization levels
+  #
+  # @example Creating a simple ecosystem
+  #   class Ecosystem
   #     include Evolvable::Community
   #
-  #     evolvable_community cow: CowPopulationClass,
-  #                         horse: HorsePopulationClass,
-  #                         goat: GoatPopulationClass,
-  #                         chicken: ChickenPopulationClass
+  #     evolvable_community plant: Plant,
+  #                         animal: Animal
   #   end
   #
-  #   # Create a new farm with default populations
-  #   farm = Farm.new_community
+  #   # Create and use the ecosystem
+  #   ecosystem = Ecosystem.new_community
+  #   ecosystem.plant    # Returns a plant
+  #   ecosystem.animal   # Returns an animal
   #
-  #   # Access specific animal types (creates a new instance if none exists)
-  #   farm.cow    # => Returns the cow from the cow population
-  #   farm.horse  # => Returns a horse from the horse population
-  #
-  #   # Add a specific population
-  #   farm.add_population(:pig, PigPopulation.new_population)
-  #
-  #   # Find or manipulate evolvables
-  #   specific_goat = farm.find_evolvable(:goat)
-  #   farm.add_evolvable(:duck, duck_instance)
   module Community
     def self.included(base)
       base.extend(ClassMethods)

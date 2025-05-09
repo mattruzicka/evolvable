@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Evolvable
+  #
   # Prioritizes instances with lesser values.
   #
   # The default goal value is `-Float::INFINITY`, but it can be reassigned
