@@ -1,13 +1,13 @@
-## 2.0.0 - unreleased
+## 2.0.0 - 2025-5-10
 
 Breaking Changes:
-* Replaced `.search_space` and `.search_spaces` with the `.gene` macro-style method for defining genetic attributes.
+* Replaced legacy .search_space and .search_spaces definitions with the new .gene macro-style for defining genetic attributes.
 * Renamed `#value` to `#fitness` throughout the codebase for clarity.
 * Removed deprecated `Gene.crossover` in favor of `Gene.combine`.
 * Removed deprecated `Evolution#crossover` in favor of `Evolution#combination`.
 * Renamed `Evolvable#after_initialize` to `Evolvable#after_initialize_evolvable`.
 * Changed population initialization and evolvable creation workflow for more consistency.
-* Simplified error handling in favor of more single  `Evolvable::Error` type with more informative messages.
+* Simplified error handling by unifying all exceptions under a single Evolvable::Error type
 * Changed `Population#new_evolvables` to only accept a `count` parameter, removing the `evolvables` parameter.
 * Changed default `size` parameter in `Population#initialize` from 40 to 0.
 * Changed `Population#evolve` default `count` parameter from `Float::INFINITY` to `1`.
@@ -17,10 +17,9 @@ New Features:
 * Introduced the `Evolvable::GeneCluster` module for complex gene grouping.
 * Added `Evolvable::Community` for managing multiple populations and their interactions.
 * Added genome merging capabilities with `merge_genome!` and `load_and_merge_genome!`.
-* Improved inheritance support for evolvable classes, preserving gene configurations.
 * Added `evolve_selected` method to Population for evolving a specific subset of evolvables.
-* Added direct access to genes and gene clusters through automatically generated methods.
-* Added new evolution API methods: `evolve_to_goal` and `evolve_forever` for more intuitive control over the evolution process.
+* Added automatic method generation for accessing genes and gene clusters by name.
+* Added new evolution control methods: evolve_to_goal and evolve_forever for more intuitive lifecycle control.
 * Comprehensive YARD documentation and README overhaul.
 
 ## 1.2.0 - 2022-1-22
