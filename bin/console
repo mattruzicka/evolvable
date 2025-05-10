@@ -12,7 +12,7 @@ require './examples/ascii_art'
 require './examples/ascii_gene'
 ascii_pop = AsciiArt.new_population(size: 8, mutation: { probability: 0.3, rate: 0.02 })
 
-# stickman_pop.evolve
-# ascii_pop.evolve
+# stickman_pop.evolve_forever
+# ascii_pop.evolve_forever
 
 binding.irb

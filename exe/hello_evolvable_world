@@ -39,7 +39,7 @@ class HelloWorld
       prepare_to_exit_loop && break if exit_loop?
 
       population.reset_evolvables
-      population.evolve
+      population.evolve_to_goal
     end
   end
 
@@ -101,7 +101,7 @@ end
 population = HelloWorld.new_population(size: 100,
                                        evaluation: { equalize: 0 },
                                        mutation: { probability: 0.6 })
-population.evolve
+population.evolve_to_goal
 HelloWorld.start_loop(population)
 
 binding.irb

@@ -25,10 +25,10 @@ module Evolvable
   #
   #   ```ruby
   #   robots = Robot.new_population(evaluation: :maximize) # Defaults to infinity
-  #   robots.evolve(goal_value: 100) # Evolve until fitness reaches 100+
+  #   robots.evolve_to_goal(100) # Evolve until fitness reaches 100+
   #
   #   # Same as above
-  #   Robot.new_population(evaluation: { maximize: 100 }).evolve
+  #   Robot.new_population(evaluation: { maximize: 100 }).evolve_to_goal
   #   ```
   #
   #   - Minimize (lower is better)

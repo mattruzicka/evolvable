@@ -10,6 +10,7 @@ Breaking Changes:
 * Simplified error handling in favor of more single  `Evolvable::Error` type with more informative messages.
 * Changed `Population#new_evolvables` to only accept a `count` parameter, removing the `evolvables` parameter.
 * Changed default `size` parameter in `Population#initialize` from 40 to 0.
+* Changed `Population#evolve` default `count` parameter from `Float::INFINITY` to `1`.
 
 New Features:
 * Added gene clusters for organizing related genes through the `cluster` parameter in gene definitions.
@@ -19,6 +20,7 @@ New Features:
 * Improved inheritance support for evolvable classes, preserving gene configurations.
 * Added `evolve_selected` method to Population for evolving a specific subset of evolvables.
 * Added direct access to genes and gene clusters through automatically generated methods.
+* Added new evolution API methods: `evolve_to_goal` and `evolve_forever` for more intuitive control over the evolution process.
 * Comprehensive YARD documentation and README overhaul.
 
 ## 1.2.0 - 2022-1-22

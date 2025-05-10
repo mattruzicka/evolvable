@@ -5,30 +5,28 @@ module Evolvable
   # @readme
   #   Populations orchestrate the evolutionary process through four key components:
   #
-  #   1. **Evaluation**: Sorts instances by fitness
+  #   1. **Evaluation**: Sorts evolvable instances by fitness
   #   2. **Selection**: Chooses parents for combination
-  #   3. **Combination**: Creates new instances from parents
-  #   4. **Mutation**: Adds genetic diversity
+  #   3. **Combination**: Creates new evolvables from selected parents
+  #   4. **Mutation**: Introduces variation to maintain genetic diversity
   #
   #   **Features**:
   #
-  #   Initialize your population with parameters
+  #   Initialize a population with default or custom parameters:
   #
   #   ```ruby
   #   population = YourEvolvable.new_population(
-  #     size: 50,                      # Population size (default is 0)
-  #     evaluation: :minimize,         # Set goal type (default is :maximize)
-  #     evaluation: { equalize: 0 },   # Supports setting an explicit goal (for fitness to equal 0)
-  #     selection: { size: 10 },       # Parent selection count (default is 2)
-  #     mutation: { probability: 0.2,  # Odds of instance undergoing mutation (default: 0.03)
-  #                 rate: 0.02 }       # Odds of gene being mutated (1 gene is mutated by default)
+  #     size: 50,
+  #     evaluation: { equalize: 0 },
+  #     selection: { size: 10 },
+  #     mutation: { probability: 0.2, rate: 0.02 }
   #   )
   #   ```
   #
-  #   Supports setting custom objects for the following components:
+  #   Or inject fully customized strategy objects:
+  #
   #   ```ruby
   #   population = YourEvolvable.new_population(
-  #     gene_space: Your::GeneSpace.new,
   #     evaluation: Your::Evaluation.new,
   #     evolution: Your::Evolution.new,
   #     selection: Your::Selection.new,
@@ -37,48 +35,36 @@ module Evolvable
   #   )
   #   ```
   #
-  #   Evolve your population with a certain number of generations and/or until a goal is met
+  #   Evolve your population:
   #
   #   ```ruby
-  #   population.evolve(count: 20, goal_value: 100)
+  #   population.evolve(count: 20)            # Run for 20 generations
+  #   population.evolve_to_goal               # Run until the current goal is met
+  #   population.evolve_to_goal(0.0)          # Run until a specific goal is met
+  #   population.evolve_forever               # Run indefinitely, ignoring any goal
+  #   population.evolve_selected([...])       # Use a custom subset of evolvables
   #   ```
   #
-  #   Initialize new evolvables with the evolution strategy defined by the population
+  #   Create new evolvables:
   #
   #   ```ruby
-  #   new_evolvable = population.new_evolvable
-  #   ten_evolvables = population.new_evolvables(count: 10)
+  #   new = population.new_evolvable
+  #   many = population.new_evolvables(count: 10)
+  #   with_genome = population.new_evolvable(genome: another.genome)
   #   ```
   #
-  #   Initialize an evolvable with a custom genome
+  #   Customize the evolution lifecycle by implementing hooks:
   #
   #   ```ruby
-  #   outsider_genome = other_population.best_evolvable.genome
-  #   outsider_evolvable = population.new_evolvable(genome: outsider_genome)
+  #   def self.before_evaluation(pop); end
+  #   def self.before_evolution(pop); end
+  #   def self.after_evolution(pop); end
   #   ```
   #
-  #   Hook into class methods that are called during evolution
+  #   Evaluate progress:
   #
   #   ```ruby
-  #   class YourEvolvable
-  #     include Evolvable
-  #
-  #     def self.before_evaluation(population); end
-  #     def self.before_evolution(population); end
-  #     def self.after_evolution(population); end
-  #   end
-  #   ```
-  #
-  #   Return the bsest evolvable
-  #
-  #   ```ruby
-  #   best_evolvable = population.best_evolvable if population.met_goal?
-  #   ```
-  #
-  #   Check if the population's goal has been met
-  #
-  #   ```ruby
-  #   population.met_goal?
+  #   best = population.best_evolvable if population.met_goal?
   #   ```
   #
   class Population
@@ -215,13 +201,13 @@ module Evolvable
                    :goal=
 
     #
-    # Evolves the population for a specified number of generations or until a goal is met.
+    # Evolves the population for a specified number of generations or until the goal is achieved.
     #
-    # @param count [Integer, Float] The number of evolutions to run (default: Float::INFINITY)
-    # @param goal_value [Numeric, nil] Optional goal value to evolve toward
-    # @return [Evolvable::Population] The evolved population
+    # @param count [Integer, Float] Number of generations to evolve. Use `Float::INFINITY` for indefinite evolution. Defaults to `1`.
+    # @param goal_value [Numeric, nil] Optional target value for the goal. If provided, evolution halts when this value is met.
+    # @return [Evolvable::Population] The evolved population.
     #
-    def evolve(count: Float::INFINITY, goal_value: nil)
+    def evolve(count: 1, goal_value: nil)
       goal.value = goal_value if goal_value
       1.upto(count) do
         before_evaluation(self)
@@ -233,6 +219,31 @@ module Evolvable
         self.evolutions_count += 1
         after_evolution(self)
       end
+    end
+
+    #
+    # Evolves the population until the goal is met.
+    #
+    # If no goal value is provided, it uses the currently defined `goal.value`.
+    #
+    # @param goal_value [Numeric, nil] Optional target value. Overrides the current goal if provided.
+    # @return [Evolvable::Population] The evolved population.
+    #
+    def evolve_to_goal(goal_value = nil)
+      goal_value ||= goal.value
+      evolve(count: Float::INFINITY, goal_value: goal_value)
+    end
+
+    #
+    # Evolves the population indefinitely, ignoring any goal.
+    #
+    # Clears any previously set `goal.value` to ensure evolution continues indefinitely.
+    #
+    # @return [Evolvable::Population] The evolved population.
+    #
+    def evolve_forever
+      goal.value = nil
+      evolve(count: Float::INFINITY)
     end
 
     #
