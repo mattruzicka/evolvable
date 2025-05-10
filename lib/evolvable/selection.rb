@@ -3,32 +3,37 @@
 module Evolvable
   #
   # @readme
-  #   The selection object assumes that a population's evolvables have already
-  #   been sorted by the evaluation object. It selects "parent" evolvables to
-  #   undergo combination and thereby produce the next generation of evolvables.
+  #   Selection determines which evolvables will serve as parents for the next
+  #   generation. You can control the selection process in several ways:
   #
-  #   Only two evolvables are selected as parents for each generation by default.
-  #   The selection size is configurable.
+  #   Set the selection size during population initialization:
   #
   #   ```ruby
-  #   # Configure selection size
   #   population = MyEvolvable.new_population(
-  #     selection: { size: 3 }  # Select top 3 performers
+  #     selection: { size: 3 }
   #   )
   #   ```
   #
-  #   You can also assign selected evolvables:
+  #   Adjust the selection size after initialization:
+  #
+  #   ```ruby
+  #   population.selection_size = 4
+  #   ```
+  #
+  #   Manually assign the selected evolvables:
   #
   #   ```ruby
   #   population.selected_evolvables = [evolvable1, evolvable2]
   #   ```
-  #   or skip to evolving them:
+  #
+  #   Or evolve a custom selection directly:
   #
   #   ```ruby
   #   population.evolve_selected([evolvable1, evolvable2])
   #   ```
   #
-  #   This allows for custom selection strategies beyond the built-in methods.
+  #   This flexibility lets you implement custom selection strategies,
+  #   overriding or augmenting the built-in behavior.
   #
   class Selection
     extend Forwardable
@@ -68,7 +73,7 @@ module Evolvable
     #
     # Selects the best evolvables from the given collection.
     # By default, selects the last N evolvables, where N is the selection size.
-    # This assumes evolvables are already sorted by fitness, with the best at the end.
+    # This assumes evolvables are already sorted in the evaluation step, with the best at the end.
     #
     # Override this method in a subclass to implement different selection strategies
     # such as tournament selection or roulette wheel selection.

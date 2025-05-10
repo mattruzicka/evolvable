@@ -7,8 +7,8 @@ module Evolvable
   #   that can be combined and mutated during evolution. Each gene represents a trait or behavior
   #   that can influence an evolvable's performance.
   #
-  #   **To define a gene class**,
-  #   1. Include the Evolvable::Gene module
+  #   **To define a gene class:**
+  #   1. Include the `Evolvable::Gene` module
   #   2. Define how the gene's value is determined
   #
   #   ```ruby
@@ -21,7 +21,7 @@ module Evolvable
   #   end
   #   ```
   #
-  #   It can then be used in an evolvable class like this:
+  #   Then use it in an evolvable class:
   #
   #   ```ruby
   #   class Robot
@@ -36,11 +36,24 @@ module Evolvable
   #   end
   #   ```
   #
-  #   By default, the combine method randomly picks one of the two parent genes.
+  #   **Gene Count**
   #
-  #   **A gene class can implement custom gene combination** by overriding the default `combine` class method.
+  #   You can control how many copies of a gene are created using the `count:` parameter:
   #
-  #   For example, the `SpeedGene` class might average the values of the two parent genes:
+  #   - `count: 1` (default) creates a single instance.
+  #   - A numeric value (e.g. `count: 5`) creates a fixed number of genes using `RigidCountGene`.
+  #   - A range (e.g. `count: 2..8`) creates a variable number of genes using `CountGene`, allowing the count to evolve over time.
+  #
+  #   Evolves melody length:
+  #
+  #   ```ruby
+  #   gene :notes, type: NoteGene, count: 4..12
+  #   ```
+  #
+  #   **Custom Combination**
+  #
+  #   By default, the `combine` method randomly picks one of the two parent genes.
+  #   A gene class can implement custom behavior by overriding `.combine`.
   #
   #   ```ruby
   #   class SpeedGene
@@ -60,21 +73,25 @@ module Evolvable
   #   end
   #   ```
   #
-  #   Effective gene design follows several patterns:
+  #   **Design Patterns**
   #
-  #   - **Immutability**: Gene values should sampled and cached/memoized e.g. `@value ||= rand(1..100)`
-  #   - **Self-Contained**: Genes should encapsulate their own logic and data
-  #   - **Composable**: Complex genes can be built from combinations of other genes
-  #   - **Domain-Specific**: Genes should directly represent the domain
+  #   Effective gene design typically follows these principles:
+  #
+  #   - **Immutability**: Cache values after initial sampling (e.g., `@value ||= ...`)
+  #   - **Self-Contained**: Genes should encapsulate their logic and state
+  #   - **Composable**: You can build complex structures using multiple genes or clusters
+  #   - **Domain-Specific**: Genes should map directly to your problem’s traits or features
   #
   #   Genes come in various types, each representing different aspects of a solution.
-  #   Common examples include numeric genes for quantities, selection genes for choices from sets,
-  #   boolean genes for binary decisions, structural genes for architecture, and parameter genes for
-  #   configuration settings.
+  #   Common examples include numeric genes for quantities, selection genes for choices
+  #   from sets, boolean genes for binary decisions, structural genes for architecture,
+  #   and parameter genes for configuration settings.
   #
   # @see Evolvable::GeneSpace
   # @see Evolvable::GeneCluster
   # @see Evolvable::GeneCombination
+  # @see Evolvable::CountGene
+  # @see Evolvable::RigidCountGene
   #
   module Gene
     #

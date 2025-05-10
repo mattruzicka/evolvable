@@ -2,72 +2,18 @@
 
 module Evolvable
   #
-  # @readme
-  #   The gene space defines the genetic structure of evolvable classes - a blueprint
-  #   for creating and managing genes.
+  # The gene space defines the structure of an evolvable's genome.
+  # It acts as a blueprint that describes what kinds of genes each
+  # evolvable instance should have—and how many.
   #
-  #   **Two Key Gene Count Types**
-  #
-  #   1. **Fixed Count**: When you specify a single number or default
-  #
-  #   ```ruby
-  #   gene :color, type: ColorGene  # Default count: 1
-  #   ```
-  #
-  #   2. **Variable Count**: When you specify a range
-  #
-  #   ```ruby
-  #   gene :skills, type: SkillGene, count: 1..5  # Can evolve between 1-5 skills
-  #   ```
-  #
-  #   **Benefits**
-  #
-  #   - Declarative model definition
-  #   - Automatic gene management
-  #   - Self-evolving structure (with ranges)
-  #   - Consistent instance initialization
+  # At runtime, Evolvable::GeneSpace is responsible for interpreting this blueprint,
+  # constructing genomes, and managing gene configurations. You typically won’t need to
+  # interact with GeneSpace directly.
   #
   # @see Evolvable::Gene
   # @see Evolvable::GeneCluster
-  # @see Evolvable::Population
+  # @see Evolvable::GeneCombination
   #
-  # @example
-  #   # A simple example showing various gene definition options
-  #   class Character
-  #     include Evolvable
-  #
-  #     # Fixed count gene
-  #     gene :name, type: NameGene, count: 1
-  #
-  #     # Variable count gene - can have between 1-20 skills
-  #     gene :skills, type: SkillGene, count: 1..20
-  #
-  #     # Genes organized in a cluster
-  #     gene :strength, type: AttributeGene, count: 1, cluster: :physical_stats
-  #     gene :dexterity, type: AttributeGene, count: 1, cluster: :physical_stats
-  #     gene :constitution, type: AttributeGene, count: 1, cluster: :physical_stats
-  #
-  #     # Access genes individually
-  #     def describe
-  #       puts "#{name} has #{skills.count} skills"
-  #       puts "Strength: #{strength.value}"
-  #     end
-  #
-  #     # Or access gene clusters
-  #     def physical_power
-  #       physical_stats.sum(&:value)
-  #     end
-  #   end
-  #
-  #   # Create a population and evolve it
-  #   population = Character.new_population(size: 10)
-  #   population.evolve(count: 5)
-  #
-  #   # The number of skills may have changed during evolution
-  #   best_character = population.best_evolvable
-  #   puts "Best character has #{best_character.skills.count} skills"
-  #
-
   class GeneSpace
     class << self
       def build(config, evolvable_class = nil)

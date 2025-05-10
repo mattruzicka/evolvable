@@ -108,7 +108,7 @@
   <div class="discussion">
     <p>The CountGene class handles the dynamic count of genes in evolvable instances.
 When a gene is defined with a range for <code>count:</code> (e.g., <code>count: 2..8</code>), a CountGene
-is created to manage this count, allowing the number of genes to evolve over
+is created to manage this count, allowing the number of genes to change over
 successive generations.</p>
 
 
@@ -120,8 +120,10 @@ successive generations.</p>
     <h4 class="tag_title">Examples:</h4>
     
       
-      <pre class="example code"><code><span class='comment'># Define a melody with a variable number of notes (4 to 16)
-</span><span class='kw'>class</span> <span class='const'>Melody</span>
+        <h5 class="example_title"><div class='inline'><p>Define a melody with a variable number of notes (4 to 16)</p>
+</div></h5>
+      
+      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Melody</span>
   <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
 
   <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:notes</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>NoteGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>4</span><span class='op'>..</span><span class='int'>16</span>
@@ -448,13 +450,13 @@ These lambdas determine how two count genes are merged during evolution.</p>
       <pre class="lines">
 
 
+67
+68
 69
-70
-71
-72</pre>
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>range:</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@range</span> <span class='op'>=</span> <span class='id identifier rubyid_range'>range</span>
@@ -514,12 +516,12 @@ These lambdas determine how two count genes are merged during evolution.</p>
       <pre class="lines">
 
 
-79
-80
-81</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_range'>range</span>
   <span class='ivar'>@range</span>
@@ -578,12 +580,12 @@ These lambdas determine how two count genes are merged during evolution.</p>
       <pre class="lines">
 
 
-58
-59
-60</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_combination'>combination</span>
   <span class='const'><span class='object_link'><a href="#LAMBDAS-constant" title="Evolvable::CountGene::LAMBDAS (constant)">LAMBDAS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
@@ -670,15 +672,15 @@ The combination strategy is randomly selected from LAMBDAS.</p>
       <pre class="lines">
 
 
+34
+35
 36
 37
 38
-39
-40
-41</pre>
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_combine'>combine</span><span class='lparen'>(</span><span class='id identifier rubyid_gene_a'>gene_a</span><span class='comma'>,</span> <span class='id identifier rubyid_gene_b'>gene_b</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_min'>min</span> <span class='op'>=</span> <span class='id identifier rubyid_gene_a'>gene_a</span><span class='period'>.</span><span class='id identifier rubyid_min_count'>min_count</span>
@@ -740,12 +742,12 @@ If not already set, randomly selects a value from the range.</p>
       <pre class="lines">
 
 
-87
-88
-89</pre>
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 85</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_count'>count</span>
   <span class='ivar'>@count</span> <span class='op'>||=</span> <span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='ivar'>@range</span><span class='rparen'>)</span>
@@ -797,12 +799,12 @@ If not already set, randomly selects a value from the range.</p>
       <pre class="lines">
 
 
-105
-106
-107</pre>
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_max_count'>max_count</span>
   <span class='ivar'>@range</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
@@ -854,12 +856,12 @@ If not already set, randomly selects a value from the range.</p>
       <pre class="lines">
 
 
-96
-97
-98</pre>
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/count_gene.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_min_count'>min_count</span>
   <span class='ivar'>@range</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span>
@@ -874,7 +876,7 @@ If not already set, randomly selects a value from the range.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

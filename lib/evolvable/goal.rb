@@ -7,7 +7,7 @@ module Evolvable
   # @readme
   #   **Custom Goals**
   #
-  #   You can create custom goals by subclassing `Evolvable::Goal`` and implementing:
+  #   You can create custom goals by subclassing `Evolvable::Goal` and implementing:
   #   - `evaluate(evolvable)`: Return a value that for sorting evolvables
   #   - `met?(evolvable)`: Returns true when the goal value is reached
   #

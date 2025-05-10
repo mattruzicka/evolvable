@@ -85,54 +85,59 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>The Community module provides a framework for managing multiple interrelated populations
-in a coordinated manner. This is essential for more complex simulations where different types
-of evolvables need to interact, such as predator-prey ecosystems, multi-agent systems, or
-layered optimization problems.</p>
+    <p>The <code>Community</code> module provides a framework for coordinating multiple evolvable populations
+under a unified interface. Each population represents a distinct type of evolvable, and
+each key returns a single evolvable instance drawn from its corresponding population.</p>
+
+<p>Communities are ideal for simulations or systems where different components evolve
+in parallel but interact as part of a larger whole - such as ecosystems, design systems,
+or modular agents. Evolvables from different populations can co-evolve, influencing each other&#39;s fitness.</p>
+
+<p>Use the <code>evolvable_community</code> macro to declare the set of named populations in the community.
+Each population will have a corresponding method (e.g., <code>fish_1</code>, <code>plant</code>, <code>shrimp</code>) that
+returns a single evolvable instance. You can evolve all populations together using the
+<code>evolve</code> method, or per population.</p>
 
 <p><strong>Key Features</strong></p>
 
 <ul>
-<li>Define a community with multiple population types</li>
-<li>Manage relationships between different evolvable types</li>
-<li>Coordinate evolution across multiple populations</li>
-<li>Access populations and instances through a unified interface</li>
+<li>Define a community composed of named populations</li>
+<li>Automatically generate accessors for each evolvable instance</li>
+<li>Coordinate evolution across populations through a shared interface</li>
+<li>Evolve all populations in a single call with <code>evolve(...)</code></li>
 </ul>
 
-<p><strong>Example Use Cases</strong></p>
+<p>This <code>FishTank</code> example sets up a community with four named populations:</p>
 
-<ul>
-<li><strong>Ecosystems</strong>: Simulate interactions between plants, herbivores, and predators</li>
-<li><strong>Multi-component Systems</strong>: Design systems where components evolve together</li>
-<li><strong>Layered Optimization</strong>: Solve problems with different optimization levels</li>
-</ul>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>FishTank</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>Community</span>
+
+  <span class='id identifier rubyid_evolvable_community'>evolvable_community</span> <span class='label'>fish_1:</span> <span class='const'>Fish</span><span class='comma'>,</span>
+                      <span class='label'>fish_2:</span> <span class='const'>Fish</span><span class='comma'>,</span>
+                      <span class='label'>plant:</span> <span class='const'>AquariumPlant</span><span class='comma'>,</span>
+                      <span class='label'>shrimp:</span> <span class='const'>CleanerShrimp</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_describe_tank'>describe_tank</span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>🐟 Fish 1: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fish_1'>fish_1</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fish_1'>fish_1</span><span class='period'>.</span><span class='id identifier rubyid_color'>color</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>🐟 Fish 2: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fish_2'>fish_2</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fish_2'>fish_2</span><span class='period'>.</span><span class='id identifier rubyid_color'>color</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>🌿 Plant: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_plant'>plant</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_plant'>plant</span><span class='period'>.</span><span class='id identifier rubyid_color'>color</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>🦐 Shrimp: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shrimp'>shrimp</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shrimp'>shrimp</span><span class='period'>.</span><span class='id identifier rubyid_color'>color</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Initialize the community, describe the tank, and evolve each population:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_tank'>tank</span> <span class='op'>=</span> <span class='const'>FishTank</span><span class='period'>.</span><span class='id identifier rubyid_new_community'>new_community</span>
+<span class='id identifier rubyid_tank'>tank</span><span class='period'>.</span><span class='id identifier rubyid_describe_tank'>describe_tank</span>
+<span class='id identifier rubyid_tank'>tank</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span>
+</code></pre>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <h4 class="tag_title">Examples:</h4>
-    
-      
-        <h5 class="example_title"><div class='inline'><p>Creating a simple ecosystem</p>
-</div></h5>
-      
-      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Ecosystem</span>
-  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>Community</span>
-
-  <span class='id identifier rubyid_evolvable_community'>evolvable_community</span> <span class='label'>plant:</span> <span class='const'>Plant</span><span class='comma'>,</span>
-                      <span class='label'>animal:</span> <span class='const'>Animal</span>
-<span class='kw'>end</span>
-
-<span class='comment'># Create and use the ecosystem
-</span><span class='id identifier rubyid_ecosystem'>ecosystem</span> <span class='op'>=</span> <span class='const'>Ecosystem</span><span class='period'>.</span><span class='id identifier rubyid_new_community'>new_community</span>
-<span class='id identifier rubyid_ecosystem'>ecosystem</span><span class='period'>.</span><span class='id identifier rubyid_plant'>plant</span>    <span class='comment'># Returns a plant
-</span><span class='id identifier rubyid_ecosystem'>ecosystem</span><span class='period'>.</span><span class='id identifier rubyid_animal'>animal</span>   <span class='comment'># Returns an animal</span></code></pre>
-    
-  </div>
-
 
 </div><h2>Defined Under Namespace</h2>
 <p class="children">
@@ -262,6 +267,29 @@ layered optimization problems.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#evolve-instance_method" title="#evolve (instance method)">#<strong>evolve</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Evolves all populations in the community.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#find_evolvable-instance_method" title="#find_evolvable (instance method)">#<strong>find_evolvable</strong>(name)  &#x21d2; Object<sup>?</sup> </a>
     
 
@@ -346,6 +374,29 @@ layered optimization problems.</p>
 
   
     <span class="summary_desc"><div class='inline'><p>Creates a new evolvable instance from the corresponding population.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#populations-instance_method" title="#populations (instance method)">#<strong>populations</strong>  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns an array of population instances.</p>
 </div></span>
   
 </li>
@@ -444,12 +495,12 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-38
-39
-40</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Community/ClassMethods.html" title="Evolvable::Community::ClassMethods (module)">ClassMethods</a></span></span><span class='rparen'>)</span>
@@ -541,12 +592,12 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-146
-147
-148</pre>
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_evolvable'>add_evolvable</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_evolvable'>evolvable</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_evolvables_by_name'>evolvables_by_name</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_evolvable'>evolvable</span>
@@ -632,12 +683,12 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-110
-111
-112</pre>
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 138</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_population'>add_population</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_populations_by_name'>populations_by_name</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span>
@@ -689,15 +740,55 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-152
-153
-154</pre>
+180
+181
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evolvables_by_name'>evolvables_by_name</span>
   <span class='ivar'>@evolvables_by_name</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="evolve-instance_method">
+  
+    #<strong>evolve</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p><p>Evolves all populations in the community</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_populations'>populations</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_population'>population</span><span class='op'>|</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -765,12 +856,12 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-124
-125
-126</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_evolvable'>find_evolvable</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_evolvables_by_name'>evolvables_by_name</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span>
@@ -841,12 +932,12 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-131
-132
-133</pre>
+159
+160
+161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 159</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_or_new_evolvable'>find_or_new_evolvable</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_find_evolvable'>find_evolvable</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_new_evolvable'>new_evolvable</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -917,12 +1008,12 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-117
-118
-119</pre>
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 145</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_population'>find_population</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_populations_by_name'>populations_by_name</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span>
@@ -993,15 +1084,72 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-138
-139
-140</pre>
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 166</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_evolvable'>new_evolvable</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_evolvables_by_name'>evolvables_by_name</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_find_population'>find_population</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new_evolvable'>new_evolvable</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="populations-instance_method">
+  
+    #<strong>populations</strong>  &#x21d2; <tt>Array</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns an array of population instances</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>An array of population instances</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_populations'>populations</span>
+  <span class='id identifier rubyid_populations_by_name'>populations_by_name</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1050,12 +1198,12 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-96
-97
-98</pre>
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 112</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_populations_by_name'>populations_by_name</span>
   <span class='ivar'>@populations_by_name</span> <span class='op'>||=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_populations_by_name'>populations_by_name</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
@@ -1107,12 +1255,12 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-158
-159
-160</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_evolvables'>reset_evolvables</span>
   <span class='ivar'>@evolvables_by_name</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1164,12 +1312,12 @@ layered optimization problems.</p>
       <pre class="lines">
 
 
-102
-103
-104</pre>
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_populations'>reset_populations</span>
   <span class='ivar'>@populations_by_name</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1184,7 +1332,7 @@ layered optimization problems.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

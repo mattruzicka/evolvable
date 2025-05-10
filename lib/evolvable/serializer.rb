@@ -3,34 +3,48 @@
 module Evolvable
   #
   # @readme
-  #   The Serializer provides a way to save and restore the state of populations
-  #   and evolvable instances. By default, it uses Ruby's built-in Marshal class
-  #   to serialize data.
+  #   Evolvable supports saving and restoring the state of both populations
+  #   and individual evolvable instances through a built-in `Serializer`.
+  #   By default, it uses Ruby's `Marshal` class for fast, portable binary serialization.
   #
   #   Serialization is useful for:
-  #   - Saving the progress of a long-running evolution
-  #   - Storing champion solutions for later use
+  #   - Saving progress during long-running evolution
+  #   - Storing champion solutions for later reuse
   #   - Transferring evolved populations between systems
-  #   - Creating checkpoints to revert to if needed
+  #   - Creating checkpoints you can revert to
   #
-  #   Evolvable provides serialization methods on both Population and individual
-  #   evolvable instances, all of which use this Serializer internally.
+  #   Both `Population` and individual evolvables expose `dump` and `load` methods
+  #   that use the `Serializer` internally.
+  #
+  #   Save a population to a file:
   #
   #   ```ruby
-  #   # Save a population to a file
-  #   population = MyEvolvable.new_population
+  #   population = YourEvolvable.new_population
   #   population.evolve(count: 100)
+  #   File.write("population.marshal", population.dump)
+  #   ```
   #
-  #   # Save state
-  #   serialized_data = population.dump
-  #   File.write('evolved_population.dat', serialized_data)
+  #   Restore and continue evolution:
   #
-  #   # Later, load the state
-  #   data = File.read('evolved_population.dat')
-  #   restored_population = Population.load(data)
+  #   ```ruby
+  #   data = File.read("population.marshal")
+  #   restored = Evolvable::Population.load(data)
+  #   restored.evolve(count: 100)
+  #   ```
   #
-  #   # Continue evolution from saved point
-  #   restored_population.evolve(count: 100)
+  #   Save an individual evolvable's genome:
+  #
+  #   ```ruby
+  #   best = restored.best_evolvable
+  #   File.write("champion.marshal", best.dump_genome)
+  #   ```
+  #
+  #   Restore genome into a new evolvable:
+  #
+  #   ```ruby
+  #   raw = File.read("champion.marshal")
+  #   champion = YourEvolvable.new_evolvable
+  #   champion.load_genome(raw)
   #   ```
   #
   class Serializer

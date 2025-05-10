@@ -4,40 +4,48 @@ module Evolvable
   #
   # @readme
   #   Gene clusters group related genes into reusable components that can be applied
-  #   to multiple evolvable classes.
+  #   to multiple evolvable classes. This promotes clean organization, eliminates
+  #   naming conflicts, and simplifies gene access.
   #
-  #   When applied, genes are automatically namespaced with the cluster name:
-  #   - Access as a group: `evolvable.styling` (returns all styling genes)
-  #   - Access individually: `evolvable.find_gene("styling-color")`
+  #   **Benefits:**
+  #   - Reuse gene groups across multiple evolvables
+  #   - Prevent name collisions via automatic namespacing
+  #   - Treat clusters as structured subcomponents of a genome
+  #   - Access all genes in a cluster with a single method call
   #
-  #   This provides:
-  #   - Clean organization of related genes (styling, physics, etc.)
-  #   - Prevention of name conflicts
-  #   - Simplified access to gene groups
+  #   The `ColorPaletteCluster` below defines a group of genes commonly used for styling themes:
+  #
+  #   ```ruby
+  #   class ColorPaletteCluster
+  #     include Evolvable::GeneCluster
+  #
+  #     gene :primary, type: 'ColorGene', count: 1
+  #     gene :secondary, type: 'ColorGene', count: 1
+  #     gene :accent, type: 'ColorGene', count: 1
+  #     gene :neutral, type: 'ColorGene', count: 1
+  #   end
+  #   ```
+  #
+  #   Use the `cluster` macro to apply the cluster to your evolvable class:
+  #
+  #   ```ruby
+  #   class Theme
+  #     include Evolvable
+  #
+  #     cluster :colors, type: ColorPaletteCluster
+  #
+  #     def inspect_colors
+  #       colors.join(", ")
+  #     end
+  #   end
+  #   ```
+  #
+  #   When a cluster is applied, its genes are automatically namespaced with the cluster name:
+  #   - Access the full group: `theme.colors` → returns all genes in the colors cluster
+  #   - Access individual genes: `theme.find_gene("colors-primary")`
   #
   # @see Evolvable::Gene
   # @see Evolvable::GeneSpace
-  #
-  # @example
-  #   # Define a simple styling cluster
-  #   class StylingCluster
-  #     include Evolvable::GeneCluster
-  #
-  #     gene :color, type: 'ColorGene', count: 1
-  #     gene :size, type: 'SizeGene', count: 1
-  #   end
-  #
-  #   # Use the cluster in a component
-  #   class Box
-  #     include Evolvable
-  #
-  #     cluster :style, type: StylingCluster
-  #     gene :text, type: 'TextGene', count: 1
-  #
-  #     def render
-  #       "Box with #{style.color} and size #{style.size}"
-  #     end
-  #   end
   #
   module GeneCluster
     #

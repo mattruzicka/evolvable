@@ -407,7 +407,7 @@ command line demo.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#find_gene-instance_method" title="#find_gene (instance method)">#<strong>find_gene</strong>(name)  &#x21d2; Object </a>
+      <a href="#find_gene-instance_method" title="#find_gene (instance method)">#<strong>find_gene</strong>  &#x21d2; Object </a>
     
 
     
@@ -452,7 +452,7 @@ command line demo.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#find_genes-instance_method" title="#find_genes (instance method)">#<strong>find_genes</strong>(name)  &#x21d2; Object </a>
+      <a href="#find_genes-instance_method" title="#find_genes (instance method)">#<strong>find_genes</strong>  &#x21d2; Object </a>
     
 
     
@@ -1054,7 +1054,7 @@ Useful for saving the state of an evolvable.</p>
       <div class="method_details ">
   <h3 class="signature " id="find_gene-instance_method">
   
-    #<strong>find_gene</strong>(name)  &#x21d2; <tt>Object</tt> 
+    #<strong>find_gene</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1073,8 +1073,8 @@ Useful for saving the state of an evolvable.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 304</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_find_gene'>find_gene</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-  <span class='ivar'>@genome</span><span class='op'>&amp;.</span><span class='id identifier rubyid_find_gene'>find_gene</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_find_gene'>find_gene</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
+  <span class='ivar'>@genome</span><span class='op'>&amp;.</span><span class='id identifier rubyid_find_gene'>find_gene</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1161,7 +1161,7 @@ This is used internally when accessing gene clusters.</p>
       <div class="method_details ">
   <h3 class="signature " id="find_genes-instance_method">
   
-    #<strong>find_genes</strong>(name)  &#x21d2; <tt>Object</tt> 
+    #<strong>find_genes</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1180,8 +1180,8 @@ This is used internally when accessing gene clusters.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/evolvable.rb', line 308</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_find_genes'>find_genes</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-  <span class='ivar'>@genome</span><span class='op'>&amp;.</span><span class='id identifier rubyid_find_genes'>find_genes</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_find_genes'>find_genes</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
+  <span class='ivar'>@genome</span><span class='op'>&amp;.</span><span class='id identifier rubyid_find_genes'>find_genes</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1609,7 +1609,7 @@ Useful for combining genetic traits from different evolvables.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

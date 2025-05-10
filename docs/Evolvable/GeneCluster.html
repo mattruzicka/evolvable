@@ -86,21 +86,48 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p>Gene clusters group related genes into reusable components that can be applied
-to multiple evolvable classes.</p>
+to multiple evolvable classes. This promotes clean organization, eliminates
+naming conflicts, and simplifies gene access.</p>
 
-<p>When applied, genes are automatically namespaced with the cluster name:</p>
+<p><strong>Benefits:</strong></p>
 
 <ul>
-<li>Access as a group: <code>evolvable.styling</code> (returns all styling genes)</li>
-<li>Access individually: <code>evolvable.find_gene(&quot;styling-color&quot;)</code></li>
+<li>Reuse gene groups across multiple evolvables</li>
+<li>Prevent name collisions via automatic namespacing</li>
+<li>Treat clusters as structured subcomponents of a genome</li>
+<li>Access all genes in a cluster with a single method call</li>
 </ul>
 
-<p>This provides:</p>
+<p>The <code>ColorPaletteCluster</code> below defines a group of genes commonly used for styling themes:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>ColorPaletteCluster</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>GeneCluster</span>
+
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:primary</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ColorGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:secondary</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ColorGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:accent</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ColorGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:neutral</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ColorGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Use the <code>cluster</code> macro to apply the cluster to your evolvable class:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Theme</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
+
+  <span class='id identifier rubyid_cluster'>cluster</span> <span class='symbol'>:colors</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>ColorPaletteCluster</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_inspect_colors'>inspect_colors</span>
+    <span class='id identifier rubyid_colors'>colors</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>When a cluster is applied, its genes are automatically namespaced with the cluster name:</p>
 
 <ul>
-<li>Clean organization of related genes (styling, physics, etc.)</li>
-<li>Prevention of name conflicts</li>
-<li>Simplified access to gene groups</li>
+<li>Access the full group: <code>theme.colors</code> → returns all genes in the colors cluster</li>
+<li>Access individual genes: <code>theme.find_gene(&quot;colors-primary&quot;)</code></li>
 </ul>
 
 
@@ -108,32 +135,6 @@ to multiple evolvable classes.</p>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <h4 class="tag_title">Examples:</h4>
-    
-      
-      <pre class="example code"><code><span class='comment'># Define a simple styling cluster
-</span><span class='kw'>class</span> <span class='const'>StylingCluster</span>
-  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>GeneCluster</span>
-
-  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ColorGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
-  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:size</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SizeGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
-<span class='kw'>end</span>
-
-<span class='comment'># Use the cluster in a component
-</span><span class='kw'>class</span> <span class='const'>Box</span>
-  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
-
-  <span class='id identifier rubyid_cluster'>cluster</span> <span class='symbol'>:style</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>StylingCluster</span>
-  <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:text</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>TextGene</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>1</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Box with </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_color'>color</span><span class='embexpr_end'>}</span><span class='tstring_content'> and size </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></code></pre>
-    
-  </div>
-
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
@@ -247,13 +248,13 @@ the GeneCluster module in your class.</p>
       <pre class="lines">
 
 
-51
-52
-53
-54</pre>
+59
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_cluster.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="GeneCluster/ClassMethods.html" title="Evolvable::GeneCluster::ClassMethods (module)">ClassMethods</a></span></span><span class='rparen'>)</span>
@@ -269,7 +270,7 @@ the GeneCluster module in your class.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

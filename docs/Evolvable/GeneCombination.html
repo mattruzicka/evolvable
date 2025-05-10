@@ -101,35 +101,24 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Combination generates new evolvable instances by combining the genes of selected instances.
-You can think of it as a mixing of parent genes from one generation to
-produce the next generation.</p>
+    <p>Combination is the process of creating new evolvables by mixing the genes
+of selected parents. This step drives the creation of the next generation
+by recombining traits in novel ways.</p>
 
-<p>You may choose from a selection of combination objects or implement your own.
-The default combination object is <code>Evolvable::GeneCombination</code>.</p>
+<p>You can choose from several built-in combination strategies or implement your own.
+By default, Evolvable uses <code>Evolvable::GeneCombination</code>, which delegates
+gene-level behavior to individual gene classes.</p>
 
-<p>This implementation enables individual gene types to define their own
-combination behaviors through the Gene.combine class method, giving you
-fine-grained control over how different gene types are combined.</p>
+<p>To define custom combination logic for a gene type, implement:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>YourGeneClass</span><span class='period'>.</span><span class='id identifier rubyid_combine'>combine</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_1_gene'>parent_1_gene</span><span class='comma'>,</span> <span class='id identifier rubyid_parent_2_gene'>parent_2_gene</span><span class='rparen'>)</span>
+</code></pre>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <h4 class="tag_title">Examples:</h4>
-    
-      
-      <pre class="example code"><code><span class='comment'># Use default gene combination
-</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
-  <span class='label'>combination:</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>GeneCombination</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-<span class='rparen'>)</span>
-
-<span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span></code></pre>
-    
-  </div>
-
 
 </div>
 
@@ -286,13 +275,13 @@ Creates new evolvables by combining parent genomes.</p>
       <pre class="lines">
 
 
-33
-34
-35
-36</pre>
+28
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_combination.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_combination.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_evolvables'>new_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='comma'>,</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
@@ -380,19 +369,19 @@ For each gene key, combines the count genes and individual genes.</p>
       <pre class="lines">
 
 
+58
+59
+60
+61
+62
 63
 64
 65
 66
-67
-68
-69
-70
-71
-72</pre>
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_combination.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_combination.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_combine_genomes'>combine_genomes</span><span class='lparen'>(</span><span class='id identifier rubyid_genome_1'>genome_1</span><span class='comma'>,</span> <span class='id identifier rubyid_genome_2'>genome_2</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_config'>new_config</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -486,17 +475,17 @@ For each new evolvable, selects parent genomes and combines them.</p>
       <pre class="lines">
 
 
+41
+42
+43
+44
+45
 46
 47
-48
-49
-50
-51
-52
-53</pre>
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_combination.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene_combination.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_evolvables'>new_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='comma'>,</span> <span class='id identifier rubyid_count'>count</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_parent_genome_cycle'>parent_genome_cycle</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_new_parent_genome_cycle'>new_parent_genome_cycle</span>
@@ -516,7 +505,7 @@ For each new evolvable, selects parent genomes and combines them.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

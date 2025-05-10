@@ -106,8 +106,8 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>The RigidCountGene class manages fixed gene counts in evolvable instances.
-Unlike CountGene, the RigidCountGene maintains a constant number of genes
+    <p>This class manages fixed gene counts in evolvable instances.
+Unlike the CountGene, the RigidCountGene maintains a constant number of genes
 that doesn&#39;t change during evolution. This is used when a gene is defined
 with a fixed integer for <code>count:</code> (e.g., <code>count: 5</code>).</p>
 
@@ -120,8 +120,10 @@ with a fixed integer for <code>count:</code> (e.g., <code>count: 5</code>).</p>
     <h4 class="tag_title">Examples:</h4>
     
       
-      <pre class="example code"><code><span class='comment'># Define a chord with exactly 4 notes
-</span><span class='kw'>class</span> <span class='const'>Chord</span>
+        <h5 class="example_title"><div class='inline'><p>Define a chord with exactly 4 notes</p>
+</div></h5>
+      
+      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Chord</span>
   <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
 
   <span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:notes</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>NoteGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>4</span>
@@ -306,12 +308,12 @@ with a fixed integer for <code>count:</code> (e.g., <code>count: 5</code>).</p>
       <pre class="lines">
 
 
-44
-45
-46</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/rigid_count_gene.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/rigid_count_gene.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_count'>count</span><span class='rparen'>)</span>
   <span class='ivar'>@count</span> <span class='op'>=</span> <span class='id identifier rubyid_count'>count</span>
@@ -370,12 +372,12 @@ with a fixed integer for <code>count:</code> (e.g., <code>count: 5</code>).</p>
       <pre class="lines">
 
 
-53
-54
-55</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/rigid_count_gene.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/rigid_count_gene.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_count'>count</span>
   <span class='ivar'>@count</span>
@@ -469,12 +471,12 @@ This ensures the count remains constant during evolution.</p>
       <pre class="lines">
 
 
-35
-36
-37</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/rigid_count_gene.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/rigid_count_gene.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_combine'>combine</span><span class='lparen'>(</span><span class='id identifier rubyid_gene_a'>gene_a</span><span class='comma'>,</span> <span class='id identifier rubyid__gene_b'>_gene_b</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_gene_a'>gene_a</span>
@@ -489,7 +491,7 @@ This ensures the count remains constant during evolution.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

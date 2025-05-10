@@ -2,14 +2,12 @@
 
 module Evolvable
   #
-  # @readme
-  #   The CountGene class handles the dynamic count of genes in evolvable instances.
-  #   When a gene is defined with a range for `count:` (e.g., `count: 2..8`), a CountGene
-  #   is created to manage this count, allowing the number of genes to evolve over
-  #   successive generations.
+  # The CountGene class handles the dynamic count of genes in evolvable instances.
+  # When a gene is defined with a range for `count:` (e.g., `count: 2..8`), a CountGene
+  # is created to manage this count, allowing the number of genes to change over
+  # successive generations.
   #
-  # @example
-  #   # Define a melody with a variable number of notes (4 to 16)
+  # @example Define a melody with a variable number of notes (4 to 16)
   #   class Melody
   #     include Evolvable
   #

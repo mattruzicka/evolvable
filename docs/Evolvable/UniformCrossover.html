@@ -101,26 +101,30 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>UniformCrossover randomly selects genes from either parent with equal probability
-for each gene position. Unlike point crossover, there are no &quot;chunks&quot; of genes preserved
-from either parent - each gene is chosen independently.</p>
+    <p>Chooses genes independently at each position, selecting randomly from either
+parent with equal probability. No segments are preserved—each gene is treated
+in isolation.</p>
 
-<p>This strategy:</p>
+<p>Best for:</p>
 
 <ul>
-<li>Provides maximum mixing of genetic material</li>
-<li>Better handles problems where gene ordering isn&#39;t important</li>
-<li>Often performs well on problems with complex interdependencies</li>
+<li>Problems where gene order doesn&#39;t matter</li>
+<li>High genetic diversity and exploration</li>
+<li>Complex interdependencies across traits</li>
 </ul>
 
-<p>Uniform crossover is particularly effective when good solutions have traits that are
-widely distributed throughout the genome rather than clustered together.</p>
+<p>Uniform crossover is especially effective when good traits are scattered across the genome.</p>
 
-<p>Configuration:</p>
+<p>Set your population to use this strategy during initialization with:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
   <span class='label'>combination:</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>UniformCrossover</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
 <span class='rparen'>)</span>
+</code></pre>
+
+<p>Or update an existing population:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_combination'>combination</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>UniformCrossover</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
 </code></pre>
 
 
@@ -212,13 +216,13 @@ widely distributed throughout the genome rather than clustered together.</p>
       <pre class="lines">
 
 
-26
-27
-28
-29</pre>
+32
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/uniform_crossover.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/uniform_crossover.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span> <span class='op'>=</span> <span class='id identifier rubyid_new_evolvables'>new_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='comma'>,</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
@@ -244,16 +248,16 @@ widely distributed throughout the genome rather than clustered together.</p>
       <pre class="lines">
 
 
-31
-32
-33
-34
-35
-36
-37</pre>
+37
+38
+39
+40
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/uniform_crossover.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/uniform_crossover.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_evolvables'>new_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='comma'>,</span> <span class='id identifier rubyid_count'>count</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_parent_genome_cycle'>parent_genome_cycle</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_new_parent_genome_cycle'>new_parent_genome_cycle</span>
@@ -272,7 +276,7 @@ widely distributed throughout the genome rather than clustered together.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

@@ -106,30 +106,33 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>The selection object assumes that a population&#39;s evolvables have already
-been sorted by the evaluation object. It selects &quot;parent&quot; evolvables to
-undergo combination and thereby produce the next generation of evolvables.</p>
+    <p>Selection determines which evolvables will serve as parents for the next
+generation. You can control the selection process in several ways:</p>
 
-<p>Only two evolvables are selected as parents for each generation by default.
-The selection size is configurable.</p>
+<p>Set the selection size during population initialization:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># Configure selection size
-</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
-  <span class='label'>selection:</span> <span class='lbrace'>{</span> <span class='label'>size:</span> <span class='int'>3</span> <span class='rbrace'>}</span>  <span class='comment'># Select top 3 performers
-</span><span class='rparen'>)</span>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
+  <span class='label'>selection:</span> <span class='lbrace'>{</span> <span class='label'>size:</span> <span class='int'>3</span> <span class='rbrace'>}</span>
+<span class='rparen'>)</span>
 </code></pre>
 
-<p>You can also assign selected evolvables:</p>
+<p>Adjust the selection size after initialization:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_selection_size'>selection_size</span> <span class='op'>=</span> <span class='int'>4</span>
+</code></pre>
+
+<p>Manually assign the selected evolvables:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_selected_evolvables'>selected_evolvables</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_evolvable1'>evolvable1</span><span class='comma'>,</span> <span class='id identifier rubyid_evolvable2'>evolvable2</span><span class='rbracket'>]</span>
 </code></pre>
 
-<p>or skip to evolving them:</p>
+<p>Or evolve a custom selection directly:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolve_selected'>evolve_selected</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_evolvable1'>evolvable1</span><span class='comma'>,</span> <span class='id identifier rubyid_evolvable2'>evolvable2</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 </code></pre>
 
-<p>This allows for custom selection strategies beyond the built-in methods.</p>
+<p>This flexibility lets you implement custom selection strategies,
+overriding or augmenting the built-in behavior.</p>
 
 
   </div>
@@ -309,12 +312,12 @@ The default is 2.</p>
       <pre class="lines">
 
 
-43
-44
-45</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/selection.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/selection.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>size:</span> <span class='int'>2</span><span class='rparen'>)</span>
   <span class='ivar'>@size</span> <span class='op'>=</span> <span class='id identifier rubyid_size'>size</span>
@@ -373,12 +376,12 @@ The default is 2.</p>
       <pre class="lines">
 
 
-51
-52
-53</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/selection.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/selection.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_size'>size</span>
   <span class='ivar'>@size</span>
@@ -458,15 +461,15 @@ become parents for the next generation.</p>
       <pre class="lines">
 
 
-61
-62
-63
-64
-65
-66</pre>
+66
+67
+68
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/selection.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/selection.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_parent_evolvables'>parent_evolvables</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_selected_evolvables'>selected_evolvables</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='id identifier rubyid_select_evolvables'>select_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_selected_evolvables'>selected_evolvables</span>
@@ -492,7 +495,7 @@ become parents for the next generation.</p>
   <div class="discussion">
     <p>Selects the best evolvables from the given collection.
 By default, selects the last N evolvables, where N is the selection size.
-This assumes evolvables are already sorted by fitness, with the best at the end.</p>
+This assumes evolvables are already sorted in the evaluation step, with the best at the end.</p>
 
 <p>Override this method in a subclass to implement different selection strategies
 such as tournament selection or roulette wheel selection.</p>
@@ -561,12 +564,12 @@ such as tournament selection or roulette wheel selection.</p>
       <pre class="lines">
 
 
-90
-91
-92</pre>
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/selection.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/selection.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_evolvables'>select_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='lparen'>(</span><span class='ivar'>@size</span><span class='rparen'>)</span>
@@ -581,7 +584,7 @@ such as tournament selection or roulette wheel selection.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

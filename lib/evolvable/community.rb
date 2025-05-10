@@ -3,36 +3,52 @@
 module Evolvable
   #
   # @readme
-  #   The Community module provides a framework for managing multiple interrelated populations
-  #   in a coordinated manner. This is essential for more complex simulations where different types
-  #   of evolvables need to interact, such as predator-prey ecosystems, multi-agent systems, or
-  #   layered optimization problems.
+  #   The `Community` module provides a framework for coordinating multiple evolvable populations
+  #   under a unified interface. Each population represents a distinct type of evolvable, and
+  #   each key returns a single evolvable instance drawn from its corresponding population.
+  #
+  #   Communities are ideal for simulations or systems where different components evolve
+  #   in parallel but interact as part of a larger whole - such as ecosystems, design systems,
+  #   or modular agents. Evolvables from different populations can co-evolve, influencing each other's fitness.
+  #
+  #   Use the `evolvable_community` macro to declare the set of named populations in the community.
+  #   Each population will have a corresponding method (e.g., `fish_1`, `plant`, `shrimp`) that
+  #   returns a single evolvable instance. You can evolve all populations together using the
+  #   `evolve` method, or per population.
   #
   #   **Key Features**
+  #   - Define a community composed of named populations
+  #   - Automatically generate accessors for each evolvable instance
+  #   - Coordinate evolution across populations through a shared interface
+  #   - Evolve all populations in a single call with `evolve(...)`
   #
-  #   - Define a community with multiple population types
-  #   - Manage relationships between different evolvable types
-  #   - Coordinate evolution across multiple populations
-  #   - Access populations and instances through a unified interface
+  #   This `FishTank` example sets up a community with four named populations:
   #
-  #   **Example Use Cases**
-  #
-  #   - **Ecosystems**: Simulate interactions between plants, herbivores, and predators
-  #   - **Multi-component Systems**: Design systems where components evolve together
-  #   - **Layered Optimization**: Solve problems with different optimization levels
-  #
-  # @example Creating a simple ecosystem
-  #   class Ecosystem
+  #   ```ruby
+  #   class FishTank
   #     include Evolvable::Community
   #
-  #     evolvable_community plant: Plant,
-  #                         animal: Animal
-  #   end
+  #     evolvable_community fish_1: Fish,
+  #                         fish_2: Fish,
+  #                         plant: AquariumPlant,
+  #                         shrimp: CleanerShrimp
   #
-  #   # Create and use the ecosystem
-  #   ecosystem = Ecosystem.new_community
-  #   ecosystem.plant    # Returns a plant
-  #   ecosystem.animal   # Returns an animal
+  #     def describe_tank
+  #       puts "🐟 Fish 1: #{fish_1.name} (#{fish_1.color})"
+  #       puts "🐟 Fish 2: #{fish_2.name} (#{fish_2.color})"
+  #       puts "🌿 Plant: #{plant.name} (#{plant.color})"
+  #       puts "🦐 Shrimp: #{shrimp.name} (#{shrimp.color})"
+  #     end
+  #   end
+  #   ```
+  #
+  #   Initialize the community, describe the tank, and evolve each population:
+  #
+  #   ```ruby
+  #   tank = FishTank.new_community
+  #   tank.describe_tank
+  #   tank.evolve
+  #   ```
   #
   module Community
     def self.included(base)

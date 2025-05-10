@@ -106,43 +106,35 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Mutation introduces genetic diversity by replacing genes with newly initialized ones.
-This is crucial for exploring the solution space and preventing premature convergence.</p>
+    <p>Mutation introduces genetic variation by randomly replacing genes with new
+ones. This helps the population explore new areas of the solution space
+and prevents premature convergence on suboptimal solutions.</p>
 
-<p>Two key parameters control mutation:</p>
-
-<ul>
-<li><code>probability</code>: Chance of an individual being mutated (0.0-1.0)</li>
-<li><code>rate</code>: Portion of genes to mutate in affected individuals (0.0-1.0)</li>
-</ul>
-
-<p>Common strategies:</p>
+<p>Mutation is controlled by two key parameters:</p>
 
 <ul>
-<li>Higher rates early (exploration phase)</li>
-<li>Lower rates later (exploitation/refinement phase)</li>
+<li><strong>probability</strong>: Likelihood that an individual will undergo mutation (range: 0.0–1.0)</li>
+<li><strong>rate</strong>: Fraction of genes to mutate within those individuals (range: 0.0–1.0)</li>
 </ul>
+
+<p>A typical strategy is to start with higher mutation to encourage exploration:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
+  <span class='label'>mutation:</span> <span class='lbrace'>{</span> <span class='label'>probability:</span> <span class='float'>0.4</span><span class='comma'>,</span> <span class='label'>rate:</span> <span class='float'>0.2</span> <span class='rbrace'>}</span>
+<span class='rparen'>)</span>
+</code></pre>
+
+<p>Then later reduce the mutation rate to focus on refinement and convergence:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_mutation_probability'>mutation_probability</span> <span class='op'>=</span> <span class='float'>0.1</span>
+<span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_mutation_rate'>mutation_rate</span> <span class='op'>=</span> <span class='float'>0.05</span>
+</code></pre>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <h4 class="tag_title">Examples:</h4>
-    
-      
-      <pre class="example code"><code><span class='comment'># Start with high mutation for exploration
-</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
-  <span class='label'>mutation:</span> <span class='lbrace'>{</span> <span class='label'>probability:</span> <span class='float'>0.4</span><span class='comma'>,</span> <span class='label'>rate:</span> <span class='float'>0.2</span> <span class='rbrace'>}</span>
-<span class='rparen'>)</span>
-
-<span class='comment'># Later, reduce for fine-tuning
-</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_probability'>probability</span> <span class='op'>=</span> <span class='float'>0.1</span>
-<span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_rate'>rate</span> <span class='op'>=</span> <span class='float'>0.05</span></code></pre>
-    
-  </div>
-
 
 </div>
   
@@ -408,13 +400,13 @@ When rate is 0 or not specified, only one gene is mutated per affected instance.
       <pre class="lines">
 
 
-58
-59
 60
-61</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>probability:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>rate:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@probability</span> <span class='op'>=</span> <span class='id identifier rubyid_probability'>probability</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='id identifier rubyid_rate'>rate</span> <span class='op'>?</span> <span class='int'>1</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="#DEFAULT_PROBABILITY-constant" title="Evolvable::Mutation::DEFAULT_PROBABILITY (constant)">DEFAULT_PROBABILITY</a></span></span><span class='rparen'>)</span>
@@ -475,12 +467,12 @@ Value between 0.0 (never) and 1.0 (always).</p>
       <pre class="lines">
 
 
-69
-70
-71</pre>
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 71</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_probability'>probability</span>
   <span class='ivar'>@probability</span>
@@ -536,12 +528,12 @@ When nil, exactly one random gene is mutated per instance.</p>
       <pre class="lines">
 
 
-78
-79
-80</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rate'>rate</span>
   <span class='ivar'>@rate</span>
@@ -620,13 +612,13 @@ configured probability and rate.</p>
       <pre class="lines">
 
 
-87
-88
 89
-90</pre>
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutate_evolvables'>mutate_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_probability'>probability</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
@@ -699,16 +691,16 @@ probability and rate.</p>
       <pre class="lines">
 
 
-99
-100
 101
 102
 103
 104
-105</pre>
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/mutation.rb', line 101</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mutate_evolvables'>mutate_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_evolvables'>evolvables</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_evolvables'>evolvables</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_evolvable'>evolvable</span><span class='op'>|</span>
@@ -727,7 +719,7 @@ probability and rate.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

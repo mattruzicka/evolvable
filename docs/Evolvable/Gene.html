@@ -94,10 +94,10 @@
 that can be combined and mutated during evolution. Each gene represents a trait or behavior
 that can influence an evolvable&#39;s performance.</p>
 
-<p><strong>To define a gene class</strong>,</p>
+<p><strong>To define a gene class:</strong></p>
 
 <ol>
-<li>Include the Evolvable::Gene module</li>
+<li>Include the <code>Evolvable::Gene</code> module</li>
 <li>Define how the gene&#39;s value is determined</li>
 </ol>
 
@@ -110,7 +110,7 @@ that can influence an evolvable&#39;s performance.</p>
 <span class='kw'>end</span>
 </code></pre>
 
-<p>It can then be used in an evolvable class like this:</p>
+<p>Then use it in an evolvable class:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Robot</span>
   <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span>
@@ -124,11 +124,25 @@ that can influence an evolvable&#39;s performance.</p>
 <span class='kw'>end</span>
 </code></pre>
 
-<p>By default, the combine method randomly picks one of the two parent genes.</p>
+<p><strong>Gene Count</strong></p>
 
-<p><strong>A gene class can implement custom gene combination</strong> by overriding the default <code>combine</code> class method.</p>
+<p>You can control how many copies of a gene are created using the <code>count:</code> parameter:</p>
 
-<p>For example, the <code>SpeedGene</code> class might average the values of the two parent genes:</p>
+<ul>
+<li><code>count: 1</code> (default) creates a single instance.</li>
+<li>A numeric value (e.g. <code>count: 5</code>) creates a fixed number of genes using <code>RigidCountGene</code>.</li>
+<li>A range (e.g. <code>count: 2..8</code>) creates a variable number of genes using <code>CountGene</code>, allowing the count to evolve over time.</li>
+</ul>
+
+<p>Evolves melody length:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gene'>gene</span> <span class='symbol'>:notes</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='const'>NoteGene</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>4</span><span class='op'>..</span><span class='int'>12</span>
+</code></pre>
+
+<p><strong>Custom Combination</strong></p>
+
+<p>By default, the <code>combine</code> method randomly picks one of the two parent genes.
+A gene class can implement custom behavior by overriding <code>.combine</code>.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>SpeedGene</span>
   <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>Gene</span>
@@ -147,19 +161,21 @@ that can influence an evolvable&#39;s performance.</p>
 <span class='kw'>end</span>
 </code></pre>
 
-<p>Effective gene design follows several patterns:</p>
+<p><strong>Design Patterns</strong></p>
+
+<p>Effective gene design typically follows these principles:</p>
 
 <ul>
-<li><strong>Immutability</strong>: Gene values should sampled and cached/memoized e.g. <code>@value ||= rand(1..100)</code></li>
-<li><strong>Self-Contained</strong>: Genes should encapsulate their own logic and data</li>
-<li><strong>Composable</strong>: Complex genes can be built from combinations of other genes</li>
-<li><strong>Domain-Specific</strong>: Genes should directly represent the domain</li>
+<li><strong>Immutability</strong>: Cache values after initial sampling (e.g., <code>@value ||= ...</code>)</li>
+<li><strong>Self-Contained</strong>: Genes should encapsulate their logic and state</li>
+<li><strong>Composable</strong>: You can build complex structures using multiple genes or clusters</li>
+<li><strong>Domain-Specific</strong>: Genes should map directly to your problem’s traits or features</li>
 </ul>
 
 <p>Genes come in various types, each representing different aspects of a solution.
-Common examples include numeric genes for quantities, selection genes for choices from sets,
-boolean genes for binary decisions, structural genes for architecture, and parameter genes for
-configuration settings.</p>
+Common examples include numeric genes for quantities, selection genes for choices
+from sets, boolean genes for binary decisions, structural genes for architecture,
+and parameter genes for configuration settings.</p>
 
 
   </div>
@@ -175,6 +191,10 @@ configuration settings.</p>
       <li><span class='object_link'><a href="GeneCluster.html" title="Evolvable::GeneCluster (module)">GeneCluster</a></span></li>
     
       <li><span class='object_link'><a href="GeneCombination.html" title="Evolvable::GeneCombination (class)">GeneCombination</a></span></li>
+    
+      <li><span class='object_link'><a href="CountGene.html" title="Evolvable::CountGene (class)">CountGene</a></span></li>
+    
+      <li><span class='object_link'><a href="RigidCountGene.html" title="Evolvable::RigidCountGene (class)">RigidCountGene</a></span></li>
     
   </ul>
 
@@ -341,12 +361,12 @@ Used for accessing other genes or evolvable properties.</p>
       <pre class="lines">
 
 
-135
-136
-137</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evolvable'>evolvable</span>
   <span class='ivar'>@evolvable</span>
@@ -408,12 +428,12 @@ Gene classes should include this module to participate in the evolutionary proce
       <pre class="lines">
 
 
-86
-87
-88</pre>
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Gene/ClassMethods.html" title="Evolvable::Gene::ClassMethods (module)">ClassMethods</a></span></span><span class='rparen'>)</span>
@@ -472,12 +492,12 @@ Delegates to the class-level key.</p>
       <pre class="lines">
 
 
-143
-144
-145</pre>
+160
+161
+162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/gene.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/gene.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_key'>key</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span>
@@ -492,7 +512,7 @@ Delegates to the class-level key.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

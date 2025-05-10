@@ -35,20 +35,20 @@ module Evolvable
   #
   #   ```ruby
   #   errors = ErrorModel.new_population(evaluation: :minimize) # Defaults to -infinity
-  #   errors.evolve(goal_value: 0.01)  # Evolve until error rate reaches 0.01 or less
+  #   errors.evolve_to_goal(0.01)  # Evolve until error rate reaches 0.01 or less
   #
   #   # Same as above
-  #   ErrorModel.new_population(evaluation: { minimize: 0.01 }).evolve
+  #   ErrorModel.new_population(evaluation: { minimize: 0.01 }).evolve_to_goal
   #   ```
   #
   #   - Equalize (closer to target is better)
   #
   #   ```ruby
   #   targets = TargetMatcher.new_population(evaluation: :equalize) # Defaults to 0
-  #   targets.evolve(goal_value: 42)  # Evolve until we match the target value
+  #   targets.evolve_to_goal(42)  # Evolve until we match the target value
   #
   #   # Same as above
-  #   TargetMatcher.new_population(evaluation: { equalize: 42 }).evolve
+  #   TargetMatcher.new_population(evaluation: { equalize: 42 }).evolve_to_goal
   #   ```
   #
   # @see Evolvable::Population

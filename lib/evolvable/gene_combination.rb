@@ -3,24 +3,19 @@
 module Evolvable
   #
   # @readme
-  #   Combination generates new evolvable instances by combining the genes of selected instances.
-  #   You can think of it as a mixing of parent genes from one generation to
-  #   produce the next generation.
+  #   Combination is the process of creating new evolvables by mixing the genes
+  #   of selected parents. This step drives the creation of the next generation
+  #   by recombining traits in novel ways.
   #
-  #   You may choose from a selection of combination objects or implement your own.
-  #   The default combination object is `Evolvable::GeneCombination`.
+  #   You can choose from several built-in combination strategies or implement your own.
+  #   By default, Evolvable uses `Evolvable::GeneCombination`, which delegates
+  #   gene-level behavior to individual gene classes.
   #
-  #   This implementation enables individual gene types to define their own
-  #   combination behaviors through the Gene.combine class method, giving you
-  #   fine-grained control over how different gene types are combined.
+  #   To define custom combination logic for a gene type, implement:
   #
-  # @example
-  #   # Use default gene combination
-  #   population = MyEvolvable.new_population(
-  #     combination: Evolvable::GeneCombination.new
-  #   )
-  #
-  #   population.evolve
+  #   ```ruby
+  #   YourGeneClass.combine(parent_1_gene, parent_2_gene)
+  #   ```
   #
   class GeneCombination
     #

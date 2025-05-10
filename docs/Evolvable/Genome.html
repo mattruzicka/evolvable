@@ -106,20 +106,21 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>The Genome class represents the complete genetic blueprint of an evolvable instance.
-It stores and manages all genes organized by their keys, providing methods to access,
-manipulate, and serialize genetic information.</p>
+    <p>The Genome class represents the fully instantiated genetic blueprint of an evolvable instance.
+It stores all gene data in a structured, accessible form and provides methods to inspect,
+manipulate, and serialize that genetic information.</p>
 
 <p>A genome consists of:</p>
 
 <ul>
-<li>Gene configurations organized by key</li>
-<li>Count genes that determine how many of each gene type exists</li>
-<li>Methods to find and manipulate genes</li>
+<li>A hash of gene configurations organized by key</li>
+<li>Count genes that determine how many instances of each gene type are present</li>
+<li>The actual gene instances used by the evolvable</li>
 </ul>
 
-<p>The genome serves as the intermediary between the gene space (the definition)
-and the actual gene instances (the implementation).</p>
+<p>The genome acts as the bridge between the gene space (definition) and the
+evolvable instance (implementation), enabling flexible gene access and
+supporting dynamic mutation or crossover behavior.</p>
 
 
   </div>
@@ -1059,7 +1060,7 @@ The following would return an array of them: <code>note_genes = melody.find_gene
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

@@ -2,18 +2,18 @@
 
 module Evolvable
   #
-  # @readme
-  #   The Genome class represents the complete genetic blueprint of an evolvable instance.
-  #   It stores and manages all genes organized by their keys, providing methods to access,
-  #   manipulate, and serialize genetic information.
+  # The Genome class represents the fully instantiated genetic blueprint of an evolvable instance.
+  # It stores all gene data in a structured, accessible form and provides methods to inspect,
+  # manipulate, and serialize that genetic information.
   #
-  #   A genome consists of:
-  #   - Gene configurations organized by key
-  #   - Count genes that determine how many of each gene type exists
-  #   - Methods to find and manipulate genes
+  # A genome consists of:
+  # - A hash of gene configurations organized by key
+  # - Count genes that determine how many instances of each gene type are present
+  # - The actual gene instances used by the evolvable
   #
-  #   The genome serves as the intermediary between the gene space (the definition)
-  #   and the actual gene instances (the implementation).
+  # The genome acts as the bridge between the gene space (definition) and the
+  # evolvable instance (implementation), enabling flexible gene access and
+  # supporting dynamic mutation or crossover behavior.
   #
   # @see Evolvable::GeneSpace
   # @see Evolvable::GeneCombination

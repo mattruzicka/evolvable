@@ -101,36 +101,47 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>The Serializer provides a way to save and restore the state of populations
-and evolvable instances. By default, it uses Ruby&#39;s built-in Marshal class
-to serialize data.</p>
+    <p>Evolvable supports saving and restoring the state of both populations
+and individual evolvable instances through a built-in <code>Serializer</code>.
+By default, it uses Ruby&#39;s <code>Marshal</code> class for fast, portable binary serialization.</p>
 
 <p>Serialization is useful for:</p>
 
 <ul>
-<li>Saving the progress of a long-running evolution</li>
-<li>Storing champion solutions for later use</li>
+<li>Saving progress during long-running evolution</li>
+<li>Storing champion solutions for later reuse</li>
 <li>Transferring evolved populations between systems</li>
-<li>Creating checkpoints to revert to if needed</li>
+<li>Creating checkpoints you can revert to</li>
 </ul>
 
-<p>Evolvable provides serialization methods on both Population and individual
-evolvable instances, all of which use this Serializer internally.</p>
+<p>Both <code>Population</code> and individual evolvables expose <code>dump</code> and <code>load</code> methods
+that use the <code>Serializer</code> internally.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># Save a population to a file
-</span><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span>
+<p>Save a population to a file:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>YourEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span>
 <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>count:</span> <span class='int'>100</span><span class='rparen'>)</span>
+<span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>population.marshal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='rparen'>)</span>
+</code></pre>
 
-<span class='comment'># Save state
-</span><span class='id identifier rubyid_serialized_data'>serialized_data</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span>
-<span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>evolved_population.dat</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_serialized_data'>serialized_data</span><span class='rparen'>)</span>
+<p>Restore and continue evolution:</p>
 
-<span class='comment'># Later, load the state
-</span><span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>evolved_population.dat</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-<span class='id identifier rubyid_restored_population'>restored_population</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Population.html" title="Evolvable::Population (class)">Population</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load'><span class='object_link'><a href="Population.html#load-class_method" title="Evolvable::Population.load (method)">load</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>population.marshal</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_restored'>restored</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Population.html" title="Evolvable::Population (class)">Population</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load'><span class='object_link'><a href="Population.html#load-class_method" title="Evolvable::Population.load (method)">load</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_restored'>restored</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>count:</span> <span class='int'>100</span><span class='rparen'>)</span>
+</code></pre>
 
-<span class='comment'># Continue evolution from saved point
-</span><span class='id identifier rubyid_restored_population'>restored_population</span><span class='period'>.</span><span class='id identifier rubyid_evolve'>evolve</span><span class='lparen'>(</span><span class='label'>count:</span> <span class='int'>100</span><span class='rparen'>)</span>
+<p>Save an individual evolvable&#39;s genome:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_best'>best</span> <span class='op'>=</span> <span class='id identifier rubyid_restored'>restored</span><span class='period'>.</span><span class='id identifier rubyid_best_evolvable'>best_evolvable</span>
+<span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>champion.marshal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_best'>best</span><span class='period'>.</span><span class='id identifier rubyid_dump_genome'>dump_genome</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>Restore genome into a new evolvable:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_raw'>raw</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>champion.marshal</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_champion'>champion</span> <span class='op'>=</span> <span class='const'>YourEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_evolvable'>new_evolvable</span>
+<span class='id identifier rubyid_champion'>champion</span><span class='period'>.</span><span class='id identifier rubyid_load_genome'>load_genome</span><span class='lparen'>(</span><span class='id identifier rubyid_raw'>raw</span><span class='rparen'>)</span>
 </code></pre>
 
 
@@ -222,12 +233,12 @@ evolvable instances, all of which use this Serializer internally.</p>
       <pre class="lines">
 
 
-38
-39
-40</pre>
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/serializer.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/serializer.rb', line 52</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
@@ -252,12 +263,12 @@ evolvable instances, all of which use this Serializer internally.</p>
       <pre class="lines">
 
 
-42
-43
-44</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/serializer.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/serializer.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
@@ -272,7 +283,7 @@ evolvable instances, all of which use this Serializer internally.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

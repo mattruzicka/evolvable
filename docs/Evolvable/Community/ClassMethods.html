@@ -300,12 +300,12 @@
       <pre class="lines">
 
 
-61
-62
-63</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_community_config'>community_config</span>
   <span class='ivar'>@community_config</span>
@@ -398,12 +398,12 @@
       <pre class="lines">
 
 
-89
-90
-91</pre>
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_population'>add_population</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_populations_by_name'>populations_by_name</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span>
@@ -457,18 +457,18 @@
       <pre class="lines">
 
 
-66
-67
-68
-69
-70
-71
-72
-73
-74</pre>
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evolvable_community'>evolvable_community</span><span class='lparen'>(</span><span class='id identifier rubyid_community_config'>community_config</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_community_config'>community_config</span> <span class='op'>=</span> <span class='id identifier rubyid_community_config'>community_config</span>
@@ -528,12 +528,12 @@ and customize the community instantiation process.</p>
       <pre class="lines">
 
 
-53
-54
-55</pre>
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize_community'>initialize_community</span>
   <span class='id identifier rubyid_new'>new</span>
@@ -558,12 +558,12 @@ and customize the community instantiation process.</p>
       <pre class="lines">
 
 
-57
-58
-59</pre>
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_community'>load_community</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../Serializer.html" title="Evolvable::Serializer (class)">Serializer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load'><span class='object_link'><a href="../Serializer.html#load-class_method" title="Evolvable::Serializer.load (method)">load</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
@@ -615,12 +615,12 @@ and customize the community instantiation process.</p>
       <pre class="lines">
 
 
-45
-46
-47</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_community'>new_community</span>
   <span class='id identifier rubyid_initialize_community'>initialize_community</span>
@@ -672,15 +672,15 @@ and customize the community instantiation process.</p>
       <pre class="lines">
 
 
-78
-79
-80
-81
-82
-83</pre>
+94
+95
+96
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/community.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_populations_by_name'>populations_by_name</span>
   <span class='ivar'>@populations_by_name</span> <span class='op'>||=</span> <span class='id identifier rubyid_community_config'>community_config</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_population_klass'>population_klass</span><span class='rparen'>)</span><span class='op'>|</span>
@@ -698,7 +698,7 @@ and customize the community instantiation process.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

@@ -2,14 +2,12 @@
 
 module Evolvable
   #
-  # @readme
-  #   The RigidCountGene class manages fixed gene counts in evolvable instances.
-  #   Unlike CountGene, the RigidCountGene maintains a constant number of genes
-  #   that doesn't change during evolution. This is used when a gene is defined
-  #   with a fixed integer for `count:` (e.g., `count: 5`).
+  # This class manages fixed gene counts in evolvable instances.
+  # Unlike the CountGene, the RigidCountGene maintains a constant number of genes
+  # that doesn't change during evolution. This is used when a gene is defined
+  # with a fixed integer for `count:` (e.g., `count: 5`).
   #
-  # @example
-  #   # Define a chord with exactly 4 notes
+  # @example Define a chord with exactly 4 notes
   #   class Chord
   #     include Evolvable
   #

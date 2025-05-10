@@ -3,26 +3,28 @@
 module Evolvable
   #
   # @readme
-  #   Mutation introduces genetic diversity by replacing genes with newly initialized ones.
-  #   This is crucial for exploring the solution space and preventing premature convergence.
+  #   Mutation introduces genetic variation by randomly replacing genes with new
+  #   ones. This helps the population explore new areas of the solution space
+  #   and prevents premature convergence on suboptimal solutions.
   #
-  #   Two key parameters control mutation:
-  #   - `probability`: Chance of an individual being mutated (0.0-1.0)
-  #   - `rate`: Portion of genes to mutate in affected individuals (0.0-1.0)
+  #   Mutation is controlled by two key parameters:
+  #   - **probability**: Likelihood that an individual will undergo mutation (range: 0.0–1.0)
+  #   - **rate**: Fraction of genes to mutate within those individuals (range: 0.0–1.0)
   #
-  #   Common strategies:
-  #   - Higher rates early (exploration phase)
-  #   - Lower rates later (exploitation/refinement phase)
+  #   A typical strategy is to start with higher mutation to encourage exploration:
   #
-  # @example
-  #   # Start with high mutation for exploration
+  #   ```ruby
   #   population = MyEvolvable.new_population(
   #     mutation: { probability: 0.4, rate: 0.2 }
   #   )
+  #   ```
   #
-  #   # Later, reduce for fine-tuning
-  #   population.mutation.probability = 0.1
-  #   population.mutation.rate = 0.05
+  #   Then later reduce the mutation rate to focus on refinement and convergence:
+  #
+  #   ```ruby
+  #   population.mutation_probability = 0.1
+  #   population.mutation_rate = 0.05
+  #   ```
   #
   class Mutation
     extend Forwardable

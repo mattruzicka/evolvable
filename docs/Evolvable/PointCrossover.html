@@ -101,30 +101,31 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>PointCrossover implements single and multi-point crossover, a common recombination
-strategy in genetic algorithms. It works by selecting random points in the gene sequence
-and exchanging genetic material between those points.</p>
-
-<p>In single-point crossover (the default), one position is chosen at random, and all genes
-beyond that point are swapped between parents. In multi-point crossover, multiple
-positions are chosen, and segments between consecutive points are alternately swapped.</p>
-
-<p>This strategy:</p>
+    <p>A classic genetic algorithm strategy that performs single or multi-point crossover
+by selecting random positions in the genome and swapping gene segments between parents.</p>
 
 <ul>
-<li>Preserves segments of good solutions</li>
-<li>Enables exploration of different combinations of traits</li>
-<li>Is particularly effective when related genes are close together</li>
+<li><strong>Single-point crossover (default):</strong> Swaps all genes after a randomly chosen position.</li>
+<li><strong>Multi-point crossover:</strong> Alternates segments between multiple randomly chosen points.</li>
 </ul>
 
-<p>Configuration:</p>
+<p>Best for:</p>
+
+<ul>
+<li>Preserving beneficial gene blocks</li>
+<li>Problems where related traits are located near each other</li>
+</ul>
+
+<p>Set your population to use this strategy during initialization with:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span> <span class='op'>=</span> <span class='const'>MyEvolvable</span><span class='period'>.</span><span class='id identifier rubyid_new_population'>new_population</span><span class='lparen'>(</span>
-  <span class='label'>combination:</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>PointCrossover</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Evolvable::PointCrossover#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>points_count:</span> <span class='int'>2</span><span class='rparen'>)</span>  <span class='comment'># Two-point crossover
-</span><span class='rparen'>)</span>
+  <span class='label'>combination:</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>PointCrossover</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Evolvable::PointCrossover#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>points_count:</span> <span class='int'>2</span><span class='rparen'>)</span>
+<span class='rparen'>)</span>
+</code></pre>
 
-<span class='comment'># Or modify an existing population
-</span><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_combination'>combination</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>PointCrossover</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Evolvable::PointCrossover#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>points_count:</span> <span class='int'>3</span><span class='rparen'>)</span>
+<p>Or update an existing population:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_combination'>combination</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Evolvable.html" title="Evolvable (module)">Evolvable</a></span></span><span class='op'>::</span><span class='const'>PointCrossover</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Evolvable::PointCrossover#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>points_count:</span> <span class='int'>3</span><span class='rparen'>)</span>
 </code></pre>
 
 
@@ -279,12 +280,12 @@ positions are chosen, and segments between consecutive points are alternately sw
       <pre class="lines">
 
 
-30
 31
-32</pre>
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/point_crossover.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/point_crossover.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>points_count:</span> <span class='int'>1</span><span class='rparen'>)</span>
   <span class='ivar'>@points_count</span> <span class='op'>=</span> <span class='id identifier rubyid_points_count'>points_count</span>
@@ -326,12 +327,12 @@ positions are chosen, and segments between consecutive points are alternately sw
       <pre class="lines">
 
 
-34
 35
-36</pre>
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/point_crossover.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/point_crossover.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_points_count'>points_count</span>
   <span class='ivar'>@points_count</span>
@@ -363,13 +364,13 @@ positions are chosen, and segments between consecutive points are alternately sw
       <pre class="lines">
 
 
-36
 37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/point_crossover.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/point_crossover.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_evolvables'>evolvables</span> <span class='op'>=</span> <span class='id identifier rubyid_new_evolvables'>new_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='comma'>,</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
@@ -395,7 +396,6 @@ positions are chosen, and segments between consecutive points are alternately sw
       <pre class="lines">
 
 
-41
 42
 43
 44
@@ -406,10 +406,11 @@ positions are chosen, and segments between consecutive points are alternately sw
 49
 50
 51
-52</pre>
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/evolvable/point_crossover.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/evolvable/point_crossover.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_evolvables'>new_evolvables</span><span class='lparen'>(</span><span class='id identifier rubyid_population'>population</span><span class='comma'>,</span> <span class='id identifier rubyid_count'>count</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_parent_genome_cycle'>parent_genome_cycle</span> <span class='op'>=</span> <span class='id identifier rubyid_population'>population</span><span class='period'>.</span><span class='id identifier rubyid_new_parent_genome_cycle'>new_parent_genome_cycle</span>
@@ -433,7 +434,7 @@ positions are chosen, and segments between consecutive points are alternately sw
 </div>
 
       <div id="footer">
-  Generated on Fri May  9 16:06:43 2025 by
+  Generated on Sat May 10 18:35:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>

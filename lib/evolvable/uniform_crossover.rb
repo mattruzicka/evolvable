@@ -3,23 +3,29 @@
 module Evolvable
   #
   # @readme
-  #   UniformCrossover randomly selects genes from either parent with equal probability
-  #   for each gene position. Unlike point crossover, there are no "chunks" of genes preserved
-  #   from either parent - each gene is chosen independently.
+  #   Chooses genes independently at each position, selecting randomly from either
+  #   parent with equal probability. No segments are preserved—each gene is treated
+  #   in isolation.
   #
-  #   This strategy:
-  #   - Provides maximum mixing of genetic material
-  #   - Better handles problems where gene ordering isn't important
-  #   - Often performs well on problems with complex interdependencies
+  #   Best for:
+  #   - Problems where gene order doesn't matter
+  #   - High genetic diversity and exploration
+  #   - Complex interdependencies across traits
   #
-  #   Uniform crossover is particularly effective when good solutions have traits that are
-  #   widely distributed throughout the genome rather than clustered together.
+  #   Uniform crossover is especially effective when good traits are scattered across the genome.
   #
-  #   Configuration:
+  #   Set your population to use this strategy during initialization with:
+  #
   #   ```ruby
   #   population = MyEvolvable.new_population(
   #     combination: Evolvable::UniformCrossover.new
   #   )
+  #   ```
+  #
+  #   Or update an existing population:
+  #
+  #   ```ruby
+  #   population.combination = Evolvable::UniformCrossover.new
   #   ```
   #
   class UniformCrossover
