@@ -301,12 +301,12 @@ module Evolvable
 
   attr_accessor :fitness
 
-  def find_gene(name)
-    @genome&.find_gene(name)
+  def find_gene(...)
+    @genome&.find_gene(...)
   end
 
-  def find_genes(name)
-    @genome&.find_genes(name) || []
+  def find_genes(...)
+    @genome&.find_genes(...) || []
   end
 
   attr_reader :population,
