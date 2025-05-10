@@ -97,6 +97,18 @@ module Evolvable
       @populations_by_name ||= self.class.populations_by_name.dup
     end
 
+    # Returns an array of population instances
+    # @return [Array] An array of population instances
+    def populations
+      populations_by_name.values
+    end
+
+    # Evolves all populations in the community
+    # @return [void]
+    def evolve(...)
+      populations.each { |population| population.evolve(...) }
+    end
+
     # Resets the populations hash to an empty hash
     # @return [Hash] An empty hash
     def reset_populations
